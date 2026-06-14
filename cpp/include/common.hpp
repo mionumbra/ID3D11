@@ -1,7 +1,9 @@
 #pragma once
 
 #include <cstdint>
+#include <cstring>
 #include <string>
+#include <type_traits>
 
 #define GM_EXPORT extern "C" __declspec(dllexport)
 #define GM_TRUE 1.0

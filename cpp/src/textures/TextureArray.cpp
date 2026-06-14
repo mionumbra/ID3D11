@@ -1,75 +1,81 @@
-#include <textures/TextureArray.hpp>
+#include "textures/TextureArray.hpp"
+
+#include <views/DSV.hpp>
+#include <views/RTV.hpp>
+#include <views/SRV.hpp>
+#include <views/UAV.hpp>
+
 #include <iostream>
 
 extern ID3D11Device* g_Device;
+extern ID3D11DeviceContext* g_Context;
 
-TextureArray::TextureArray(ID3D11Texture2D* texture, size_t width, size_t height, size_t count)
-    : Raw(texture), Width(width), Height(height), Count(count) {}
+TextureArray::TextureArray(ID3D11Texture2D* texture2DArray)
+    : Trackable()
+    , Raw2D(texture2DArray)
+{
+}
 
 TextureArray::~TextureArray()
 {
-    if (Raw) Raw->Release();
-}
-
-SRV* TextureArray::CreateSRV() const
-{
-    D3D11_SHADER_RESOURCE_VIEW_DESC desc = {};
-    desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-    desc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2DARRAY;
-    desc.Texture2DArray.MostDetailedMip = 0;
-    desc.Texture2DArray.MipLevels = -1;
-    desc.Texture2DArray.FirstArraySlice = 0;
-    desc.Texture2DArray.ArraySize = static_cast<UINT>(Count);
-
-    ID3D11ShaderResourceView* srv = nullptr;
-    HRESULT hr = g_Device->CreateShaderResourceView(Raw, &desc, &srv);
-    if (FAILED(hr))
+    if (Raw2D)
     {
-        std::cout << "Failed to create SRV for Texture Array!" << std::endl;
-        return nullptr;
+        Raw2D->Release();
+        Raw2D = nullptr;
     }
-    return new SRV(srv);
 }
 
-UAV* TextureArray::CreateUAV() const
-{
-    D3D11_UNORDERED_ACCESS_VIEW_DESC desc = {};
-    desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-    desc.ViewDimension = D3D11_UAV_DIMENSION_TEXTURE2DARRAY;
-    desc.Texture2DArray.MipSlice = 0;
-    desc.Texture2DArray.FirstArraySlice = 0;
-    desc.Texture2DArray.ArraySize = static_cast<UINT>(Count);
-
-    ID3D11UnorderedAccessView* uav = nullptr;
-    HRESULT hr = g_Device->CreateUnorderedAccessView(Raw, &desc, &uav);
-    if (FAILED(hr))
-    {
-        std::cout << "Failed to create UAV for Texture Array!" << std::endl;
-        return nullptr;
-    }
-    return new UAV(uav);
-}
-
-/// @func d3d11_texture_array_create(_w, _h, _count)
-GM_EXPORT ty_real d3d11_texture_array_create(ty_real _w, ty_real _h, ty_real _count)
+/// @func d3d11_texturearray_create_impl(_buffer, _pSysMem, _memPitch, _memSlicePitch)
+///
+/// @desc Creates a new Texture2D array.
+///
+/// @param {Pointer} _buffer A pointer to a buffer containing serialized {@link D3D11_TEXTURE2D_DESC} (ArraySize > 1).
+/// @param {Pointer} _pSysMem
+/// @param {Real} _memPitch
+/// @param {Real} _memSlicePitch
+///
+/// @return {Real} The ID of the created texture array or {@link GMD3D11_ID_INVALID} on fail.
+GM_EXPORT ty_real d3d11_texturearray_create_impl(ty_string _buffer, ty_string _pSysMem, ty_real _memPitch, ty_real _memSlicePitch)
 {
     D3D11_TEXTURE2D_DESC desc = {};
-    desc.Width = static_cast<UINT>(_w);
-    desc.Height = static_cast<UINT>(_h);
-    desc.MipLevels = 1;
-    desc.ArraySize = static_cast<UINT>(_count);
-    desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-    desc.SampleDesc.Count = 1;
-    desc.Usage = D3D11_USAGE_DEFAULT;
-    desc.BindFlags = D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_UNORDERED_ACCESS;
+    desc.Width = ReadBuffer<UINT>(_buffer);
+    desc.Height = ReadBuffer<UINT>(_buffer);
+    desc.MipLevels = ReadBuffer<UINT>(_buffer);
+    desc.ArraySize = ReadBuffer<UINT>(_buffer); // must be > 1 for array
+    desc.Format = static_cast<DXGI_FORMAT>(ReadBuffer<uint32_t>(_buffer));
+    desc.SampleDesc.Count = ReadBuffer<UINT>(_buffer);
+    desc.SampleDesc.Quality = ReadBuffer<UINT>(_buffer);
+    desc.Usage = static_cast<D3D11_USAGE>(ReadBuffer<uint32_t>(_buffer));
+    desc.BindFlags = ReadBuffer<UINT>(_buffer);
+    desc.CPUAccessFlags = ReadBuffer<UINT>(_buffer);
+    desc.MiscFlags = ReadBuffer<UINT>(_buffer);
+
+    D3D11_SUBRESOURCE_DATA data = {};
+    data.pSysMem = _pSysMem;
+    data.SysMemPitch = static_cast<UINT>(_memPitch);
+    data.SysMemSlicePitch = static_cast<UINT>(_memSlicePitch);
 
     ID3D11Texture2D* texture = nullptr;
-    HRESULT hr = g_Device->CreateTexture2D(&desc, nullptr, &texture);
-    if (FAILED(hr))
+    HRESULT hr = g_Device->CreateTexture2D(&desc, &data, &texture);
+
+    if (FAILED(hr) || !texture)
     {
-        std::cout << "Failed to create Texture Array!" << std::endl;
+        std::cout << "Failed to create a Texture2D array!" << std::endl;
         return GMD3D11_ID_INVALID;
     }
 
-    return static_cast<ty_real>((new TextureArray(texture, static_cast<size_t>(_w), static_cast<size_t>(_h), static_cast<size_t>(_count)))->GetID());
+    return static_cast<ty_real>((new TextureArray(texture))->GetID());
+}
+
+/// @func d3d11_texturearray_exists(_id)
+GM_EXPORT ty_real d3d11_texturearray_exists(ty_real _id)
+{
+    return (_id != GMD3D11_ID_INVALID && Trackable::Exists<TextureArray>(static_cast<size_t>(_id))) ? GM_TRUE : GM_FALSE;
+}
+
+/// @func d3d11_texturearray_destroy(_id)
+GM_EXPORT ty_real d3d11_texturearray_destroy(ty_real _id)
+{
+    delete Trackable::Get<TextureArray>(static_cast<size_t>(_id));
+    return GM_TRUE;
 }

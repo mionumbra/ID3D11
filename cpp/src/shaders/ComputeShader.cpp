@@ -29,7 +29,7 @@ static ComputeShader* CompileCS(char* file, char* entryPoint, char* profile)
     ID3DBlob* blob = nullptr;
     LPCWSTR path = ConvertCharArrayToLPCWSTR(file);
     HRESULT hr = CompileShader(path, static_cast<LPCSTR>(entryPoint), static_cast<LPCSTR>(profile), &blob);
-    delete path;
+    delete[] path;
 
     if (FAILED(hr))
     {

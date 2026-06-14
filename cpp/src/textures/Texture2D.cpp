@@ -51,8 +51,8 @@ GM_EXPORT ty_real d3d11_texture2D_create_impl(ty_string _buffer, ty_string _pSys
 
     D3D11_SUBRESOURCE_DATA data = {};
     data.pSysMem = _pSysMem;
-    data.SysMemPitch = _memPitch;
-    data.SysMemSlicePitch = _memSlicePitch;
+    data.SysMemPitch = static_cast<UINT>(_memPitch);
+    data.SysMemSlicePitch = static_cast<UINT>(_memSlicePitch);
 
     ID3D11Texture2D* texture = nullptr;
     HRESULT hr = g_Device->CreateTexture2D(&desc, &data, &texture);

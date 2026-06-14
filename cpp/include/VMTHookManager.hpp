@@ -4,6 +4,7 @@
 #include <common.hpp>
 
 #include <Windows.h>
+#include <cstring>
 
 #ifdef _WIN64
 #   define _pdword PDWORD64
@@ -70,7 +71,7 @@ public:
 
     _dword dwGetMethodAddress(int Index)
     {
-        if (Index >= 0 && Index <= (int)m_dwVMTSize && m_pdwOldVMT != NULL)
+        if (Index >= 0 && Index < (int)m_dwVMTSize && m_pdwOldVMT != NULL)
         {
             return m_pdwOldVMT[Index];
         }
@@ -84,7 +85,7 @@ public:
 
     _dword dwHookMethod(_dword dwNewFunc, unsigned int iIndex)
     {
-        if (m_pdwNewVMT && m_pdwOldVMT && iIndex <= m_dwVMTSize && iIndex >= 0)
+        if (m_pdwNewVMT && m_pdwOldVMT && iIndex < m_dwVMTSize)
         {
             m_pdwNewVMT[iIndex] = dwNewFunc;
             return m_pdwOldVMT[iIndex];

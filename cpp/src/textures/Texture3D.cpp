@@ -1,70 +1,79 @@
-#include <textures/Texture3D.hpp>
+#include "textures/Texture3D.hpp"
+
+#include <views/DSV.hpp>
+#include <views/RTV.hpp>
+#include <views/SRV.hpp>
+#include <views/UAV.hpp>
+
 #include <iostream>
 
 extern ID3D11Device* g_Device;
+extern ID3D11DeviceContext* g_Context;
 
-Texture3D::Texture3D(ID3D11Texture3D* texture, size_t width, size_t height, size_t depth)
-    : Raw(texture), Width(width), Height(height), Depth(depth) {}
+Texture3D::Texture3D(ID3D11Texture3D* texture3D)
+    : Trackable()
+    , Raw3D(texture3D)
+{
+}
 
 Texture3D::~Texture3D()
 {
-    if (Raw) Raw->Release();
-}
-
-SRV* Texture3D::CreateSRV() const
-{
-    D3D11_SHADER_RESOURCE_VIEW_DESC desc = {};
-    desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-    desc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE3D;
-    desc.Texture3D.MostDetailedMip = 0;
-    desc.Texture3D.MipLevels = -1;
-
-    ID3D11ShaderResourceView* srv = nullptr;
-    HRESULT hr = g_Device->CreateShaderResourceView(Raw, &desc, &srv);
-    if (FAILED(hr))
+    if (Raw3D)
     {
-        std::cout << "Failed to create SRV for 3D texture!" << std::endl;
-        return nullptr;
+        Raw3D->Release();
+        Raw3D = nullptr;
     }
-    return new SRV(srv);
 }
 
-UAV* Texture3D::CreateUAV() const
-{
-    D3D11_UNORDERED_ACCESS_VIEW_DESC desc = {};
-    desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-    desc.ViewDimension = D3D11_UAV_DIMENSION_TEXTURE3D;
-    desc.Texture3D.MipSlice = 0;
-
-    ID3D11UnorderedAccessView* uav = nullptr;
-    HRESULT hr = g_Device->CreateUnorderedAccessView(Raw, &desc, &uav);
-    if (FAILED(hr))
-    {
-        std::cout << "Failed to create UAV for 3D texture!" << std::endl;
-        return nullptr;
-    }
-    return new UAV(uav);
-}
-
-/// @func d3d11_texture3d_create(_w, _h, _d)
-GM_EXPORT ty_real d3d11_texture3d_create(ty_real _w, ty_real _h, ty_real _d)
+/// @func d3d11_texture3d_create_impl(_buffer, _pSysMem, _memPitch, _memSlicePitch)
+///
+/// @desc Creates a new 3D texture.
+///
+/// @param {Pointer} _buffer A pointer to a buffer containing serialized {@link D3D11_TEXTURE3D_DESC}.
+/// @param {Pointer} _pSysMem
+/// @param {Real} _memPitch
+/// @param {Real} _memSlicePitch
+///
+/// @return {Real} The ID of the created 3D texture or {@link GMD3D11_ID_INVALID} on fail.
+GM_EXPORT ty_real d3d11_texture3d_create_impl(ty_string _buffer, ty_string _pSysMem, ty_real _memPitch, ty_real _memSlicePitch)
 {
     D3D11_TEXTURE3D_DESC desc = {};
-    desc.Width = static_cast<UINT>(_w);
-    desc.Height = static_cast<UINT>(_h);
-    desc.Depth = static_cast<UINT>(_d);
-    desc.MipLevels = 1;
-    desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-    desc.Usage = D3D11_USAGE_DEFAULT;
-    desc.BindFlags = D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_UNORDERED_ACCESS;
+    desc.Width = ReadBuffer<UINT>(_buffer);
+    desc.Height = ReadBuffer<UINT>(_buffer);
+    desc.Depth = ReadBuffer<UINT>(_buffer);
+    desc.MipLevels = ReadBuffer<UINT>(_buffer);
+    desc.Format = static_cast<DXGI_FORMAT>(ReadBuffer<uint32_t>(_buffer));
+    desc.Usage = static_cast<D3D11_USAGE>(ReadBuffer<uint32_t>(_buffer));
+    desc.BindFlags = ReadBuffer<UINT>(_buffer);
+    desc.CPUAccessFlags = ReadBuffer<UINT>(_buffer);
+    desc.MiscFlags = ReadBuffer<UINT>(_buffer);
+
+    D3D11_SUBRESOURCE_DATA data = {};
+    data.pSysMem = _pSysMem;
+    data.SysMemPitch = static_cast<UINT>(_memPitch);
+    data.SysMemSlicePitch = static_cast<UINT>(_memSlicePitch);
 
     ID3D11Texture3D* texture = nullptr;
-    HRESULT hr = g_Device->CreateTexture3D(&desc, nullptr, &texture);
-    if (FAILED(hr))
+    HRESULT hr = g_Device->CreateTexture3D(&desc, &data, &texture);
+
+    if (FAILED(hr) || !texture)
     {
-        std::cout << "Failed to create 3D texture!" << std::endl;
+        std::cout << "Failed to create a 3D texture!" << std::endl;
         return GMD3D11_ID_INVALID;
     }
 
-    return static_cast<ty_real>((new Texture3D(texture, static_cast<size_t>(_w), static_cast<size_t>(_h), static_cast<size_t>(_d)))->GetID());
+    return static_cast<ty_real>((new Texture3D(texture))->GetID());
+}
+
+/// @func d3d11_texture3d_exists(_id)
+GM_EXPORT ty_real d3d11_texture3d_exists(ty_real _id)
+{
+    return (_id != GMD3D11_ID_INVALID && Trackable::Exists<Texture3D>(static_cast<size_t>(_id))) ? GM_TRUE : GM_FALSE;
+}
+
+/// @func d3d11_texture3d_destroy(_id)
+GM_EXPORT ty_real d3d11_texture3d_destroy(ty_real _id)
+{
+    delete Trackable::Get<Texture3D>(static_cast<size_t>(_id));
+    return GM_TRUE;
 }

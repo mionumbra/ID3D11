@@ -98,9 +98,10 @@ GM_EXPORT ty_real d3d11_srv_copy_ps_vs(ty_real _src, ty_real _dest)
     {
         return GM_FALSE;
     }
-    ID3D11ShaderResourceView* shaderResourceView;
+    ID3D11ShaderResourceView* shaderResourceView = nullptr;
     g_Context->PSGetShaderResources(src, 1, &shaderResourceView);
     g_Context->VSSetShaderResources(dest, 1, &shaderResourceView);
+    if (shaderResourceView) shaderResourceView->Release();
     return GM_TRUE;
 }
 
@@ -121,9 +122,10 @@ GM_EXPORT ty_real d3d11_srv_copy_ps_gs(ty_real _src, ty_real _dest)
     {
         return GM_FALSE;
     }
-    ID3D11ShaderResourceView* shaderResourceView;
+    ID3D11ShaderResourceView* shaderResourceView = nullptr;
     g_Context->PSGetShaderResources(src, 1, &shaderResourceView);
     g_Context->GSSetShaderResources(dest, 1, &shaderResourceView);
+    if (shaderResourceView) shaderResourceView->Release();
     return GM_TRUE;
 }
 
@@ -144,9 +146,10 @@ GM_EXPORT ty_real d3d11_srv_copy_ps_ps(ty_real _src, ty_real _dest)
     {
         return GM_FALSE;
     }
-    ID3D11ShaderResourceView* shaderResourceView;
+    ID3D11ShaderResourceView* shaderResourceView = nullptr;
     g_Context->PSGetShaderResources(src, 1, &shaderResourceView);
     g_Context->PSSetShaderResources(dest, 1, &shaderResourceView);
+    if (shaderResourceView) shaderResourceView->Release();
     return GM_TRUE;
 }
 
@@ -167,9 +170,10 @@ GM_EXPORT ty_real d3d11_srv_copy_ps_cs(ty_real _src, ty_real _dest)
     {
         return GM_FALSE;
     }
-    ID3D11ShaderResourceView* shaderResourceView;
+    ID3D11ShaderResourceView* shaderResourceView = nullptr;
     g_Context->PSGetShaderResources(src, 1, &shaderResourceView);
     g_Context->CSSetShaderResources(dest, 1, &shaderResourceView);
+    if (shaderResourceView) shaderResourceView->Release();
     return GM_TRUE;
 }
 

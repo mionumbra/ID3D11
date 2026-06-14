@@ -1,26 +1,16 @@
 #pragma once
 
-#include <common.hpp>
-#include <textures/Texture.hpp>
-#include <views/SRV.hpp>
-#include <views/UAV.hpp>
 #include <d3d11.h>
+#include <Trackable.hpp>
 
-/// @brief Texture2D array wrapper.
-class TextureArray final : public Texture
+class TextureArray : public Trackable
 {
 public:
-    TextureArray(ID3D11Texture2D* texture, size_t width, size_t height, size_t count);
-    virtual ~TextureArray();
+    TextureArray(ID3D11Texture2D* texture2DArray);
+    ~TextureArray();
 
-    ID3D11Texture2D* GetTexture() const { return Raw; }
-
-    SRV* CreateSRV() const;
-    UAV* CreateUAV() const;
+    ID3D11Texture2D* GetTexture2D() const { return Raw2D; }
 
 private:
-    ID3D11Texture2D* Raw = nullptr;
-    size_t Width = 0;
-    size_t Height = 0;
-    size_t Count = 0;
+    ID3D11Texture2D* Raw2D = nullptr;
 };

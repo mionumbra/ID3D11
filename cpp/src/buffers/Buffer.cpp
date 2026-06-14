@@ -32,6 +32,6 @@ void Buffer::Copy(Buffer* dest)
 /// @param {Real} _dest The ID of the destination buffer.
 GM_EXPORT ty_real d3d11_buffer_copy(ty_real _src, ty_real _dest)
 {
-    Trackable::Get<Buffer>(_src)->Copy(Trackable::Get<Buffer>(_dest));
+    Trackable::Get<Buffer>(static_cast<size_t>(_src))->Copy(Trackable::Get<Buffer>(static_cast<size_t>(_dest)));
     return GM_TRUE;
 }

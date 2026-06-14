@@ -1,10 +1,11 @@
 #pragma once
 
 #include <common.hpp>
+#include <Trackable.hpp>
 #include <d3d11.h>
 
 /// @brief Occlusion query wrapper.
-class OcclusionQuery final
+class OcclusionQuery final : public Trackable
 {
 public:
     OcclusionQuery(ID3D11Query* query);
