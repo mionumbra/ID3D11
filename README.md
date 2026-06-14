@@ -11,36 +11,42 @@ This is a community-developed project, released under **CC0 1.0 Universal (Publi
 
 ## Features
 
-* [ ] Shaders
+* [x] Shaders
   * [x] Compile from file (optimization level 3)
   * [x] Save and load compiled shaders
   * [x] Hook into `ID3D11DeviceContext::Draw` calls to swap out used vertex and pixel shaders with custom ones
   * [x] Vertex
   * [x] Pixel
   * [x] Geometry
-  * [ ] Tessellation
+  * [x] Tessellation
   * [x] Compute
-* [ ] Vertex formats
-* [ ] Buffers
-  * [ ] Vertex
-  * [ ] Index
+* [x] Vertex formats
+* [x] Buffers
+  * [x] Vertex
+  * [x] Index
   * [x] Constant
   * [x] Structured (read-only)
   * [x] Compute (read/write structured)
-  * [ ] Append/consume
-  * [ ] Indirect args
-  * [ ] Raw
-  * [ ] Upload (CPU -> GPU)
+  * [x] Append/consume
+  * [x] Indirect args
+  * [x] Raw
+  * [x] Upload (CPU -> GPU)
   * [x] Readback (GPU -> CPU)
-* [ ] Textures
+* [x] Textures
   * [x] `texture_set_stage_vs()` - vertex texture fetching of native GM textures (`sprite_get_texture()`, `surface_get_texture()`)
-  * [ ] Samplers
-  * [ ] 2D
-  * [ ] 3D
-  * [ ] Arrays
-* [ ] Occlusion queries
-* [ ] Timestamps
+  * [x] Samplers
+  * [x] 2D
+  * [x] 3D
+  * [x] Arrays
+* [x] DSV
+* [x] RTV
+* [x] SRV
+* [x] UAV
+* [x] Occlusion queries
+* [x] Timestamps
 * [x] `vertex_submit_instanced()` - instanced rendering of native GM vertex buffers
+* [x] Viewports
+* [x] Scissor rects
 
 ## Building the DLL
 
