@@ -68,4 +68,4 @@ The pre-refactor project already demonstrates shaders, vertex/index/constant/str
 
 ## License
 
-CC0 1.0 Universal (Public Domain). See [LICENSE](LICENSE).
+See [LICENSE](LICENSE).
