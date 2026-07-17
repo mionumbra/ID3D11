@@ -2,3 +2,6 @@
 .vscode/
 docs_build/
 docs_src/ScriptingAPI/
+cpp/build*/
+binding/out/
+binding/CMakeUserPresets.json

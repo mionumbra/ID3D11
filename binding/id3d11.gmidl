@@ -1,0 +1,2113 @@
+[gml_api]
+module ID3D11;
+
+[global, bind = typed_gml]
+enum ID3D11HandleKind : uint32
+{
+    Invalid = 0,
+    Device = 1,
+    DeviceContext = 2,
+    SwapChain = 3,
+    Buffer = 4,
+    Texture1D = 5,
+    Texture2D = 6,
+    Texture3D = 7,
+    Shader = 8,
+    View = 9,
+    State = 10,
+    Query = 11,
+    CommandList = 12,
+    Fence = 13,
+    Device1 = 14,
+    Device2 = 15,
+    Device3 = 16,
+    Device4 = 17,
+    Device5 = 18,
+    DeviceContext1 = 19,
+    DeviceContext2 = 20,
+    DeviceContext3 = 21,
+    DeviceContext4 = 22,
+    Multithread = 23,
+    DeviceChild = 24,
+    Resource = 25,
+    Texture2D1 = 26,
+    Texture3D1 = 27,
+    ShaderResourceView = 28,
+    ShaderResourceView1 = 29,
+    RenderTargetView = 30,
+    RenderTargetView1 = 31,
+    DepthStencilView = 32,
+    UnorderedAccessView = 33,
+    UnorderedAccessView1 = 34,
+    VertexShader = 35,
+    HullShader = 36,
+    DomainShader = 37,
+    GeometryShader = 38,
+    PixelShader = 39,
+    ComputeShader = 40,
+    InputLayout = 41,
+    SamplerState = 42,
+    DepthStencilState = 43,
+    BlendState = 44,
+    BlendState1 = 45,
+    RasterizerState = 46,
+    RasterizerState1 = 47,
+    RasterizerState2 = 48,
+    Asynchronous = 49,
+    Predicate = 50,
+    Counter = 51,
+    Query1 = 52,
+    ClassInstance = 53,
+    ClassLinkage = 54,
+    VideoDecoder = 55,
+    VideoProcessorEnumerator = 56,
+    VideoProcessorEnumerator1 = 57,
+    VideoProcessor = 58,
+    AuthenticatedChannel = 59,
+    CryptoSession = 60,
+    VideoDecoderOutputView = 61,
+    VideoProcessorInputView = 62,
+    VideoProcessorOutputView = 63,
+    VideoContext = 64,
+    VideoContext1 = 65,
+    VideoContext2 = 66,
+    VideoContext3 = 67,
+    VideoDevice = 68,
+    VideoDevice1 = 69,
+    VideoDevice2 = 70,
+}
+
+[global, bind = typed_gml]
+enum ID3D11FeatureLevel : uint32
+{
+    Level9_1 = 37120,
+    Level9_2 = 37376,
+    Level9_3 = 37632,
+    Level10_0 = 40960,
+    Level10_1 = 41216,
+    Level11_0 = 45056,
+    Level11_1 = 45312,
+    Level12_0 = 49152,
+    Level12_1 = 49408,
+    Level12_2 = 49664,
+}
+
+[global, bind = typed_gml]
+enum ID3D11Usage : uint32
+{
+    Default = 0,
+    Immutable = 1,
+    Dynamic = 2,
+    Staging = 3,
+}
+
+[global, bind = typed_gml]
+enum ID3D11BindFlag : uint32
+{
+    VertexBuffer = 1,
+    IndexBuffer = 2,
+    ConstantBuffer = 4,
+    ShaderResource = 8,
+    StreamOutput = 16,
+    RenderTarget = 32,
+    DepthStencil = 64,
+    UnorderedAccess = 128,
+    Decoder = 512,
+    VideoEncoder = 1024,
+}
+
+[global, bind = typed_gml]
+enum ID3D11CpuAccessFlag : uint32
+{
+    Write = 65536,
+    Read = 131072,
+}
+
+[global, bind = typed_gml]
+enum ID3D11ResourceMiscFlag : uint32
+{
+    GenerateMips = 1,
+    Shared = 2,
+    TextureCube = 4,
+    DrawIndirectArgs = 16,
+    BufferAllowRawViews = 32,
+    BufferStructured = 64,
+    ResourceClamp = 128,
+    SharedKeyedMutex = 256,
+    GdiCompatible = 512,
+    SharedNtHandle = 2048,
+    RestrictedContent = 4096,
+    RestrictSharedResource = 8192,
+    RestrictSharedResourceDriver = 16384,
+    Guarded = 32768,
+    TilePool = 131072,
+    Tiled = 262144,
+    HardwareProtected = 524288,
+    SharedDisplayable = 1048576,
+    SharedExclusiveWriter = 2097152,
+    NoShaderAccess = 4194304,
+}
+
+[global, bind = typed_gml]
+enum ID3D11BufferUavFlag : uint32
+{
+    Raw = 1,
+    Append = 2,
+    Counter = 4,
+}
+
+[global, bind = typed_gml]
+enum ID3D11ClearFlag : uint32
+{
+    Depth = 1,
+    Stencil = 2,
+}
+
+[global, bind = typed_gml]
+enum ID3D11ResourceDimension : uint32
+{
+    Unknown = 0,
+    Buffer = 1,
+    Texture1D = 2,
+    Texture2D = 3,
+    Texture3D = 4,
+}
+
+[global, bind = typed_gml]
+enum ID3D11ShaderResourceViewDimension : uint32
+{
+    Unknown = 0,
+    Buffer = 1,
+    Texture1D = 2,
+    Texture1DArray = 3,
+    Texture2D = 4,
+    Texture2DArray = 5,
+    Texture2DMS = 6,
+    Texture2DMSArray = 7,
+    Texture3D = 8,
+    TextureCube = 9,
+    TextureCubeArray = 10,
+    BufferEx = 11,
+}
+
+[global, bind = typed_gml]
+enum ID3D11RenderTargetViewDimension : uint32
+{
+    Unknown = 0,
+    Buffer = 1,
+    Texture1D = 2,
+    Texture1DArray = 3,
+    Texture2D = 4,
+    Texture2DArray = 5,
+    Texture2DMS = 6,
+    Texture2DMSArray = 7,
+    Texture3D = 8,
+}
+
+[global, bind = typed_gml]
+enum ID3D11DepthStencilViewDimension : uint32
+{
+    Unknown = 0,
+    Texture1D = 1,
+    Texture1DArray = 2,
+    Texture2D = 3,
+    Texture2DArray = 4,
+    Texture2DMS = 5,
+    Texture2DMSArray = 6,
+}
+
+[global, bind = typed_gml]
+enum ID3D11UnorderedAccessViewDimension : uint32
+{
+    Unknown = 0,
+    Buffer = 1,
+    Texture1D = 2,
+    Texture1DArray = 3,
+    Texture2D = 4,
+    Texture2DArray = 5,
+    Texture3D = 8,
+}
+
+[global, bind = typed_gml]
+enum ID3D11InputClassification : uint32
+{
+    PerVertexData = 0,
+    PerInstanceData = 1,
+}
+
+[global, bind = typed_gml]
+enum ID3D11Filter : uint32
+{
+    MinMagMipPoint = 0,
+    MinMagPointMipLinear = 1,
+    MinPointMagLinearMipPoint = 4,
+    MinPointMagMipLinear = 5,
+    MinLinearMagMipPoint = 16,
+    MinLinearMagPointMipLinear = 17,
+    MinMagLinearMipPoint = 20,
+    MinMagMipLinear = 21,
+    Anisotropic = 85,
+    ComparisonMinMagMipPoint = 128,
+    ComparisonMinMagPointMipLinear = 129,
+    ComparisonMinPointMagLinearMipPoint = 132,
+    ComparisonMinPointMagMipLinear = 133,
+    ComparisonMinLinearMagMipPoint = 144,
+    ComparisonMinLinearMagPointMipLinear = 145,
+    ComparisonMinMagLinearMipPoint = 148,
+    ComparisonMinMagMipLinear = 149,
+    ComparisonAnisotropic = 213,
+    MinimumMinMagMipPoint = 256,
+    MinimumMinMagPointMipLinear = 257,
+    MinimumMinPointMagLinearMipPoint = 260,
+    MinimumMinPointMagMipLinear = 261,
+    MinimumMinLinearMagMipPoint = 272,
+    MinimumMinLinearMagPointMipLinear = 273,
+    MinimumMinMagLinearMipPoint = 276,
+    MinimumMinMagMipLinear = 277,
+    MinimumAnisotropic = 341,
+    MaximumMinMagMipPoint = 384,
+    MaximumMinMagPointMipLinear = 385,
+    MaximumMinPointMagLinearMipPoint = 388,
+    MaximumMinPointMagMipLinear = 389,
+    MaximumMinLinearMagMipPoint = 400,
+    MaximumMinLinearMagPointMipLinear = 401,
+    MaximumMinMagLinearMipPoint = 404,
+    MaximumMinMagMipLinear = 405,
+    MaximumAnisotropic = 469,
+}
+
+[global, bind = typed_gml]
+enum ID3D11TextureAddressMode : uint32
+{
+    Wrap = 1,
+    Mirror = 2,
+    Clamp = 3,
+    Border = 4,
+    MirrorOnce = 5,
+}
+
+[global, bind = typed_gml]
+enum ID3D11ComparisonFunc : uint32
+{
+    Never = 1,
+    Less = 2,
+    Equal = 3,
+    LessEqual = 4,
+    Greater = 5,
+    NotEqual = 6,
+    GreaterEqual = 7,
+    Always = 8,
+}
+
+[global, bind = typed_gml]
+enum ID3D11FillMode : uint32
+{
+    Wireframe = 2,
+    Solid = 3,
+}
+
+[global, bind = typed_gml]
+enum ID3D11CullMode : uint32
+{
+    None = 1,
+    Front = 2,
+    Back = 3,
+}
+
+[global, bind = typed_gml]
+enum ID3D11Blend : uint32
+{
+    Zero = 1,
+    One = 2,
+    SrcColor = 3,
+    InvSrcColor = 4,
+    SrcAlpha = 5,
+    InvSrcAlpha = 6,
+    DestAlpha = 7,
+    InvDestAlpha = 8,
+    DestColor = 9,
+    InvDestColor = 10,
+    SrcAlphaSat = 11,
+    BlendFactor = 14,
+    InvBlendFactor = 15,
+    Src1Color = 16,
+    InvSrc1Color = 17,
+    Src1Alpha = 18,
+    InvSrc1Alpha = 19,
+}
+
+[global, bind = typed_gml]
+enum ID3D11BlendOp : uint32
+{
+    Add = 1,
+    Subtract = 2,
+    RevSubtract = 3,
+    Min = 4,
+    Max = 5,
+}
+
+[global, bind = typed_gml]
+enum ID3D11ColorWriteEnable : uint32
+{
+    Red = 1,
+    Green = 2,
+    Blue = 4,
+    Alpha = 8,
+    All = 15,
+}
+
+[global, bind = typed_gml]
+enum ID3D11DepthWriteMask : uint32
+{
+    Zero = 0,
+    All = 1,
+}
+
+[global, bind = typed_gml]
+enum ID3D11StencilOp : uint32
+{
+    Keep = 1,
+    Zero = 2,
+    Replace = 3,
+    IncrSat = 4,
+    DecrSat = 5,
+    Invert = 6,
+    Incr = 7,
+    Decr = 8,
+}
+
+[global, bind = typed_gml]
+enum ID3D11Query : uint32
+{
+    Event = 0,
+    Occlusion = 1,
+    Timestamp = 2,
+    TimestampDisjoint = 3,
+    PipelineStatistics = 4,
+    OcclusionPredicate = 5,
+    StreamOutputStatistics = 6,
+    StreamOutputOverflowPredicate = 7,
+    StreamOutputStatisticsStream0 = 8,
+    StreamOutputOverflowPredicateStream0 = 9,
+    StreamOutputStatisticsStream1 = 10,
+    StreamOutputOverflowPredicateStream1 = 11,
+    StreamOutputStatisticsStream2 = 12,
+    StreamOutputOverflowPredicateStream2 = 13,
+    StreamOutputStatisticsStream3 = 14,
+    StreamOutputOverflowPredicateStream3 = 15,
+}
+
+[global, bind = typed_gml]
+enum ID3D11QueryMiscFlag : uint32
+{
+    PredicateHint = 1,
+}
+
+[global, bind = typed_gml]
+enum ID3D11AsyncGetDataFlag : uint32
+{
+    DoNotFlush = 1,
+}
+
+[global, bind = typed_gml]
+enum ID3D11Counter : uint32
+{
+    DeviceDependent0 = 1073741824,
+}
+
+[global, bind = typed_gml]
+enum ID3D11CounterType : uint32
+{
+    Float32 = 0,
+    Uint16 = 1,
+    Uint32 = 2,
+    Uint64 = 3,
+}
+
+[global, bind = typed_gml]
+enum ID3D11PrimitiveTopology : uint32
+{
+    Undefined = 0,
+    PointList = 1,
+    LineList = 2,
+    LineStrip = 3,
+    TriangleList = 4,
+    TriangleStrip = 5,
+    LineListAdjacency = 10,
+    LineStripAdjacency = 11,
+    TriangleListAdjacency = 12,
+    TriangleStripAdjacency = 13,
+    PatchList1 = 33,
+    PatchList2 = 34,
+    PatchList3 = 35,
+    PatchList4 = 36,
+    PatchList5 = 37,
+    PatchList6 = 38,
+    PatchList7 = 39,
+    PatchList8 = 40,
+    PatchList9 = 41,
+    PatchList10 = 42,
+    PatchList11 = 43,
+    PatchList12 = 44,
+    PatchList13 = 45,
+    PatchList14 = 46,
+    PatchList15 = 47,
+    PatchList16 = 48,
+    PatchList17 = 49,
+    PatchList18 = 50,
+    PatchList19 = 51,
+    PatchList20 = 52,
+    PatchList21 = 53,
+    PatchList22 = 54,
+    PatchList23 = 55,
+    PatchList24 = 56,
+    PatchList25 = 57,
+    PatchList26 = 58,
+    PatchList27 = 59,
+    PatchList28 = 60,
+    PatchList29 = 61,
+    PatchList30 = 62,
+    PatchList31 = 63,
+    PatchList32 = 64,
+}
+
+[global]
+class `[[ID3D11Version]]` prototype Object
+{
+    [field]
+    property major : uint32 { get; set; }
+
+    [field]
+    property minor : uint32 { get; set; }
+
+    [field]
+    property patch : uint32 { get; set; }
+
+    [field]
+    property abi : uint32 { get; set; }
+}
+
+[global]
+class `[[ID3D11FormatSupportResult]]` prototype Object
+{
+    [field]
+    property hresult : int32 { get; set; }
+
+    [field]
+    property support : uint32 { get; set; }
+}
+
+[global]
+class `[[ID3D11MultisampleQualityResult]]` prototype Object
+{
+    [field]
+    property hresult : int32 { get; set; }
+
+    [field]
+    property qualityLevels : uint32 { get; set; }
+}
+
+[global]
+class `[[ID3D11CounterInfo]]` prototype Object
+{
+    [field]
+    property lastDeviceDependentCounter : uint32 { get; set; }
+
+    [field]
+    property numSimultaneousCounters : uint32 { get; set; }
+
+    [field]
+    property numDetectableParallelUnits : uint32 { get; set; }
+}
+
+[global]
+class `[[ID3D11BufferDesc]]` prototype Object
+{
+    [field]
+    property byteWidth : uint32 { get; set; }
+
+    [field]
+    property usage : uint32 { get; set; }
+
+    [field]
+    property bindFlags : uint32 { get; set; }
+
+    [field]
+    property cpuAccessFlags : uint32 { get; set; }
+
+    [field]
+    property miscFlags : uint32 { get; set; }
+
+    [field]
+    property structureByteStride : uint32 { get; set; }
+}
+
+[global]
+class `[[ID3D11SubresourceData]]` prototype Object
+{
+    [field, type_hint = `uint64`]
+    property offset : gmval { get; set; }
+
+    [field]
+    property rowPitch : uint32 { get; set; }
+
+    [field]
+    property slicePitch : uint32 { get; set; }
+
+    [field, type_hint = `uint64`]
+    property dataSize : gmval { get; set; }
+}
+
+[global]
+class `[[ID3D11Texture1DDesc]]` prototype Object
+{
+    [field]
+    property width : uint32 { get; set; }
+
+    [field]
+    property mipLevels : uint32 { get; set; }
+
+    [field]
+    property arraySize : uint32 { get; set; }
+
+    [field]
+    property format : uint32 { get; set; }
+
+    [field]
+    property usage : uint32 { get; set; }
+
+    [field]
+    property bindFlags : uint32 { get; set; }
+
+    [field]
+    property cpuAccessFlags : uint32 { get; set; }
+
+    [field]
+    property miscFlags : uint32 { get; set; }
+}
+
+[global]
+class `[[ID3D11Texture2DDesc]]` prototype Object
+{
+    [field]
+    property width : uint32 { get; set; }
+
+    [field]
+    property height : uint32 { get; set; }
+
+    [field]
+    property mipLevels : uint32 { get; set; }
+
+    [field]
+    property arraySize : uint32 { get; set; }
+
+    [field]
+    property format : uint32 { get; set; }
+
+    [field]
+    property sampleCount : uint32 { get; set; }
+
+    [field]
+    property sampleQuality : uint32 { get; set; }
+
+    [field]
+    property usage : uint32 { get; set; }
+
+    [field]
+    property bindFlags : uint32 { get; set; }
+
+    [field]
+    property cpuAccessFlags : uint32 { get; set; }
+
+    [field]
+    property miscFlags : uint32 { get; set; }
+}
+
+[global]
+class `[[ID3D11Texture3DDesc]]` prototype Object
+{
+    [field]
+    property width : uint32 { get; set; }
+
+    [field]
+    property height : uint32 { get; set; }
+
+    [field]
+    property depth : uint32 { get; set; }
+
+    [field]
+    property mipLevels : uint32 { get; set; }
+
+    [field]
+    property format : uint32 { get; set; }
+
+    [field]
+    property usage : uint32 { get; set; }
+
+    [field]
+    property bindFlags : uint32 { get; set; }
+
+    [field]
+    property cpuAccessFlags : uint32 { get; set; }
+
+    [field]
+    property miscFlags : uint32 { get; set; }
+}
+
+[global]
+class `[[ID3D11ShaderResourceViewDesc]]` prototype Object
+{
+    [field]
+    property format : uint32 { get; set; }
+
+    [field]
+    property viewDimension : uint32 { get; set; }
+
+    [field]
+    property firstElement : uint32 { get; set; }
+
+    [field]
+    property numElements : uint32 { get; set; }
+
+    [field]
+    property flags : uint32 { get; set; }
+
+    [field]
+    property mostDetailedMip : uint32 { get; set; }
+
+    [field]
+    property mipLevels : uint32 { get; set; }
+
+    [field]
+    property firstArraySlice : uint32 { get; set; }
+
+    [field]
+    property arraySize : uint32 { get; set; }
+
+    [field]
+    property first2DArrayFace : uint32 { get; set; }
+
+    [field]
+    property numCubes : uint32 { get; set; }
+}
+
+[global]
+class `[[ID3D11RenderTargetViewDesc]]` prototype Object
+{
+    [field]
+    property format : uint32 { get; set; }
+
+    [field]
+    property viewDimension : uint32 { get; set; }
+
+    [field]
+    property firstElement : uint32 { get; set; }
+
+    [field]
+    property numElements : uint32 { get; set; }
+
+    [field]
+    property mipSlice : uint32 { get; set; }
+
+    [field]
+    property firstArraySlice : uint32 { get; set; }
+
+    [field]
+    property arraySize : uint32 { get; set; }
+
+    [field]
+    property firstWSlice : uint32 { get; set; }
+
+    [field]
+    property wSize : uint32 { get; set; }
+}
+
+[global]
+class `[[ID3D11DepthStencilViewDesc]]` prototype Object
+{
+    [field]
+    property format : uint32 { get; set; }
+
+    [field]
+    property viewDimension : uint32 { get; set; }
+
+    [field]
+    property flags : uint32 { get; set; }
+
+    [field]
+    property mipSlice : uint32 { get; set; }
+
+    [field]
+    property firstArraySlice : uint32 { get; set; }
+
+    [field]
+    property arraySize : uint32 { get; set; }
+}
+
+[global]
+class `[[ID3D11UnorderedAccessViewDesc]]` prototype Object
+{
+    [field]
+    property format : uint32 { get; set; }
+
+    [field]
+    property viewDimension : uint32 { get; set; }
+
+    [field]
+    property firstElement : uint32 { get; set; }
+
+    [field]
+    property numElements : uint32 { get; set; }
+
+    [field]
+    property flags : uint32 { get; set; }
+
+    [field]
+    property mipSlice : uint32 { get; set; }
+
+    [field]
+    property firstArraySlice : uint32 { get; set; }
+
+    [field]
+    property arraySize : uint32 { get; set; }
+
+    [field]
+    property firstWSlice : uint32 { get; set; }
+
+    [field]
+    property wSize : uint32 { get; set; }
+}
+
+[global]
+class `[[ID3D11InputElementDesc]]` prototype Object
+{
+    [field]
+    property semanticName : string { get; set; }
+
+    [field]
+    property semanticIndex : uint32 { get; set; }
+
+    [field]
+    property format : uint32 { get; set; }
+
+    [field]
+    property inputSlot : uint32 { get; set; }
+
+    [field]
+    property alignedByteOffset : uint32 { get; set; }
+
+    [field]
+    property inputSlotClass : uint32 { get; set; }
+
+    [field]
+    property instanceDataStepRate : uint32 { get; set; }
+}
+
+[global]
+class `[[ID3D11StreamOutputDeclarationEntry]]` prototype Object
+{
+    [field]
+    property semanticName : string { get; set; }
+
+    [field]
+    property stream : uint32 { get; set; }
+
+    [field]
+    property semanticIndex : uint32 { get; set; }
+
+    [field]
+    property startComponent : uint32 { get; set; }
+
+    [field]
+    property componentCount : uint32 { get; set; }
+
+    [field]
+    property outputSlot : uint32 { get; set; }
+}
+
+[global]
+class `[[ID3D11ShaderCompileResult]]` prototype Object
+{
+    [field]
+    property hresult : int32 { get; set; }
+
+    [field, type_hint = `uint64`]
+    property bytecodeSize : gmval { get; set; }
+
+    [field, type_hint = `uint64`]
+    property errorSize : gmval { get; set; }
+}
+
+[global]
+class `[[ID3D11SamplerDesc]]` prototype Object
+{
+    [field]
+    property filter : uint32 { get; set; }
+
+    [field]
+    property addressU : uint32 { get; set; }
+
+    [field]
+    property addressV : uint32 { get; set; }
+
+    [field]
+    property addressW : uint32 { get; set; }
+
+    [field]
+    property mipLodBias : float { get; set; }
+
+    [field]
+    property maxAnisotropy : uint32 { get; set; }
+
+    [field]
+    property comparisonFunc : uint32 { get; set; }
+
+    [field]
+    property borderColorR : float { get; set; }
+
+    [field]
+    property borderColorG : float { get; set; }
+
+    [field]
+    property borderColorB : float { get; set; }
+
+    [field]
+    property borderColorA : float { get; set; }
+
+    [field]
+    property minLod : float { get; set; }
+
+    [field]
+    property maxLod : float { get; set; }
+}
+
+[global]
+class `[[ID3D11RasterizerDesc]]` prototype Object
+{
+    [field]
+    property fillMode : uint32 { get; set; }
+
+    [field]
+    property cullMode : uint32 { get; set; }
+
+    [field]
+    property frontCounterClockwise : bool { get; set; }
+
+    [field]
+    property depthBias : int32 { get; set; }
+
+    [field]
+    property depthBiasClamp : float { get; set; }
+
+    [field]
+    property slopeScaledDepthBias : float { get; set; }
+
+    [field]
+    property depthClipEnable : bool { get; set; }
+
+    [field]
+    property scissorEnable : bool { get; set; }
+
+    [field]
+    property multisampleEnable : bool { get; set; }
+
+    [field]
+    property antialiasedLineEnable : bool { get; set; }
+}
+
+[global]
+class `[[ID3D11RenderTargetBlendDesc]]` prototype Object
+{
+    [field]
+    property blendEnable : bool { get; set; }
+
+    [field]
+    property srcBlend : uint32 { get; set; }
+
+    [field]
+    property destBlend : uint32 { get; set; }
+
+    [field]
+    property blendOp : uint32 { get; set; }
+
+    [field]
+    property srcBlendAlpha : uint32 { get; set; }
+
+    [field]
+    property destBlendAlpha : uint32 { get; set; }
+
+    [field]
+    property blendOpAlpha : uint32 { get; set; }
+
+    [field]
+    property renderTargetWriteMask : uint32 { get; set; }
+}
+
+[global]
+class `[[ID3D11BlendDesc]]` prototype Object
+{
+    [field]
+    property alphaToCoverageEnable : bool { get; set; }
+
+    [field]
+    property independentBlendEnable : bool { get; set; }
+
+    [field, type_hint = `ID3D11RenderTargetBlendDesc[]`]
+    property renderTargets : gmval { get; set; }
+}
+
+[global]
+class `[[ID3D11DepthStencilOpDesc]]` prototype Object
+{
+    [field]
+    property stencilFailOp : uint32 { get; set; }
+
+    [field]
+    property stencilDepthFailOp : uint32 { get; set; }
+
+    [field]
+    property stencilPassOp : uint32 { get; set; }
+
+    [field]
+    property stencilFunc : uint32 { get; set; }
+}
+
+[global]
+class `[[ID3D11DepthStencilDesc]]` prototype Object
+{
+    [field]
+    property depthEnable : bool { get; set; }
+
+    [field]
+    property depthWriteMask : uint32 { get; set; }
+
+    [field]
+    property depthFunc : uint32 { get; set; }
+
+    [field]
+    property stencilEnable : bool { get; set; }
+
+    [field]
+    property stencilReadMask : uint32 { get; set; }
+
+    [field]
+    property stencilWriteMask : uint32 { get; set; }
+
+    [field, type_hint = `ID3D11DepthStencilOpDesc`]
+    property frontFace : gmval { get; set; }
+
+    [field, type_hint = `ID3D11DepthStencilOpDesc`]
+    property backFace : gmval { get; set; }
+}
+
+[global]
+class `[[ID3D11QueryDesc]]` prototype Object
+{
+    [field]
+    property query : uint32 { get; set; }
+
+    [field]
+    property miscFlags : uint32 { get; set; }
+}
+
+[global]
+class `[[ID3D11CounterDesc]]` prototype Object
+{
+    [field]
+    property counter : uint32 { get; set; }
+
+    [field]
+    property miscFlags : uint32 { get; set; }
+}
+
+[global]
+class `[[ID3D11CheckCounterResult]]` prototype Object
+{
+    [field]
+    property hresult : int32 { get; set; }
+
+    [field]
+    property type : uint32 { get; set; }
+
+    [field]
+    property activeCounters : uint32 { get; set; }
+
+    [field]
+    property name : string { get; set; }
+
+    [field]
+    property units : string { get; set; }
+
+    [field]
+    property description : string { get; set; }
+}
+
+[global]
+class `[[ID3D11BlendStateBinding]]` prototype Object
+{
+    [field, type_hint = `uint64`]
+    property state : gmval { get; set; }
+
+    [field, type_hint = `float[]`]
+    property blendFactor : gmval { get; set; }
+
+    [field]
+    property sampleMask : uint32 { get; set; }
+}
+
+[global]
+class `[[ID3D11DepthStencilStateBinding]]` prototype Object
+{
+    [field, type_hint = `uint64`]
+    property state : gmval { get; set; }
+
+    [field]
+    property stencilRef : uint32 { get; set; }
+}
+
+[global]
+class `[[ID3D11PredicationBinding]]` prototype Object
+{
+    [field, type_hint = `uint64`]
+    property predicate : gmval { get; set; }
+
+    [field]
+    property predicateValue : bool { get; set; }
+}
+
+[global]
+class `[[ID3D11VertexBufferBinding]]` prototype Object
+{
+    [field, type_hint = `uint64`]
+    property buffer : gmval { get; set; }
+
+    [field]
+    property stride : uint32 { get; set; }
+
+    [field]
+    property offset : uint32 { get; set; }
+}
+
+[global]
+class `[[ID3D11IndexBufferBinding]]` prototype Object
+{
+    [field, type_hint = `uint64`]
+    property buffer : gmval { get; set; }
+
+    [field]
+    property format : uint32 { get; set; }
+
+    [field]
+    property offset : uint32 { get; set; }
+}
+
+[global]
+class `[[ID3D11Viewport]]` prototype Object
+{
+    [field]
+    property topLeftX : float { get; set; }
+
+    [field]
+    property topLeftY : float { get; set; }
+
+    [field]
+    property width : float { get; set; }
+
+    [field]
+    property height : float { get; set; }
+
+    [field]
+    property minDepth : float { get; set; }
+
+    [field]
+    property maxDepth : float { get; set; }
+}
+
+[global]
+class `[[ID3D11Rect]]` prototype Object
+{
+    [field]
+    property left : int32 { get; set; }
+
+    [field]
+    property top : int32 { get; set; }
+
+    [field]
+    property right : int32 { get; set; }
+
+    [field]
+    property bottom : int32 { get; set; }
+}
+
+[global]
+class `[[ID3D11Box]]` prototype Object
+{
+    [field]
+    property left : uint32 { get; set; }
+
+    [field]
+    property top : uint32 { get; set; }
+
+    [field]
+    property front : uint32 { get; set; }
+
+    [field]
+    property right : uint32 { get; set; }
+
+    [field]
+    property bottom : uint32 { get; set; }
+
+    [field]
+    property back : uint32 { get; set; }
+}
+
+[global]
+class `[[ID3D11ShaderBinding]]` prototype Object
+{
+    [field, type_hint = `uint64`]
+    property shader : gmval { get; set; }
+
+    [field, type_hint = `uint64[]`]
+    property classInstances : gmval { get; set; }
+}
+
+[global]
+class `[[ID3D11ClassInstanceDesc]]` prototype Object
+{
+    [field]
+    property instanceId : uint32 { get; set; }
+
+    [field]
+    property instanceIndex : uint32 { get; set; }
+
+    [field]
+    property typeId : uint32 { get; set; }
+
+    [field]
+    property constantBuffer : uint32 { get; set; }
+
+    [field]
+    property baseConstantBufferOffset : uint32 { get; set; }
+
+    [field]
+    property baseTexture : uint32 { get; set; }
+
+    [field]
+    property baseSampler : uint32 { get; set; }
+
+    [field]
+    property created : bool { get; set; }
+}
+
+[global]
+class `[[ID3D11CreateHandleResult]]` prototype Object
+{
+    [field]
+    property hresult : int32 { get; set; }
+
+    [field, type_hint = `uint64`]
+    property handle : gmval { get; set; }
+}
+
+[global, bind = typed_gml, type_hint = `ID3D11Version`]
+function id3d11_get_version() : gmval;
+
+[global, bind = typed_gml]
+function id3d11_is_initialized() : bool;
+
+[global, bind = typed_gml]
+function id3d11_get_last_hresult() : int32;
+
+[global, bind = typed_gml, type_hint = `uint64`]
+function id3d11_get_device_handle() : gmval;
+
+[global, bind = typed_gml, type_hint = `uint64`]
+function id3d11_get_context_handle() : gmval;
+
+[global, bind = typed_gml, type_hint = `uint64`]
+function id3d11_get_swapchain_handle() : gmval;
+
+[global, bind = typed_gml, type_hint = `uint64`]
+function id3d11_handle_query_interface(
+    [type_hint = `uint64`] handle,
+    [type_hint = `ID3D11HandleKind`] interfaceKind) : gmval;
+
+[global, bind = typed_gml]
+function id3d11_handle_is_valid([type_hint = `uint64`] handle) : bool;
+
+[global, bind = typed_gml, type_hint = `ID3D11HandleKind`]
+function id3d11_handle_get_kind([type_hint = `uint64`] handle) : gmval;
+
+[global, bind = typed_gml]
+function id3d11_handle_release([type_hint = `uint64`] handle) : bool;
+
+[global, bind = typed_gml, type_hint = `ID3D11FeatureLevel`]
+function id3d11_device_get_feature_level([type_hint = `uint64`] device) : gmval;
+
+[global, bind = typed_gml]
+function id3d11_device_get_creation_flags([type_hint = `uint64`] device) : uint32;
+
+[global, bind = typed_gml]
+function id3d11_device_get_removed_reason([type_hint = `uint64`] device) : int32;
+
+[global, bind = typed_gml]
+function id3d11_device_get_exception_mode([type_hint = `uint64`] device) : uint32;
+
+[global, bind = typed_gml]
+function id3d11_device_set_exception_mode(
+    [type_hint = `uint64`] device,
+    [type_hint = `uint32`] raiseFlags) : int32;
+
+[global, bind = typed_gml, type_hint = `uint64`]
+function id3d11_device_get_immediate_context([type_hint = `uint64`] device) : gmval;
+
+[global, bind = typed_gml, type_hint = `ID3D11FormatSupportResult`]
+function id3d11_device_check_format_support(
+    [type_hint = `uint64`] device,
+    [type_hint = `uint32`] format) : gmval;
+
+[global, bind = typed_gml, type_hint = `ID3D11MultisampleQualityResult`]
+function id3d11_device_check_multisample_quality_levels(
+    [type_hint = `uint64`] device,
+    [type_hint = `uint32`] format,
+    [type_hint = `uint32`] sampleCount) : gmval;
+
+[global, bind = typed_gml, type_hint = `ID3D11CounterInfo`]
+function id3d11_device_get_counter_info([type_hint = `uint64`] device) : gmval;
+
+[global, bind = typed_gml, type_hint = `ID3D11CreateHandleResult`]
+function id3d11_device_create_buffer(
+    [type_hint = `uint64`] device,
+    [type_hint = `ID3D11BufferDesc`] desc) : gmval;
+
+[global, bind = typed_gml, type_hint = `ID3D11CreateHandleResult`]
+function id3d11_device_create_buffer_with_data(
+    [type_hint = `uint64`] device,
+    [type_hint = `ID3D11BufferDesc`] desc,
+    [type_hint = `buffer`] data) : gmval;
+
+[global, bind = typed_gml, type_hint = `ID3D11BufferDesc`]
+function id3d11_buffer_get_desc([type_hint = `uint64`] bufferHandle) : gmval;
+
+[global, bind = typed_gml, type_hint = `uint64`]
+function id3d11_device_child_get_device([type_hint = `uint64`] deviceChild) : gmval;
+
+[global, bind = typed_gml, type_hint = `ID3D11ResourceDimension`]
+function id3d11_resource_get_dimension([type_hint = `uint64`] resource) : gmval;
+
+[global, bind = typed_gml]
+function id3d11_resource_get_eviction_priority([type_hint = `uint64`] resource) : uint32;
+
+[global, bind = typed_gml]
+function id3d11_resource_set_eviction_priority(
+    [type_hint = `uint64`] resource,
+    [type_hint = `uint32`] evictionPriority) : bool;
+
+[global, bind = typed_gml, type_hint = `ID3D11CreateHandleResult`]
+function id3d11_device_create_texture1d(
+    [type_hint = `uint64`] device,
+    [type_hint = `ID3D11Texture1DDesc`] desc) : gmval;
+
+[global, bind = typed_gml, type_hint = `ID3D11CreateHandleResult`]
+function id3d11_device_create_texture1d_with_data(
+    [type_hint = `uint64`] device,
+    [type_hint = `ID3D11Texture1DDesc`] desc,
+    [type_hint = `ID3D11SubresourceData[]`] subresources,
+    [type_hint = `buffer`] data) : gmval;
+
+[global, bind = typed_gml, type_hint = `ID3D11CreateHandleResult`]
+function id3d11_device_create_texture2d(
+    [type_hint = `uint64`] device,
+    [type_hint = `ID3D11Texture2DDesc`] desc) : gmval;
+
+[global, bind = typed_gml, type_hint = `ID3D11CreateHandleResult`]
+function id3d11_device_create_texture2d_with_data(
+    [type_hint = `uint64`] device,
+    [type_hint = `ID3D11Texture2DDesc`] desc,
+    [type_hint = `ID3D11SubresourceData[]`] subresources,
+    [type_hint = `buffer`] data) : gmval;
+
+[global, bind = typed_gml, type_hint = `ID3D11CreateHandleResult`]
+function id3d11_device_create_texture3d(
+    [type_hint = `uint64`] device,
+    [type_hint = `ID3D11Texture3DDesc`] desc) : gmval;
+
+[global, bind = typed_gml, type_hint = `ID3D11CreateHandleResult`]
+function id3d11_device_create_texture3d_with_data(
+    [type_hint = `uint64`] device,
+    [type_hint = `ID3D11Texture3DDesc`] desc,
+    [type_hint = `ID3D11SubresourceData[]`] subresources,
+    [type_hint = `buffer`] data) : gmval;
+
+[global, bind = typed_gml, type_hint = `ID3D11Texture1DDesc`]
+function id3d11_texture1d_get_desc([type_hint = `uint64`] texture) : gmval;
+
+[global, bind = typed_gml, type_hint = `ID3D11Texture2DDesc`]
+function id3d11_texture2d_get_desc([type_hint = `uint64`] texture) : gmval;
+
+[global, bind = typed_gml, type_hint = `ID3D11Texture3DDesc`]
+function id3d11_texture3d_get_desc([type_hint = `uint64`] texture) : gmval;
+
+[global, bind = typed_gml, type_hint = `ID3D11CreateHandleResult`]
+function id3d11_device_create_shader_resource_view_default(
+    [type_hint = `uint64`] device,
+    [type_hint = `uint64`] resource) : gmval;
+
+[global, bind = typed_gml, type_hint = `ID3D11CreateHandleResult`]
+function id3d11_device_create_shader_resource_view(
+    [type_hint = `uint64`] device,
+    [type_hint = `uint64`] resource,
+    [type_hint = `ID3D11ShaderResourceViewDesc`] desc) : gmval;
+
+[global, bind = typed_gml, type_hint = `ID3D11CreateHandleResult`]
+function id3d11_device_create_render_target_view_default(
+    [type_hint = `uint64`] device,
+    [type_hint = `uint64`] resource) : gmval;
+
+[global, bind = typed_gml, type_hint = `ID3D11CreateHandleResult`]
+function id3d11_device_create_render_target_view(
+    [type_hint = `uint64`] device,
+    [type_hint = `uint64`] resource,
+    [type_hint = `ID3D11RenderTargetViewDesc`] desc) : gmval;
+
+[global, bind = typed_gml, type_hint = `ID3D11CreateHandleResult`]
+function id3d11_device_create_depth_stencil_view_default(
+    [type_hint = `uint64`] device,
+    [type_hint = `uint64`] resource) : gmval;
+
+[global, bind = typed_gml, type_hint = `ID3D11CreateHandleResult`]
+function id3d11_device_create_depth_stencil_view(
+    [type_hint = `uint64`] device,
+    [type_hint = `uint64`] resource,
+    [type_hint = `ID3D11DepthStencilViewDesc`] desc) : gmval;
+
+[global, bind = typed_gml, type_hint = `ID3D11CreateHandleResult`]
+function id3d11_device_create_unordered_access_view_default(
+    [type_hint = `uint64`] device,
+    [type_hint = `uint64`] resource) : gmval;
+
+[global, bind = typed_gml, type_hint = `ID3D11CreateHandleResult`]
+function id3d11_device_create_unordered_access_view(
+    [type_hint = `uint64`] device,
+    [type_hint = `uint64`] resource,
+    [type_hint = `ID3D11UnorderedAccessViewDesc`] desc) : gmval;
+
+[global, bind = typed_gml, type_hint = `uint64`]
+function id3d11_view_get_resource([type_hint = `uint64`] view) : gmval;
+
+[global, bind = typed_gml, type_hint = `ID3D11ShaderResourceViewDesc`]
+function id3d11_shader_resource_view_get_desc([type_hint = `uint64`] view) : gmval;
+
+[global, bind = typed_gml, type_hint = `ID3D11RenderTargetViewDesc`]
+function id3d11_render_target_view_get_desc([type_hint = `uint64`] view) : gmval;
+
+[global, bind = typed_gml, type_hint = `ID3D11DepthStencilViewDesc`]
+function id3d11_depth_stencil_view_get_desc([type_hint = `uint64`] view) : gmval;
+
+[global, bind = typed_gml, type_hint = `ID3D11UnorderedAccessViewDesc`]
+function id3d11_unordered_access_view_get_desc([type_hint = `uint64`] view) : gmval;
+
+[global, bind = typed_gml, type_hint = `ID3D11ShaderCompileResult`]
+function id3d11_compile_shader(
+    source : string,
+    sourceName : string,
+    entryPoint : string,
+    target : string,
+    [type_hint = `uint32`] flags1,
+    [type_hint = `uint32`] flags2,
+    [type_hint = `buffer`] bytecode,
+    [type_hint = `buffer`] errors) : gmval;
+
+[global, bind = typed_gml, type_hint = `ID3D11CreateHandleResult`]
+function id3d11_device_create_vertex_shader(
+    [type_hint = `uint64`] device,
+    [type_hint = `buffer`] bytecode,
+    [type_hint = `uint64`] bytecodeSize,
+    [type_hint = `uint64`] classLinkage) : gmval;
+
+[global, bind = typed_gml, type_hint = `ID3D11CreateHandleResult`]
+function id3d11_device_create_hull_shader(
+    [type_hint = `uint64`] device,
+    [type_hint = `buffer`] bytecode,
+    [type_hint = `uint64`] bytecodeSize,
+    [type_hint = `uint64`] classLinkage) : gmval;
+
+[global, bind = typed_gml, type_hint = `ID3D11CreateHandleResult`]
+function id3d11_device_create_domain_shader(
+    [type_hint = `uint64`] device,
+    [type_hint = `buffer`] bytecode,
+    [type_hint = `uint64`] bytecodeSize,
+    [type_hint = `uint64`] classLinkage) : gmval;
+
+[global, bind = typed_gml, type_hint = `ID3D11CreateHandleResult`]
+function id3d11_device_create_geometry_shader(
+    [type_hint = `uint64`] device,
+    [type_hint = `buffer`] bytecode,
+    [type_hint = `uint64`] bytecodeSize,
+    [type_hint = `uint64`] classLinkage) : gmval;
+
+[global, bind = typed_gml, type_hint = `ID3D11CreateHandleResult`]
+function id3d11_device_create_pixel_shader(
+    [type_hint = `uint64`] device,
+    [type_hint = `buffer`] bytecode,
+    [type_hint = `uint64`] bytecodeSize,
+    [type_hint = `uint64`] classLinkage) : gmval;
+
+[global, bind = typed_gml, type_hint = `ID3D11CreateHandleResult`]
+function id3d11_device_create_compute_shader(
+    [type_hint = `uint64`] device,
+    [type_hint = `buffer`] bytecode,
+    [type_hint = `uint64`] bytecodeSize,
+    [type_hint = `uint64`] classLinkage) : gmval;
+
+[global, bind = typed_gml, type_hint = `ID3D11CreateHandleResult`]
+function id3d11_device_create_geometry_shader_with_stream_output(
+    [type_hint = `uint64`] device,
+    [type_hint = `buffer`] bytecode,
+    [type_hint = `uint64`] bytecodeSize,
+    [type_hint = `ID3D11StreamOutputDeclarationEntry[]`] declarations,
+    [type_hint = `uint32[]`] bufferStrides,
+    [type_hint = `uint32`] rasterizedStream,
+    [type_hint = `uint64`] classLinkage) : gmval;
+
+[global, bind = typed_gml, type_hint = `ID3D11CreateHandleResult`]
+function id3d11_device_create_input_layout(
+    [type_hint = `uint64`] device,
+    [type_hint = `ID3D11InputElementDesc[]`] elements,
+    [type_hint = `buffer`] shaderBytecode,
+    [type_hint = `uint64`] bytecodeSize) : gmval;
+
+[global, bind = typed_gml, type_hint = `ID3D11CreateHandleResult`]
+function id3d11_device_create_class_linkage([type_hint = `uint64`] device) : gmval;
+
+[global, bind = typed_gml, type_hint = `ID3D11CreateHandleResult`]
+function id3d11_device_create_sampler_state(
+    [type_hint = `uint64`] device,
+    [type_hint = `ID3D11SamplerDesc`] desc) : gmval;
+
+[global, bind = typed_gml, type_hint = `ID3D11SamplerDesc`]
+function id3d11_sampler_state_get_desc([type_hint = `uint64`] state) : gmval;
+
+[global, bind = typed_gml, type_hint = `ID3D11CreateHandleResult`]
+function id3d11_device_create_rasterizer_state(
+    [type_hint = `uint64`] device,
+    [type_hint = `ID3D11RasterizerDesc`] desc) : gmval;
+
+[global, bind = typed_gml, type_hint = `ID3D11RasterizerDesc`]
+function id3d11_rasterizer_state_get_desc([type_hint = `uint64`] state) : gmval;
+
+[global, bind = typed_gml, type_hint = `ID3D11CreateHandleResult`]
+function id3d11_device_create_blend_state(
+    [type_hint = `uint64`] device,
+    [type_hint = `ID3D11BlendDesc`] desc) : gmval;
+
+[global, bind = typed_gml, type_hint = `ID3D11BlendDesc`]
+function id3d11_blend_state_get_desc([type_hint = `uint64`] state) : gmval;
+
+[global, bind = typed_gml, type_hint = `ID3D11CreateHandleResult`]
+function id3d11_device_create_depth_stencil_state(
+    [type_hint = `uint64`] device,
+    [type_hint = `ID3D11DepthStencilDesc`] desc) : gmval;
+
+[global, bind = typed_gml, type_hint = `ID3D11DepthStencilDesc`]
+function id3d11_depth_stencil_state_get_desc([type_hint = `uint64`] state) : gmval;
+
+[global, bind = typed_gml, type_hint = `ID3D11CreateHandleResult`]
+function id3d11_device_create_query(
+    [type_hint = `uint64`] device,
+    [type_hint = `ID3D11QueryDesc`] desc) : gmval;
+
+[global, bind = typed_gml, type_hint = `ID3D11CreateHandleResult`]
+function id3d11_device_create_predicate(
+    [type_hint = `uint64`] device,
+    [type_hint = `ID3D11QueryDesc`] desc) : gmval;
+
+[global, bind = typed_gml, type_hint = `ID3D11CreateHandleResult`]
+function id3d11_device_create_counter(
+    [type_hint = `uint64`] device,
+    [type_hint = `ID3D11CounterDesc`] desc) : gmval;
+
+[global, bind = typed_gml]
+function id3d11_asynchronous_get_data_size(
+    [type_hint = `uint64`] asynchronous) : uint32;
+
+[global, bind = typed_gml, type_hint = `ID3D11QueryDesc`]
+function id3d11_query_get_desc([type_hint = `uint64`] query) : gmval;
+
+[global, bind = typed_gml, type_hint = `ID3D11CounterDesc`]
+function id3d11_counter_get_desc([type_hint = `uint64`] counter) : gmval;
+
+[global, bind = typed_gml, type_hint = `ID3D11CheckCounterResult`]
+function id3d11_device_check_counter(
+    [type_hint = `uint64`] device,
+    [type_hint = `ID3D11CounterDesc`] desc) : gmval;
+
+[global, bind = typed_gml]
+function id3d11_device_context_begin(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint64`] asynchronous) : bool;
+
+[global, bind = typed_gml]
+function id3d11_device_context_end(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint64`] asynchronous) : bool;
+
+[global, bind = typed_gml]
+function id3d11_device_context_get_data(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint64`] asynchronous,
+    [type_hint = `buffer`] data,
+    [type_hint = `uint64`] dataSize,
+    [type_hint = `uint32`] flags) : int32;
+
+[global, bind = typed_gml]
+function id3d11_device_context_flush([type_hint = `uint64`] context) : bool;
+
+[global, bind = typed_gml]
+function id3d11_device_context_draw_indexed(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint32`] indexCount,
+    [type_hint = `uint32`] startIndexLocation,
+    baseVertexLocation : int32) : bool;
+
+[global, bind = typed_gml]
+function id3d11_device_context_draw(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint32`] vertexCount,
+    [type_hint = `uint32`] startVertexLocation) : bool;
+
+[global, bind = typed_gml]
+function id3d11_device_context_draw_indexed_instanced(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint32`] indexCountPerInstance,
+    [type_hint = `uint32`] instanceCount,
+    [type_hint = `uint32`] startIndexLocation,
+    baseVertexLocation : int32,
+    [type_hint = `uint32`] startInstanceLocation) : bool;
+
+[global, bind = typed_gml]
+function id3d11_device_context_draw_instanced(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint32`] vertexCountPerInstance,
+    [type_hint = `uint32`] instanceCount,
+    [type_hint = `uint32`] startVertexLocation,
+    [type_hint = `uint32`] startInstanceLocation) : bool;
+
+[global, bind = typed_gml]
+function id3d11_device_context_draw_auto([type_hint = `uint64`] context) : bool;
+
+[global, bind = typed_gml]
+function id3d11_device_context_draw_indexed_instanced_indirect(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint64`] argumentBuffer,
+    [type_hint = `uint32`] alignedByteOffset) : bool;
+
+[global, bind = typed_gml]
+function id3d11_device_context_draw_instanced_indirect(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint64`] argumentBuffer,
+    [type_hint = `uint32`] alignedByteOffset) : bool;
+
+[global, bind = typed_gml]
+function id3d11_device_context_dispatch(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint32`] threadGroupCountX,
+    [type_hint = `uint32`] threadGroupCountY,
+    [type_hint = `uint32`] threadGroupCountZ) : bool;
+
+[global, bind = typed_gml]
+function id3d11_device_context_dispatch_indirect(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint64`] argumentBuffer,
+    [type_hint = `uint32`] alignedByteOffset) : bool;
+
+[global, bind = typed_gml]
+function id3d11_device_context_copy_subresource_region(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint64`] destinationResource,
+    [type_hint = `uint32`] destinationSubresource,
+    [type_hint = `uint32`] destinationX,
+    [type_hint = `uint32`] destinationY,
+    [type_hint = `uint32`] destinationZ,
+    [type_hint = `uint64`] sourceResource,
+    [type_hint = `uint32`] sourceSubresource,
+    useSourceBox : bool,
+    [type_hint = `ID3D11Box`] sourceBox) : bool;
+
+[global, bind = typed_gml]
+function id3d11_device_context_copy_resource(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint64`] destinationResource,
+    [type_hint = `uint64`] sourceResource) : bool;
+
+[global, bind = typed_gml]
+function id3d11_device_context_copy_structure_count(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint64`] destinationBuffer,
+    [type_hint = `uint32`] destinationAlignedByteOffset,
+    [type_hint = `uint64`] sourceView) : bool;
+
+[global, bind = typed_gml]
+function id3d11_device_context_clear_render_target_view(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint64`] renderTargetView,
+    red : float,
+    green : float,
+    blue : float,
+    alpha : float) : bool;
+
+[global, bind = typed_gml]
+function id3d11_device_context_clear_unordered_access_view_uint(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint64`] unorderedAccessView,
+    [type_hint = `uint32`] value0,
+    [type_hint = `uint32`] value1,
+    [type_hint = `uint32`] value2,
+    [type_hint = `uint32`] value3) : bool;
+
+[global, bind = typed_gml]
+function id3d11_device_context_clear_unordered_access_view_float(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint64`] unorderedAccessView,
+    value0 : float,
+    value1 : float,
+    value2 : float,
+    value3 : float) : bool;
+
+[global, bind = typed_gml]
+function id3d11_device_context_clear_depth_stencil_view(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint64`] depthStencilView,
+    [type_hint = `uint32`] clearFlags,
+    depth : float,
+    [type_hint = `uint32`] stencil) : bool;
+
+[global, bind = typed_gml]
+function id3d11_device_context_generate_mips(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint64`] shaderResourceView) : bool;
+
+[global, bind = typed_gml]
+function id3d11_device_context_set_resource_min_lod(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint64`] resource,
+    minimumLod : float) : bool;
+
+[global, bind = typed_gml]
+function id3d11_device_context_get_resource_min_lod(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint64`] resource) : float;
+
+[global, bind = typed_gml]
+function id3d11_device_context_resolve_subresource(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint64`] destinationResource,
+    [type_hint = `uint32`] destinationSubresource,
+    [type_hint = `uint64`] sourceResource,
+    [type_hint = `uint32`] sourceSubresource,
+    [type_hint = `uint32`] format) : bool;
+
+[global, bind = typed_gml]
+function id3d11_device_context_ia_set_input_layout(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint64`] inputLayout) : bool;
+
+[global, bind = typed_gml, type_hint = `uint64`]
+function id3d11_device_context_ia_get_input_layout(
+    [type_hint = `uint64`] context) : gmval;
+
+[global, bind = typed_gml]
+function id3d11_device_context_ia_set_primitive_topology(
+    [type_hint = `uint64`] context,
+    [type_hint = `ID3D11PrimitiveTopology`] topology) : bool;
+
+[global, bind = typed_gml, type_hint = `ID3D11PrimitiveTopology`]
+function id3d11_device_context_ia_get_primitive_topology(
+    [type_hint = `uint64`] context) : gmval;
+
+[global, bind = typed_gml]
+function id3d11_device_context_rs_set_state(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint64`] state) : bool;
+
+[global, bind = typed_gml, type_hint = `uint64`]
+function id3d11_device_context_rs_get_state([type_hint = `uint64`] context) : gmval;
+
+[global, bind = typed_gml]
+function id3d11_device_context_om_set_blend_state(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint64`] state,
+    [type_hint = `float[]`] blendFactor,
+    [type_hint = `uint32`] sampleMask) : bool;
+
+[global, bind = typed_gml, type_hint = `ID3D11BlendStateBinding`]
+function id3d11_device_context_om_get_blend_state(
+    [type_hint = `uint64`] context) : gmval;
+
+[global, bind = typed_gml]
+function id3d11_device_context_om_set_depth_stencil_state(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint64`] state,
+    [type_hint = `uint32`] stencilRef) : bool;
+
+[global, bind = typed_gml, type_hint = `ID3D11DepthStencilStateBinding`]
+function id3d11_device_context_om_get_depth_stencil_state(
+    [type_hint = `uint64`] context) : gmval;
+
+[global, bind = typed_gml]
+function id3d11_device_context_set_predication(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint64`] predicate,
+    [type_hint = `bool`] predicateValue) : bool;
+
+[global, bind = typed_gml, type_hint = `ID3D11PredicationBinding`]
+function id3d11_device_context_get_predication(
+    [type_hint = `uint64`] context) : gmval;
+
+[global, bind = typed_gml]
+function id3d11_device_context_ia_set_vertex_buffers(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint32`] startSlot,
+    [type_hint = `ID3D11VertexBufferBinding[]`] bindings) : bool;
+
+[global, bind = typed_gml, type_hint = `ID3D11VertexBufferBinding[]`]
+function id3d11_device_context_ia_get_vertex_buffers(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint32`] startSlot,
+    [type_hint = `uint32`] count) : gmval;
+
+[global, bind = typed_gml]
+function id3d11_device_context_ia_set_index_buffer(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint64`] buffer,
+    [type_hint = `uint32`] format,
+    [type_hint = `uint32`] offset) : bool;
+
+[global, bind = typed_gml, type_hint = `ID3D11IndexBufferBinding`]
+function id3d11_device_context_ia_get_index_buffer(
+    [type_hint = `uint64`] context) : gmval;
+
+[global, bind = typed_gml]
+function id3d11_device_context_rs_set_viewports(
+    [type_hint = `uint64`] context,
+    [type_hint = `ID3D11Viewport[]`] viewports) : bool;
+
+[global, bind = typed_gml, type_hint = `ID3D11Viewport[]`]
+function id3d11_device_context_rs_get_viewports(
+    [type_hint = `uint64`] context) : gmval;
+
+[global, bind = typed_gml]
+function id3d11_device_context_rs_set_scissor_rects(
+    [type_hint = `uint64`] context,
+    [type_hint = `ID3D11Rect[]`] rects) : bool;
+
+[global, bind = typed_gml, type_hint = `ID3D11Rect[]`]
+function id3d11_device_context_rs_get_scissor_rects(
+    [type_hint = `uint64`] context) : gmval;
+
+[global, bind = typed_gml]
+function id3d11_device_context_vs_set_constant_buffers(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint32`] startSlot,
+    [type_hint = `uint64[]`] buffers) : bool;
+
+[global, bind = typed_gml, type_hint = `uint64[]`]
+function id3d11_device_context_vs_get_constant_buffers(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint32`] startSlot,
+    [type_hint = `uint32`] count) : gmval;
+
+[global, bind = typed_gml]
+function id3d11_device_context_vs_set_shader_resources(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint32`] startSlot,
+    [type_hint = `uint64[]`] views) : bool;
+
+[global, bind = typed_gml, type_hint = `uint64[]`]
+function id3d11_device_context_vs_get_shader_resources(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint32`] startSlot,
+    [type_hint = `uint32`] count) : gmval;
+
+[global, bind = typed_gml]
+function id3d11_device_context_vs_set_samplers(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint32`] startSlot,
+    [type_hint = `uint64[]`] samplers) : bool;
+
+[global, bind = typed_gml, type_hint = `uint64[]`]
+function id3d11_device_context_vs_get_samplers(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint32`] startSlot,
+    [type_hint = `uint32`] count) : gmval;
+
+[global, bind = typed_gml]
+function id3d11_device_context_hs_set_constant_buffers(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint32`] startSlot,
+    [type_hint = `uint64[]`] buffers) : bool;
+
+[global, bind = typed_gml, type_hint = `uint64[]`]
+function id3d11_device_context_hs_get_constant_buffers(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint32`] startSlot,
+    [type_hint = `uint32`] count) : gmval;
+
+[global, bind = typed_gml]
+function id3d11_device_context_hs_set_shader_resources(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint32`] startSlot,
+    [type_hint = `uint64[]`] views) : bool;
+
+[global, bind = typed_gml, type_hint = `uint64[]`]
+function id3d11_device_context_hs_get_shader_resources(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint32`] startSlot,
+    [type_hint = `uint32`] count) : gmval;
+
+[global, bind = typed_gml]
+function id3d11_device_context_hs_set_samplers(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint32`] startSlot,
+    [type_hint = `uint64[]`] samplers) : bool;
+
+[global, bind = typed_gml, type_hint = `uint64[]`]
+function id3d11_device_context_hs_get_samplers(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint32`] startSlot,
+    [type_hint = `uint32`] count) : gmval;
+
+[global, bind = typed_gml]
+function id3d11_device_context_ds_set_constant_buffers(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint32`] startSlot,
+    [type_hint = `uint64[]`] buffers) : bool;
+
+[global, bind = typed_gml, type_hint = `uint64[]`]
+function id3d11_device_context_ds_get_constant_buffers(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint32`] startSlot,
+    [type_hint = `uint32`] count) : gmval;
+
+[global, bind = typed_gml]
+function id3d11_device_context_ds_set_shader_resources(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint32`] startSlot,
+    [type_hint = `uint64[]`] views) : bool;
+
+[global, bind = typed_gml, type_hint = `uint64[]`]
+function id3d11_device_context_ds_get_shader_resources(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint32`] startSlot,
+    [type_hint = `uint32`] count) : gmval;
+
+[global, bind = typed_gml]
+function id3d11_device_context_ds_set_samplers(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint32`] startSlot,
+    [type_hint = `uint64[]`] samplers) : bool;
+
+[global, bind = typed_gml, type_hint = `uint64[]`]
+function id3d11_device_context_ds_get_samplers(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint32`] startSlot,
+    [type_hint = `uint32`] count) : gmval;
+
+[global, bind = typed_gml]
+function id3d11_device_context_gs_set_constant_buffers(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint32`] startSlot,
+    [type_hint = `uint64[]`] buffers) : bool;
+
+[global, bind = typed_gml, type_hint = `uint64[]`]
+function id3d11_device_context_gs_get_constant_buffers(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint32`] startSlot,
+    [type_hint = `uint32`] count) : gmval;
+
+[global, bind = typed_gml]
+function id3d11_device_context_gs_set_shader_resources(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint32`] startSlot,
+    [type_hint = `uint64[]`] views) : bool;
+
+[global, bind = typed_gml, type_hint = `uint64[]`]
+function id3d11_device_context_gs_get_shader_resources(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint32`] startSlot,
+    [type_hint = `uint32`] count) : gmval;
+
+[global, bind = typed_gml]
+function id3d11_device_context_gs_set_samplers(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint32`] startSlot,
+    [type_hint = `uint64[]`] samplers) : bool;
+
+[global, bind = typed_gml, type_hint = `uint64[]`]
+function id3d11_device_context_gs_get_samplers(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint32`] startSlot,
+    [type_hint = `uint32`] count) : gmval;
+
+[global, bind = typed_gml]
+function id3d11_device_context_ps_set_constant_buffers(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint32`] startSlot,
+    [type_hint = `uint64[]`] buffers) : bool;
+
+[global, bind = typed_gml, type_hint = `uint64[]`]
+function id3d11_device_context_ps_get_constant_buffers(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint32`] startSlot,
+    [type_hint = `uint32`] count) : gmval;
+
+[global, bind = typed_gml]
+function id3d11_device_context_ps_set_shader_resources(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint32`] startSlot,
+    [type_hint = `uint64[]`] views) : bool;
+
+[global, bind = typed_gml, type_hint = `uint64[]`]
+function id3d11_device_context_ps_get_shader_resources(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint32`] startSlot,
+    [type_hint = `uint32`] count) : gmval;
+
+[global, bind = typed_gml]
+function id3d11_device_context_ps_set_samplers(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint32`] startSlot,
+    [type_hint = `uint64[]`] samplers) : bool;
+
+[global, bind = typed_gml, type_hint = `uint64[]`]
+function id3d11_device_context_ps_get_samplers(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint32`] startSlot,
+    [type_hint = `uint32`] count) : gmval;
+
+[global, bind = typed_gml]
+function id3d11_device_context_cs_set_constant_buffers(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint32`] startSlot,
+    [type_hint = `uint64[]`] buffers) : bool;
+
+[global, bind = typed_gml, type_hint = `uint64[]`]
+function id3d11_device_context_cs_get_constant_buffers(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint32`] startSlot,
+    [type_hint = `uint32`] count) : gmval;
+
+[global, bind = typed_gml]
+function id3d11_device_context_cs_set_shader_resources(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint32`] startSlot,
+    [type_hint = `uint64[]`] views) : bool;
+
+[global, bind = typed_gml, type_hint = `uint64[]`]
+function id3d11_device_context_cs_get_shader_resources(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint32`] startSlot,
+    [type_hint = `uint32`] count) : gmval;
+
+[global, bind = typed_gml]
+function id3d11_device_context_cs_set_samplers(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint32`] startSlot,
+    [type_hint = `uint64[]`] samplers) : bool;
+
+[global, bind = typed_gml, type_hint = `uint64[]`]
+function id3d11_device_context_cs_get_samplers(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint32`] startSlot,
+    [type_hint = `uint32`] count) : gmval;
+
+[global, bind = typed_gml]
+function id3d11_device_context_vs_set_shader(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint64`] shader,
+    [type_hint = `uint64[]`] classInstances) : bool;
+
+[global, bind = typed_gml, type_hint = `ID3D11ShaderBinding`]
+function id3d11_device_context_vs_get_shader(
+    [type_hint = `uint64`] context) : gmval;
+
+[global, bind = typed_gml]
+function id3d11_device_context_hs_set_shader(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint64`] shader,
+    [type_hint = `uint64[]`] classInstances) : bool;
+
+[global, bind = typed_gml, type_hint = `ID3D11ShaderBinding`]
+function id3d11_device_context_hs_get_shader(
+    [type_hint = `uint64`] context) : gmval;
+
+[global, bind = typed_gml]
+function id3d11_device_context_ds_set_shader(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint64`] shader,
+    [type_hint = `uint64[]`] classInstances) : bool;
+
+[global, bind = typed_gml, type_hint = `ID3D11ShaderBinding`]
+function id3d11_device_context_ds_get_shader(
+    [type_hint = `uint64`] context) : gmval;
+
+[global, bind = typed_gml]
+function id3d11_device_context_gs_set_shader(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint64`] shader,
+    [type_hint = `uint64[]`] classInstances) : bool;
+
+[global, bind = typed_gml, type_hint = `ID3D11ShaderBinding`]
+function id3d11_device_context_gs_get_shader(
+    [type_hint = `uint64`] context) : gmval;
+
+[global, bind = typed_gml]
+function id3d11_device_context_ps_set_shader(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint64`] shader,
+    [type_hint = `uint64[]`] classInstances) : bool;
+
+[global, bind = typed_gml, type_hint = `ID3D11ShaderBinding`]
+function id3d11_device_context_ps_get_shader(
+    [type_hint = `uint64`] context) : gmval;
+
+[global, bind = typed_gml]
+function id3d11_device_context_cs_set_shader(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint64`] shader,
+    [type_hint = `uint64[]`] classInstances) : bool;
+
+[global, bind = typed_gml, type_hint = `ID3D11ShaderBinding`]
+function id3d11_device_context_cs_get_shader(
+    [type_hint = `uint64`] context) : gmval;
+
+[global, bind = typed_gml, type_hint = `ID3D11CreateHandleResult`]
+function id3d11_class_linkage_get_class_instance(
+    [type_hint = `uint64`] linkage,
+    classInstanceName : string,
+    [type_hint = `uint32`] instanceIndex) : gmval;
+
+[global, bind = typed_gml, type_hint = `ID3D11CreateHandleResult`]
+function id3d11_class_linkage_create_class_instance(
+    [type_hint = `uint64`] linkage,
+    classTypeName : string,
+    [type_hint = `uint32`] constantBufferOffset,
+    [type_hint = `uint32`] constantVectorOffset,
+    [type_hint = `uint32`] textureOffset,
+    [type_hint = `uint32`] samplerOffset) : gmval;
+
+[global, bind = typed_gml, type_hint = `uint64`]
+function id3d11_class_instance_get_class_linkage(
+    [type_hint = `uint64`] instance) : gmval;
+
+[global, bind = typed_gml, type_hint = `ID3D11ClassInstanceDesc`]
+function id3d11_class_instance_get_desc(
+    [type_hint = `uint64`] instance) : gmval;
+
+[global, bind = typed_gml]
+function id3d11_class_instance_get_instance_name(
+    [type_hint = `uint64`] instance) : string;
+
+[global, bind = typed_gml]
+function id3d11_class_instance_get_type_name(
+    [type_hint = `uint64`] instance) : string;

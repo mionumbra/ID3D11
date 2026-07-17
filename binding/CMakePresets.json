@@ -1,0 +1,43 @@
+{
+  "version": 6,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 25,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "win-v145",
+      "displayName": "Windows x64 (VS2026 / v145)",
+      "generator": "Visual Studio 18 2026",
+      "binaryDir": "${sourceDir}/out/build/win-v145",
+      "architecture": {
+        "value": "x64",
+        "strategy": "set"
+      },
+      "toolset": {
+        "value": "v145",
+        "strategy": "set"
+      },
+      "cacheVariables": {
+        "CMAKE_CXX_STANDARD": "20",
+        "CMAKE_CXX_EXTENSIONS": "OFF",
+        "CMAKE_MSVC_RUNTIME_LIBRARY": "MultiThreadedDLL",
+        "EXT_USE_THIRD_PARTY": "OFF",
+        "EXT_OUTPUT_DIR": "${sourceDir}/../extensions/ID3D11"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "win-v145-debug",
+      "configurePreset": "win-v145",
+      "configuration": "Debug"
+    },
+    {
+      "name": "win-v145-release",
+      "configurePreset": "win-v145",
+      "configuration": "Release"
+    }
+  ]
+}

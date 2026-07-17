@@ -1,0 +1,50 @@
+{
+  "$schema": "./extgen.schema.json",
+  "input": "./id3d11.gmidl",
+  "root": "./",
+  "profile": "Full",
+  "gamemaker": {
+    "wrappers": {
+      "enabled": true,
+      "outputFile": "../scripts/__id3d11_api/__id3d11_api.gml"
+    },
+    "runtime": {
+      "enabled": true,
+      "outputFile": "../scripts/__id3d11_runtime/__id3d11_runtime.gml"
+    },
+    "extension": {
+      "enabled": true,
+      "outputFile": "../extensions/ID3D11/ID3D11.yy",
+      "mode": "patch",
+      "extensionName": "ID3D11",
+      "extensionFileName": "ID3D11.dll",
+      "patchFrameworks": false
+    }
+  },
+  "targets": {
+    "sourceFolder": "./native",
+    "sourceFile": "{0}_native",
+    "windows": {
+      "enabled": true,
+      "outputFolder": "../extensions/ID3D11"
+    }
+  },
+  "extras": {
+    "docs": {
+      "enabled": true,
+      "outputFolder": "./out/docs",
+      "outputFile": "../docs/generated/id3d11.json",
+      "overwrite": true
+    }
+  },
+  "build": {
+    "emitCmake": true,
+    "cmake": {
+      "cppStandard": 20,
+      "cppExtensions": false,
+      "strictWarnings": true,
+      "useThirdParty": false,
+      "emitPresets": false
+    }
+  }
+}

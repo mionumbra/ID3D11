@@ -1,12 +1,12 @@
 {
   "$GMScript":"v1",
-  "%Name":"yamc",
+  "%Name":"__id3d11_bootstrap",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"yamc",
+  "name":"__id3d11_bootstrap",
   "parent":{
-    "name":"ID3D11",
-    "path":"ID3D11.yyp",
+    "name":"GMD3D11",
+    "path":"folders/GMD3D11.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

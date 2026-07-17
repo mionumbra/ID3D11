@@ -5,6 +5,7 @@
     {"name":"InstancedRendering","order":1,"path":"folders/Examples/InstancedRendering.yy",},
   ],
   "ResourceOrderSettings":[
+    {"name":"ID3D11","order":0,"path":"extensions/ID3D11/ID3D11.yy",},
     {"name":"OMain","order":5,"path":"objects/OMain/OMain.yy",},
     {"name":"RmComputeShader","order":1,"path":"rooms/RmComputeShader/RmComputeShader.yy",},
     {"name":"RmGeometryShader","order":1,"path":"rooms/RmGeometryShader/RmGeometryShader.yy",},
@@ -19,6 +20,9 @@
     {"name":"__d3d11_texture","order":2,"path":"scripts/__d3d11_texture/__d3d11_texture.yy",},
     {"name":"__d3d11_texture2d","order":3,"path":"scripts/__d3d11_texture2d/__d3d11_texture2d.yy",},
     {"name":"__dxgi_format","order":5,"path":"scripts/__dxgi_format/__dxgi_format.yy",},
+    {"name":"__id3d11_api","order":2,"path":"scripts/__id3d11_api/__id3d11_api.yy",},
+    {"name":"__id3d11_bootstrap","order":2,"path":"scripts/__id3d11_bootstrap/__id3d11_bootstrap.yy",},
+    {"name":"__id3d11_runtime","order":2,"path":"scripts/__id3d11_runtime/__id3d11_runtime.yy",},
     {"name":"assert","order":3,"path":"scripts/assert/assert.yy",},
     {"name":"yamc","order":1,"path":"scripts/yamc/yamc.yy",},
     {"name":"ShVTF","order":2,"path":"shaders/ShVTF/ShVTF.yy",},

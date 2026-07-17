@@ -1,0 +1,2300 @@
+/**
+ * @function_partial id3d11_get_version
+ * @returns {Struct.ID3D11Version} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_is_initialized
+ * @returns {Bool} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_get_last_hresult
+ * @returns {Real} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_get_device_handle
+ * @returns {Real} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_get_context_handle
+ * @returns {Real} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_get_swapchain_handle
+ * @returns {Real} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_handle_query_interface
+ * @param {Real} handle
+ * @param {Enum.ID3D11HandleKind} interfaceKind
+ * @returns {Real} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_handle_is_valid
+ * @param {Real} handle
+ * @returns {Bool} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_handle_get_kind
+ * @param {Real} handle
+ * @returns {Enum.ID3D11HandleKind} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_handle_release
+ * @param {Real} handle
+ * @returns {Bool} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_get_feature_level
+ * @param {Real} device
+ * @returns {Enum.ID3D11FeatureLevel} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_get_creation_flags
+ * @param {Real} device
+ * @returns {Real} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_get_removed_reason
+ * @param {Real} device
+ * @returns {Real} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_get_exception_mode
+ * @param {Real} device
+ * @returns {Real} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_set_exception_mode
+ * @param {Real} device
+ * @param {Real} raiseFlags
+ * @returns {Real} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_get_immediate_context
+ * @param {Real} device
+ * @returns {Real} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_check_format_support
+ * @param {Real} device
+ * @param {Real} format
+ * @returns {Struct.ID3D11FormatSupportResult} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_check_multisample_quality_levels
+ * @param {Real} device
+ * @param {Real} format
+ * @param {Real} sampleCount
+ * @returns {Struct.ID3D11MultisampleQualityResult} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_get_counter_info
+ * @param {Real} device
+ * @returns {Struct.ID3D11CounterInfo} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_create_buffer
+ * @param {Real} device
+ * @param {Struct.ID3D11BufferDesc} desc
+ * @returns {Struct.ID3D11CreateHandleResult} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_create_buffer_with_data
+ * @param {Real} device
+ * @param {Struct.ID3D11BufferDesc} desc
+ * @param {Buffer} data
+ * @returns {Struct.ID3D11CreateHandleResult} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_buffer_get_desc
+ * @param {Real} bufferHandle
+ * @returns {Struct.ID3D11BufferDesc} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_child_get_device
+ * @param {Real} deviceChild
+ * @returns {Real} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_resource_get_dimension
+ * @param {Real} resource
+ * @returns {Enum.ID3D11ResourceDimension} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_resource_get_eviction_priority
+ * @param {Real} resource
+ * @returns {Real} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_resource_set_eviction_priority
+ * @param {Real} resource
+ * @param {Real} evictionPriority
+ * @returns {Bool} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_create_texture1d
+ * @param {Real} device
+ * @param {Struct.ID3D11Texture1DDesc} desc
+ * @returns {Struct.ID3D11CreateHandleResult} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_create_texture1d_with_data
+ * @param {Real} device
+ * @param {Struct.ID3D11Texture1DDesc} desc
+ * @param {Array[Struct.ID3D11SubresourceData]} subresources
+ * @param {Buffer} data
+ * @returns {Struct.ID3D11CreateHandleResult} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_create_texture2d
+ * @param {Real} device
+ * @param {Struct.ID3D11Texture2DDesc} desc
+ * @returns {Struct.ID3D11CreateHandleResult} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_create_texture2d_with_data
+ * @param {Real} device
+ * @param {Struct.ID3D11Texture2DDesc} desc
+ * @param {Array[Struct.ID3D11SubresourceData]} subresources
+ * @param {Buffer} data
+ * @returns {Struct.ID3D11CreateHandleResult} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_create_texture3d
+ * @param {Real} device
+ * @param {Struct.ID3D11Texture3DDesc} desc
+ * @returns {Struct.ID3D11CreateHandleResult} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_create_texture3d_with_data
+ * @param {Real} device
+ * @param {Struct.ID3D11Texture3DDesc} desc
+ * @param {Array[Struct.ID3D11SubresourceData]} subresources
+ * @param {Buffer} data
+ * @returns {Struct.ID3D11CreateHandleResult} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_texture1d_get_desc
+ * @param {Real} texture
+ * @returns {Struct.ID3D11Texture1DDesc} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_texture2d_get_desc
+ * @param {Real} texture
+ * @returns {Struct.ID3D11Texture2DDesc} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_texture3d_get_desc
+ * @param {Real} texture
+ * @returns {Struct.ID3D11Texture3DDesc} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_create_shader_resource_view_default
+ * @param {Real} device
+ * @param {Real} resource
+ * @returns {Struct.ID3D11CreateHandleResult} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_create_shader_resource_view
+ * @param {Real} device
+ * @param {Real} resource
+ * @param {Struct.ID3D11ShaderResourceViewDesc} desc
+ * @returns {Struct.ID3D11CreateHandleResult} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_create_render_target_view_default
+ * @param {Real} device
+ * @param {Real} resource
+ * @returns {Struct.ID3D11CreateHandleResult} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_create_render_target_view
+ * @param {Real} device
+ * @param {Real} resource
+ * @param {Struct.ID3D11RenderTargetViewDesc} desc
+ * @returns {Struct.ID3D11CreateHandleResult} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_create_depth_stencil_view_default
+ * @param {Real} device
+ * @param {Real} resource
+ * @returns {Struct.ID3D11CreateHandleResult} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_create_depth_stencil_view
+ * @param {Real} device
+ * @param {Real} resource
+ * @param {Struct.ID3D11DepthStencilViewDesc} desc
+ * @returns {Struct.ID3D11CreateHandleResult} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_create_unordered_access_view_default
+ * @param {Real} device
+ * @param {Real} resource
+ * @returns {Struct.ID3D11CreateHandleResult} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_create_unordered_access_view
+ * @param {Real} device
+ * @param {Real} resource
+ * @param {Struct.ID3D11UnorderedAccessViewDesc} desc
+ * @returns {Struct.ID3D11CreateHandleResult} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_view_get_resource
+ * @param {Real} view
+ * @returns {Real} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_shader_resource_view_get_desc
+ * @param {Real} view
+ * @returns {Struct.ID3D11ShaderResourceViewDesc} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_render_target_view_get_desc
+ * @param {Real} view
+ * @returns {Struct.ID3D11RenderTargetViewDesc} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_depth_stencil_view_get_desc
+ * @param {Real} view
+ * @returns {Struct.ID3D11DepthStencilViewDesc} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_unordered_access_view_get_desc
+ * @param {Real} view
+ * @returns {Struct.ID3D11UnorderedAccessViewDesc} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_compile_shader
+ * @param {String} source
+ * @param {String} sourceName
+ * @param {String} entryPoint
+ * @param {String} target
+ * @param {Real} flags1
+ * @param {Real} flags2
+ * @param {Buffer} bytecode
+ * @param {Buffer} errors
+ * @returns {Struct.ID3D11ShaderCompileResult} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_create_vertex_shader
+ * @param {Real} device
+ * @param {Buffer} bytecode
+ * @param {Real} bytecodeSize
+ * @param {Real} classLinkage
+ * @returns {Struct.ID3D11CreateHandleResult} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_create_hull_shader
+ * @param {Real} device
+ * @param {Buffer} bytecode
+ * @param {Real} bytecodeSize
+ * @param {Real} classLinkage
+ * @returns {Struct.ID3D11CreateHandleResult} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_create_domain_shader
+ * @param {Real} device
+ * @param {Buffer} bytecode
+ * @param {Real} bytecodeSize
+ * @param {Real} classLinkage
+ * @returns {Struct.ID3D11CreateHandleResult} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_create_geometry_shader
+ * @param {Real} device
+ * @param {Buffer} bytecode
+ * @param {Real} bytecodeSize
+ * @param {Real} classLinkage
+ * @returns {Struct.ID3D11CreateHandleResult} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_create_pixel_shader
+ * @param {Real} device
+ * @param {Buffer} bytecode
+ * @param {Real} bytecodeSize
+ * @param {Real} classLinkage
+ * @returns {Struct.ID3D11CreateHandleResult} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_create_compute_shader
+ * @param {Real} device
+ * @param {Buffer} bytecode
+ * @param {Real} bytecodeSize
+ * @param {Real} classLinkage
+ * @returns {Struct.ID3D11CreateHandleResult} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_create_geometry_shader_with_stream_output
+ * @param {Real} device
+ * @param {Buffer} bytecode
+ * @param {Real} bytecodeSize
+ * @param {Array[Struct.ID3D11StreamOutputDeclarationEntry]} declarations
+ * @param {Array[Real]} bufferStrides
+ * @param {Real} rasterizedStream
+ * @param {Real} classLinkage
+ * @returns {Struct.ID3D11CreateHandleResult} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_create_input_layout
+ * @param {Real} device
+ * @param {Array[Struct.ID3D11InputElementDesc]} elements
+ * @param {Buffer} shaderBytecode
+ * @param {Real} bytecodeSize
+ * @returns {Struct.ID3D11CreateHandleResult} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_create_class_linkage
+ * @param {Real} device
+ * @returns {Struct.ID3D11CreateHandleResult} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_create_sampler_state
+ * @param {Real} device
+ * @param {Struct.ID3D11SamplerDesc} desc
+ * @returns {Struct.ID3D11CreateHandleResult} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_sampler_state_get_desc
+ * @param {Real} state
+ * @returns {Struct.ID3D11SamplerDesc} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_create_rasterizer_state
+ * @param {Real} device
+ * @param {Struct.ID3D11RasterizerDesc} desc
+ * @returns {Struct.ID3D11CreateHandleResult} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_rasterizer_state_get_desc
+ * @param {Real} state
+ * @returns {Struct.ID3D11RasterizerDesc} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_create_blend_state
+ * @param {Real} device
+ * @param {Struct.ID3D11BlendDesc} desc
+ * @returns {Struct.ID3D11CreateHandleResult} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_blend_state_get_desc
+ * @param {Real} state
+ * @returns {Struct.ID3D11BlendDesc} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_create_depth_stencil_state
+ * @param {Real} device
+ * @param {Struct.ID3D11DepthStencilDesc} desc
+ * @returns {Struct.ID3D11CreateHandleResult} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_depth_stencil_state_get_desc
+ * @param {Real} state
+ * @returns {Struct.ID3D11DepthStencilDesc} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_create_query
+ * @param {Real} device
+ * @param {Struct.ID3D11QueryDesc} desc
+ * @returns {Struct.ID3D11CreateHandleResult} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_create_predicate
+ * @param {Real} device
+ * @param {Struct.ID3D11QueryDesc} desc
+ * @returns {Struct.ID3D11CreateHandleResult} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_create_counter
+ * @param {Real} device
+ * @param {Struct.ID3D11CounterDesc} desc
+ * @returns {Struct.ID3D11CreateHandleResult} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_asynchronous_get_data_size
+ * @param {Real} asynchronous
+ * @returns {Real} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_query_get_desc
+ * @param {Real} query
+ * @returns {Struct.ID3D11QueryDesc} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_counter_get_desc
+ * @param {Real} counter
+ * @returns {Struct.ID3D11CounterDesc} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_check_counter
+ * @param {Real} device
+ * @param {Struct.ID3D11CounterDesc} desc
+ * @returns {Struct.ID3D11CheckCounterResult} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_begin
+ * @param {Real} context
+ * @param {Real} asynchronous
+ * @returns {Bool} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_end
+ * @param {Real} context
+ * @param {Real} asynchronous
+ * @returns {Bool} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_get_data
+ * @param {Real} context
+ * @param {Real} asynchronous
+ * @param {Buffer} data
+ * @param {Real} dataSize
+ * @param {Real} flags
+ * @returns {Real} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_flush
+ * @param {Real} context
+ * @returns {Bool} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_draw_indexed
+ * @param {Real} context
+ * @param {Real} indexCount
+ * @param {Real} startIndexLocation
+ * @param {Real} baseVertexLocation
+ * @returns {Bool} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_draw
+ * @param {Real} context
+ * @param {Real} vertexCount
+ * @param {Real} startVertexLocation
+ * @returns {Bool} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_draw_indexed_instanced
+ * @param {Real} context
+ * @param {Real} indexCountPerInstance
+ * @param {Real} instanceCount
+ * @param {Real} startIndexLocation
+ * @param {Real} baseVertexLocation
+ * @param {Real} startInstanceLocation
+ * @returns {Bool} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_draw_instanced
+ * @param {Real} context
+ * @param {Real} vertexCountPerInstance
+ * @param {Real} instanceCount
+ * @param {Real} startVertexLocation
+ * @param {Real} startInstanceLocation
+ * @returns {Bool} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_draw_auto
+ * @param {Real} context
+ * @returns {Bool} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_draw_indexed_instanced_indirect
+ * @param {Real} context
+ * @param {Real} argumentBuffer
+ * @param {Real} alignedByteOffset
+ * @returns {Bool} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_draw_instanced_indirect
+ * @param {Real} context
+ * @param {Real} argumentBuffer
+ * @param {Real} alignedByteOffset
+ * @returns {Bool} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_dispatch
+ * @param {Real} context
+ * @param {Real} threadGroupCountX
+ * @param {Real} threadGroupCountY
+ * @param {Real} threadGroupCountZ
+ * @returns {Bool} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_dispatch_indirect
+ * @param {Real} context
+ * @param {Real} argumentBuffer
+ * @param {Real} alignedByteOffset
+ * @returns {Bool} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_copy_subresource_region
+ * @param {Real} context
+ * @param {Real} destinationResource
+ * @param {Real} destinationSubresource
+ * @param {Real} destinationX
+ * @param {Real} destinationY
+ * @param {Real} destinationZ
+ * @param {Real} sourceResource
+ * @param {Real} sourceSubresource
+ * @param {Bool} useSourceBox
+ * @param {Struct.ID3D11Box} sourceBox
+ * @returns {Bool} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_copy_resource
+ * @param {Real} context
+ * @param {Real} destinationResource
+ * @param {Real} sourceResource
+ * @returns {Bool} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_copy_structure_count
+ * @param {Real} context
+ * @param {Real} destinationBuffer
+ * @param {Real} destinationAlignedByteOffset
+ * @param {Real} sourceView
+ * @returns {Bool} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_clear_render_target_view
+ * @param {Real} context
+ * @param {Real} renderTargetView
+ * @param {Real} red
+ * @param {Real} green
+ * @param {Real} blue
+ * @param {Real} alpha
+ * @returns {Bool} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_clear_unordered_access_view_uint
+ * @param {Real} context
+ * @param {Real} unorderedAccessView
+ * @param {Real} value0
+ * @param {Real} value1
+ * @param {Real} value2
+ * @param {Real} value3
+ * @returns {Bool} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_clear_unordered_access_view_float
+ * @param {Real} context
+ * @param {Real} unorderedAccessView
+ * @param {Real} value0
+ * @param {Real} value1
+ * @param {Real} value2
+ * @param {Real} value3
+ * @returns {Bool} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_clear_depth_stencil_view
+ * @param {Real} context
+ * @param {Real} depthStencilView
+ * @param {Real} clearFlags
+ * @param {Real} depth
+ * @param {Real} stencil
+ * @returns {Bool} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_generate_mips
+ * @param {Real} context
+ * @param {Real} shaderResourceView
+ * @returns {Bool} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_set_resource_min_lod
+ * @param {Real} context
+ * @param {Real} resource
+ * @param {Real} minimumLod
+ * @returns {Bool} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_get_resource_min_lod
+ * @param {Real} context
+ * @param {Real} resource
+ * @returns {Real} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_resolve_subresource
+ * @param {Real} context
+ * @param {Real} destinationResource
+ * @param {Real} destinationSubresource
+ * @param {Real} sourceResource
+ * @param {Real} sourceSubresource
+ * @param {Real} format
+ * @returns {Bool} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_ia_set_input_layout
+ * @param {Real} context
+ * @param {Real} inputLayout
+ * @returns {Bool} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_ia_get_input_layout
+ * @param {Real} context
+ * @returns {Real} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_ia_set_primitive_topology
+ * @param {Real} context
+ * @param {Enum.ID3D11PrimitiveTopology} topology
+ * @returns {Bool} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_ia_get_primitive_topology
+ * @param {Real} context
+ * @returns {Enum.ID3D11PrimitiveTopology} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_rs_set_state
+ * @param {Real} context
+ * @param {Real} state
+ * @returns {Bool} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_rs_get_state
+ * @param {Real} context
+ * @returns {Real} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_om_set_blend_state
+ * @param {Real} context
+ * @param {Real} state
+ * @param {Array[Real]} blendFactor
+ * @param {Real} sampleMask
+ * @returns {Bool} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_om_get_blend_state
+ * @param {Real} context
+ * @returns {Struct.ID3D11BlendStateBinding} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_om_set_depth_stencil_state
+ * @param {Real} context
+ * @param {Real} state
+ * @param {Real} stencilRef
+ * @returns {Bool} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_om_get_depth_stencil_state
+ * @param {Real} context
+ * @returns {Struct.ID3D11DepthStencilStateBinding} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_set_predication
+ * @param {Real} context
+ * @param {Real} predicate
+ * @param {Bool} predicateValue
+ * @returns {Bool} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_get_predication
+ * @param {Real} context
+ * @returns {Struct.ID3D11PredicationBinding} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_ia_set_vertex_buffers
+ * @param {Real} context
+ * @param {Real} startSlot
+ * @param {Array[Struct.ID3D11VertexBufferBinding]} bindings
+ * @returns {Bool} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_ia_get_vertex_buffers
+ * @param {Real} context
+ * @param {Real} startSlot
+ * @param {Real} count
+ * @returns {Array[Struct.ID3D11VertexBufferBinding]} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_ia_set_index_buffer
+ * @param {Real} context
+ * @param {Real} buffer
+ * @param {Real} format
+ * @param {Real} offset
+ * @returns {Bool} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_ia_get_index_buffer
+ * @param {Real} context
+ * @returns {Struct.ID3D11IndexBufferBinding} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_rs_set_viewports
+ * @param {Real} context
+ * @param {Array[Struct.ID3D11Viewport]} viewports
+ * @returns {Bool} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_rs_get_viewports
+ * @param {Real} context
+ * @returns {Array[Struct.ID3D11Viewport]} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_rs_set_scissor_rects
+ * @param {Real} context
+ * @param {Array[Struct.ID3D11Rect]} rects
+ * @returns {Bool} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_rs_get_scissor_rects
+ * @param {Real} context
+ * @returns {Array[Struct.ID3D11Rect]} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_vs_set_constant_buffers
+ * @param {Real} context
+ * @param {Real} startSlot
+ * @param {Array[Real]} buffers
+ * @returns {Bool} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_vs_get_constant_buffers
+ * @param {Real} context
+ * @param {Real} startSlot
+ * @param {Real} count
+ * @returns {Array[Real]} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_vs_set_shader_resources
+ * @param {Real} context
+ * @param {Real} startSlot
+ * @param {Array[Real]} views
+ * @returns {Bool} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_vs_get_shader_resources
+ * @param {Real} context
+ * @param {Real} startSlot
+ * @param {Real} count
+ * @returns {Array[Real]} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_vs_set_samplers
+ * @param {Real} context
+ * @param {Real} startSlot
+ * @param {Array[Real]} samplers
+ * @returns {Bool} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_vs_get_samplers
+ * @param {Real} context
+ * @param {Real} startSlot
+ * @param {Real} count
+ * @returns {Array[Real]} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_hs_set_constant_buffers
+ * @param {Real} context
+ * @param {Real} startSlot
+ * @param {Array[Real]} buffers
+ * @returns {Bool} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_hs_get_constant_buffers
+ * @param {Real} context
+ * @param {Real} startSlot
+ * @param {Real} count
+ * @returns {Array[Real]} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_hs_set_shader_resources
+ * @param {Real} context
+ * @param {Real} startSlot
+ * @param {Array[Real]} views
+ * @returns {Bool} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_hs_get_shader_resources
+ * @param {Real} context
+ * @param {Real} startSlot
+ * @param {Real} count
+ * @returns {Array[Real]} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_hs_set_samplers
+ * @param {Real} context
+ * @param {Real} startSlot
+ * @param {Array[Real]} samplers
+ * @returns {Bool} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_hs_get_samplers
+ * @param {Real} context
+ * @param {Real} startSlot
+ * @param {Real} count
+ * @returns {Array[Real]} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_ds_set_constant_buffers
+ * @param {Real} context
+ * @param {Real} startSlot
+ * @param {Array[Real]} buffers
+ * @returns {Bool} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_ds_get_constant_buffers
+ * @param {Real} context
+ * @param {Real} startSlot
+ * @param {Real} count
+ * @returns {Array[Real]} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_ds_set_shader_resources
+ * @param {Real} context
+ * @param {Real} startSlot
+ * @param {Array[Real]} views
+ * @returns {Bool} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_ds_get_shader_resources
+ * @param {Real} context
+ * @param {Real} startSlot
+ * @param {Real} count
+ * @returns {Array[Real]} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_ds_set_samplers
+ * @param {Real} context
+ * @param {Real} startSlot
+ * @param {Array[Real]} samplers
+ * @returns {Bool} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_ds_get_samplers
+ * @param {Real} context
+ * @param {Real} startSlot
+ * @param {Real} count
+ * @returns {Array[Real]} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_gs_set_constant_buffers
+ * @param {Real} context
+ * @param {Real} startSlot
+ * @param {Array[Real]} buffers
+ * @returns {Bool} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_gs_get_constant_buffers
+ * @param {Real} context
+ * @param {Real} startSlot
+ * @param {Real} count
+ * @returns {Array[Real]} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_gs_set_shader_resources
+ * @param {Real} context
+ * @param {Real} startSlot
+ * @param {Array[Real]} views
+ * @returns {Bool} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_gs_get_shader_resources
+ * @param {Real} context
+ * @param {Real} startSlot
+ * @param {Real} count
+ * @returns {Array[Real]} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_gs_set_samplers
+ * @param {Real} context
+ * @param {Real} startSlot
+ * @param {Array[Real]} samplers
+ * @returns {Bool} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_gs_get_samplers
+ * @param {Real} context
+ * @param {Real} startSlot
+ * @param {Real} count
+ * @returns {Array[Real]} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_ps_set_constant_buffers
+ * @param {Real} context
+ * @param {Real} startSlot
+ * @param {Array[Real]} buffers
+ * @returns {Bool} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_ps_get_constant_buffers
+ * @param {Real} context
+ * @param {Real} startSlot
+ * @param {Real} count
+ * @returns {Array[Real]} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_ps_set_shader_resources
+ * @param {Real} context
+ * @param {Real} startSlot
+ * @param {Array[Real]} views
+ * @returns {Bool} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_ps_get_shader_resources
+ * @param {Real} context
+ * @param {Real} startSlot
+ * @param {Real} count
+ * @returns {Array[Real]} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_ps_set_samplers
+ * @param {Real} context
+ * @param {Real} startSlot
+ * @param {Array[Real]} samplers
+ * @returns {Bool} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_ps_get_samplers
+ * @param {Real} context
+ * @param {Real} startSlot
+ * @param {Real} count
+ * @returns {Array[Real]} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_cs_set_constant_buffers
+ * @param {Real} context
+ * @param {Real} startSlot
+ * @param {Array[Real]} buffers
+ * @returns {Bool} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_cs_get_constant_buffers
+ * @param {Real} context
+ * @param {Real} startSlot
+ * @param {Real} count
+ * @returns {Array[Real]} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_cs_set_shader_resources
+ * @param {Real} context
+ * @param {Real} startSlot
+ * @param {Array[Real]} views
+ * @returns {Bool} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_cs_get_shader_resources
+ * @param {Real} context
+ * @param {Real} startSlot
+ * @param {Real} count
+ * @returns {Array[Real]} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_cs_set_samplers
+ * @param {Real} context
+ * @param {Real} startSlot
+ * @param {Array[Real]} samplers
+ * @returns {Bool} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_cs_get_samplers
+ * @param {Real} context
+ * @param {Real} startSlot
+ * @param {Real} count
+ * @returns {Array[Real]} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_vs_set_shader
+ * @param {Real} context
+ * @param {Real} shader
+ * @param {Array[Real]} classInstances
+ * @returns {Bool} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_vs_get_shader
+ * @param {Real} context
+ * @returns {Struct.ID3D11ShaderBinding} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_hs_set_shader
+ * @param {Real} context
+ * @param {Real} shader
+ * @param {Array[Real]} classInstances
+ * @returns {Bool} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_hs_get_shader
+ * @param {Real} context
+ * @returns {Struct.ID3D11ShaderBinding} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_ds_set_shader
+ * @param {Real} context
+ * @param {Real} shader
+ * @param {Array[Real]} classInstances
+ * @returns {Bool} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_ds_get_shader
+ * @param {Real} context
+ * @returns {Struct.ID3D11ShaderBinding} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_gs_set_shader
+ * @param {Real} context
+ * @param {Real} shader
+ * @param {Array[Real]} classInstances
+ * @returns {Bool} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_gs_get_shader
+ * @param {Real} context
+ * @returns {Struct.ID3D11ShaderBinding} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_ps_set_shader
+ * @param {Real} context
+ * @param {Real} shader
+ * @param {Array[Real]} classInstances
+ * @returns {Bool} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_ps_get_shader
+ * @param {Real} context
+ * @returns {Struct.ID3D11ShaderBinding} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_cs_set_shader
+ * @param {Real} context
+ * @param {Real} shader
+ * @param {Array[Real]} classInstances
+ * @returns {Bool} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_cs_get_shader
+ * @param {Real} context
+ * @returns {Struct.ID3D11ShaderBinding} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_class_linkage_get_class_instance
+ * @param {Real} linkage
+ * @param {String} classInstanceName
+ * @param {Real} instanceIndex
+ * @returns {Struct.ID3D11CreateHandleResult} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_class_linkage_create_class_instance
+ * @param {Real} linkage
+ * @param {String} classTypeName
+ * @param {Real} constantBufferOffset
+ * @param {Real} constantVectorOffset
+ * @param {Real} textureOffset
+ * @param {Real} samplerOffset
+ * @returns {Struct.ID3D11CreateHandleResult} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_class_instance_get_class_linkage
+ * @param {Real} instance
+ * @returns {Real} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_class_instance_get_desc
+ * @param {Real} instance
+ * @returns {Struct.ID3D11ClassInstanceDesc} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_class_instance_get_instance_name
+ * @param {Real} instance
+ * @returns {String} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_class_instance_get_type_name
+ * @param {Real} instance
+ * @returns {String} 
+ * @function_end 
+ */
+
+/**
+ * @struct_partial ID3D11Version
+ * @member {Real} major
+ * @member {Real} minor
+ * @member {Real} patch
+ * @member {Real} abi
+ * @struct_end 
+ */
+
+/**
+ * @struct_partial ID3D11FormatSupportResult
+ * @member {Real} hresult
+ * @member {Real} support
+ * @struct_end 
+ */
+
+/**
+ * @struct_partial ID3D11MultisampleQualityResult
+ * @member {Real} hresult
+ * @member {Real} qualityLevels
+ * @struct_end 
+ */
+
+/**
+ * @struct_partial ID3D11CounterInfo
+ * @member {Real} lastDeviceDependentCounter
+ * @member {Real} numSimultaneousCounters
+ * @member {Real} numDetectableParallelUnits
+ * @struct_end 
+ */
+
+/**
+ * @struct_partial ID3D11BufferDesc
+ * @member {Real} byteWidth
+ * @member {Real} usage
+ * @member {Real} bindFlags
+ * @member {Real} cpuAccessFlags
+ * @member {Real} miscFlags
+ * @member {Real} structureByteStride
+ * @struct_end 
+ */
+
+/**
+ * @struct_partial ID3D11SubresourceData
+ * @member {Real} offset
+ * @member {Real} rowPitch
+ * @member {Real} slicePitch
+ * @member {Real} dataSize
+ * @struct_end 
+ */
+
+/**
+ * @struct_partial ID3D11Texture1DDesc
+ * @member {Real} width
+ * @member {Real} mipLevels
+ * @member {Real} arraySize
+ * @member {Real} format
+ * @member {Real} usage
+ * @member {Real} bindFlags
+ * @member {Real} cpuAccessFlags
+ * @member {Real} miscFlags
+ * @struct_end 
+ */
+
+/**
+ * @struct_partial ID3D11Texture2DDesc
+ * @member {Real} width
+ * @member {Real} height
+ * @member {Real} mipLevels
+ * @member {Real} arraySize
+ * @member {Real} format
+ * @member {Real} sampleCount
+ * @member {Real} sampleQuality
+ * @member {Real} usage
+ * @member {Real} bindFlags
+ * @member {Real} cpuAccessFlags
+ * @member {Real} miscFlags
+ * @struct_end 
+ */
+
+/**
+ * @struct_partial ID3D11Texture3DDesc
+ * @member {Real} width
+ * @member {Real} height
+ * @member {Real} depth
+ * @member {Real} mipLevels
+ * @member {Real} format
+ * @member {Real} usage
+ * @member {Real} bindFlags
+ * @member {Real} cpuAccessFlags
+ * @member {Real} miscFlags
+ * @struct_end 
+ */
+
+/**
+ * @struct_partial ID3D11ShaderResourceViewDesc
+ * @member {Real} format
+ * @member {Real} viewDimension
+ * @member {Real} firstElement
+ * @member {Real} numElements
+ * @member {Real} flags
+ * @member {Real} mostDetailedMip
+ * @member {Real} mipLevels
+ * @member {Real} firstArraySlice
+ * @member {Real} arraySize
+ * @member {Real} first2DArrayFace
+ * @member {Real} numCubes
+ * @struct_end 
+ */
+
+/**
+ * @struct_partial ID3D11RenderTargetViewDesc
+ * @member {Real} format
+ * @member {Real} viewDimension
+ * @member {Real} firstElement
+ * @member {Real} numElements
+ * @member {Real} mipSlice
+ * @member {Real} firstArraySlice
+ * @member {Real} arraySize
+ * @member {Real} firstWSlice
+ * @member {Real} wSize
+ * @struct_end 
+ */
+
+/**
+ * @struct_partial ID3D11DepthStencilViewDesc
+ * @member {Real} format
+ * @member {Real} viewDimension
+ * @member {Real} flags
+ * @member {Real} mipSlice
+ * @member {Real} firstArraySlice
+ * @member {Real} arraySize
+ * @struct_end 
+ */
+
+/**
+ * @struct_partial ID3D11UnorderedAccessViewDesc
+ * @member {Real} format
+ * @member {Real} viewDimension
+ * @member {Real} firstElement
+ * @member {Real} numElements
+ * @member {Real} flags
+ * @member {Real} mipSlice
+ * @member {Real} firstArraySlice
+ * @member {Real} arraySize
+ * @member {Real} firstWSlice
+ * @member {Real} wSize
+ * @struct_end 
+ */
+
+/**
+ * @struct_partial ID3D11InputElementDesc
+ * @member {String} semanticName
+ * @member {Real} semanticIndex
+ * @member {Real} format
+ * @member {Real} inputSlot
+ * @member {Real} alignedByteOffset
+ * @member {Real} inputSlotClass
+ * @member {Real} instanceDataStepRate
+ * @struct_end 
+ */
+
+/**
+ * @struct_partial ID3D11StreamOutputDeclarationEntry
+ * @member {String} semanticName
+ * @member {Real} stream
+ * @member {Real} semanticIndex
+ * @member {Real} startComponent
+ * @member {Real} componentCount
+ * @member {Real} outputSlot
+ * @struct_end 
+ */
+
+/**
+ * @struct_partial ID3D11ShaderCompileResult
+ * @member {Real} hresult
+ * @member {Real} bytecodeSize
+ * @member {Real} errorSize
+ * @struct_end 
+ */
+
+/**
+ * @struct_partial ID3D11SamplerDesc
+ * @member {Real} filter
+ * @member {Real} addressU
+ * @member {Real} addressV
+ * @member {Real} addressW
+ * @member {Real} mipLodBias
+ * @member {Real} maxAnisotropy
+ * @member {Real} comparisonFunc
+ * @member {Real} borderColorR
+ * @member {Real} borderColorG
+ * @member {Real} borderColorB
+ * @member {Real} borderColorA
+ * @member {Real} minLod
+ * @member {Real} maxLod
+ * @struct_end 
+ */
+
+/**
+ * @struct_partial ID3D11RasterizerDesc
+ * @member {Real} fillMode
+ * @member {Real} cullMode
+ * @member {Bool} frontCounterClockwise
+ * @member {Real} depthBias
+ * @member {Real} depthBiasClamp
+ * @member {Real} slopeScaledDepthBias
+ * @member {Bool} depthClipEnable
+ * @member {Bool} scissorEnable
+ * @member {Bool} multisampleEnable
+ * @member {Bool} antialiasedLineEnable
+ * @struct_end 
+ */
+
+/**
+ * @struct_partial ID3D11RenderTargetBlendDesc
+ * @member {Bool} blendEnable
+ * @member {Real} srcBlend
+ * @member {Real} destBlend
+ * @member {Real} blendOp
+ * @member {Real} srcBlendAlpha
+ * @member {Real} destBlendAlpha
+ * @member {Real} blendOpAlpha
+ * @member {Real} renderTargetWriteMask
+ * @struct_end 
+ */
+
+/**
+ * @struct_partial ID3D11DepthStencilOpDesc
+ * @member {Real} stencilFailOp
+ * @member {Real} stencilDepthFailOp
+ * @member {Real} stencilPassOp
+ * @member {Real} stencilFunc
+ * @struct_end 
+ */
+
+/**
+ * @struct_partial ID3D11QueryDesc
+ * @member {Real} query
+ * @member {Real} miscFlags
+ * @struct_end 
+ */
+
+/**
+ * @struct_partial ID3D11CounterDesc
+ * @member {Real} counter
+ * @member {Real} miscFlags
+ * @struct_end 
+ */
+
+/**
+ * @struct_partial ID3D11CheckCounterResult
+ * @member {Real} hresult
+ * @member {Real} type
+ * @member {Real} activeCounters
+ * @member {String} name
+ * @member {String} units
+ * @member {String} description
+ * @struct_end 
+ */
+
+/**
+ * @struct_partial ID3D11BlendStateBinding
+ * @member {Real} state
+ * @member {Array[Real]} blendFactor
+ * @member {Real} sampleMask
+ * @struct_end 
+ */
+
+/**
+ * @struct_partial ID3D11DepthStencilStateBinding
+ * @member {Real} state
+ * @member {Real} stencilRef
+ * @struct_end 
+ */
+
+/**
+ * @struct_partial ID3D11PredicationBinding
+ * @member {Real} predicate
+ * @member {Bool} predicateValue
+ * @struct_end 
+ */
+
+/**
+ * @struct_partial ID3D11VertexBufferBinding
+ * @member {Real} buffer
+ * @member {Real} stride
+ * @member {Real} offset
+ * @struct_end 
+ */
+
+/**
+ * @struct_partial ID3D11IndexBufferBinding
+ * @member {Real} buffer
+ * @member {Real} format
+ * @member {Real} offset
+ * @struct_end 
+ */
+
+/**
+ * @struct_partial ID3D11Viewport
+ * @member {Real} topLeftX
+ * @member {Real} topLeftY
+ * @member {Real} width
+ * @member {Real} height
+ * @member {Real} minDepth
+ * @member {Real} maxDepth
+ * @struct_end 
+ */
+
+/**
+ * @struct_partial ID3D11Rect
+ * @member {Real} left
+ * @member {Real} top
+ * @member {Real} right
+ * @member {Real} bottom
+ * @struct_end 
+ */
+
+/**
+ * @struct_partial ID3D11Box
+ * @member {Real} left
+ * @member {Real} top
+ * @member {Real} front
+ * @member {Real} right
+ * @member {Real} bottom
+ * @member {Real} back
+ * @struct_end 
+ */
+
+/**
+ * @struct_partial ID3D11ShaderBinding
+ * @member {Real} shader
+ * @member {Array[Real]} classInstances
+ * @struct_end 
+ */
+
+/**
+ * @struct_partial ID3D11ClassInstanceDesc
+ * @member {Real} instanceId
+ * @member {Real} instanceIndex
+ * @member {Real} typeId
+ * @member {Real} constantBuffer
+ * @member {Real} baseConstantBufferOffset
+ * @member {Real} baseTexture
+ * @member {Real} baseSampler
+ * @member {Bool} created
+ * @struct_end 
+ */
+
+/**
+ * @struct_partial ID3D11CreateHandleResult
+ * @member {Real} hresult
+ * @member {Real} handle
+ * @struct_end 
+ */
+
+/**
+ * @struct_partial ID3D11BlendDesc
+ * @member {Bool} alphaToCoverageEnable
+ * @member {Bool} independentBlendEnable
+ * @member {Array[Struct.ID3D11RenderTargetBlendDesc]} renderTargets
+ * @struct_end 
+ */
+
+/**
+ * @struct_partial ID3D11DepthStencilDesc
+ * @member {Bool} depthEnable
+ * @member {Real} depthWriteMask
+ * @member {Real} depthFunc
+ * @member {Bool} stencilEnable
+ * @member {Real} stencilReadMask
+ * @member {Real} stencilWriteMask
+ * @member {Struct.ID3D11DepthStencilOpDesc} frontFace
+ * @member {Struct.ID3D11DepthStencilOpDesc} backFace
+ * @struct_end 
+ */
+
+/**
+ * @enum_partial ID3D11HandleKind
+ * @member Invalid
+ * @member Device
+ * @member DeviceContext
+ * @member SwapChain
+ * @member Buffer
+ * @member Texture1D
+ * @member Texture2D
+ * @member Texture3D
+ * @member Shader
+ * @member View
+ * @member State
+ * @member Query
+ * @member CommandList
+ * @member Fence
+ * @member Device1
+ * @member Device2
+ * @member Device3
+ * @member Device4
+ * @member Device5
+ * @member DeviceContext1
+ * @member DeviceContext2
+ * @member DeviceContext3
+ * @member DeviceContext4
+ * @member Multithread
+ * @member DeviceChild
+ * @member Resource
+ * @member Texture2D1
+ * @member Texture3D1
+ * @member ShaderResourceView
+ * @member ShaderResourceView1
+ * @member RenderTargetView
+ * @member RenderTargetView1
+ * @member DepthStencilView
+ * @member UnorderedAccessView
+ * @member UnorderedAccessView1
+ * @member VertexShader
+ * @member HullShader
+ * @member DomainShader
+ * @member GeometryShader
+ * @member PixelShader
+ * @member ComputeShader
+ * @member InputLayout
+ * @member SamplerState
+ * @member DepthStencilState
+ * @member BlendState
+ * @member BlendState1
+ * @member RasterizerState
+ * @member RasterizerState1
+ * @member RasterizerState2
+ * @member Asynchronous
+ * @member Predicate
+ * @member Counter
+ * @member Query1
+ * @member ClassInstance
+ * @member ClassLinkage
+ * @member VideoDecoder
+ * @member VideoProcessorEnumerator
+ * @member VideoProcessorEnumerator1
+ * @member VideoProcessor
+ * @member AuthenticatedChannel
+ * @member CryptoSession
+ * @member VideoDecoderOutputView
+ * @member VideoProcessorInputView
+ * @member VideoProcessorOutputView
+ * @member VideoContext
+ * @member VideoContext1
+ * @member VideoContext2
+ * @member VideoContext3
+ * @member VideoDevice
+ * @member VideoDevice1
+ * @member VideoDevice2
+ * @enum_end 
+ */
+
+/**
+ * @enum_partial ID3D11FeatureLevel
+ * @member Level9_1
+ * @member Level9_2
+ * @member Level9_3
+ * @member Level10_0
+ * @member Level10_1
+ * @member Level11_0
+ * @member Level11_1
+ * @member Level12_0
+ * @member Level12_1
+ * @member Level12_2
+ * @enum_end 
+ */
+
+/**
+ * @enum_partial ID3D11Usage
+ * @member Default
+ * @member Immutable
+ * @member Dynamic
+ * @member Staging
+ * @enum_end 
+ */
+
+/**
+ * @enum_partial ID3D11BindFlag
+ * @member VertexBuffer
+ * @member IndexBuffer
+ * @member ConstantBuffer
+ * @member ShaderResource
+ * @member StreamOutput
+ * @member RenderTarget
+ * @member DepthStencil
+ * @member UnorderedAccess
+ * @member Decoder
+ * @member VideoEncoder
+ * @enum_end 
+ */
+
+/**
+ * @enum_partial ID3D11CpuAccessFlag
+ * @member Write
+ * @member Read
+ * @enum_end 
+ */
+
+/**
+ * @enum_partial ID3D11ResourceMiscFlag
+ * @member GenerateMips
+ * @member Shared
+ * @member TextureCube
+ * @member DrawIndirectArgs
+ * @member BufferAllowRawViews
+ * @member BufferStructured
+ * @member ResourceClamp
+ * @member SharedKeyedMutex
+ * @member GdiCompatible
+ * @member SharedNtHandle
+ * @member RestrictedContent
+ * @member RestrictSharedResource
+ * @member RestrictSharedResourceDriver
+ * @member Guarded
+ * @member TilePool
+ * @member Tiled
+ * @member HardwareProtected
+ * @member SharedDisplayable
+ * @member SharedExclusiveWriter
+ * @member NoShaderAccess
+ * @enum_end 
+ */
+
+/**
+ * @enum_partial ID3D11BufferUavFlag
+ * @member Raw
+ * @member Append
+ * @member Counter
+ * @enum_end 
+ */
+
+/**
+ * @enum_partial ID3D11ClearFlag
+ * @member Depth
+ * @member Stencil
+ * @enum_end 
+ */
+
+/**
+ * @enum_partial ID3D11ResourceDimension
+ * @member Unknown
+ * @member Buffer
+ * @member Texture1D
+ * @member Texture2D
+ * @member Texture3D
+ * @enum_end 
+ */
+
+/**
+ * @enum_partial ID3D11ShaderResourceViewDimension
+ * @member Unknown
+ * @member Buffer
+ * @member Texture1D
+ * @member Texture1DArray
+ * @member Texture2D
+ * @member Texture2DArray
+ * @member Texture2DMS
+ * @member Texture2DMSArray
+ * @member Texture3D
+ * @member TextureCube
+ * @member TextureCubeArray
+ * @member BufferEx
+ * @enum_end 
+ */
+
+/**
+ * @enum_partial ID3D11RenderTargetViewDimension
+ * @member Unknown
+ * @member Buffer
+ * @member Texture1D
+ * @member Texture1DArray
+ * @member Texture2D
+ * @member Texture2DArray
+ * @member Texture2DMS
+ * @member Texture2DMSArray
+ * @member Texture3D
+ * @enum_end 
+ */
+
+/**
+ * @enum_partial ID3D11DepthStencilViewDimension
+ * @member Unknown
+ * @member Texture1D
+ * @member Texture1DArray
+ * @member Texture2D
+ * @member Texture2DArray
+ * @member Texture2DMS
+ * @member Texture2DMSArray
+ * @enum_end 
+ */
+
+/**
+ * @enum_partial ID3D11UnorderedAccessViewDimension
+ * @member Unknown
+ * @member Buffer
+ * @member Texture1D
+ * @member Texture1DArray
+ * @member Texture2D
+ * @member Texture2DArray
+ * @member Texture3D
+ * @enum_end 
+ */
+
+/**
+ * @enum_partial ID3D11InputClassification
+ * @member PerVertexData
+ * @member PerInstanceData
+ * @enum_end 
+ */
+
+/**
+ * @enum_partial ID3D11Filter
+ * @member MinMagMipPoint
+ * @member MinMagPointMipLinear
+ * @member MinPointMagLinearMipPoint
+ * @member MinPointMagMipLinear
+ * @member MinLinearMagMipPoint
+ * @member MinLinearMagPointMipLinear
+ * @member MinMagLinearMipPoint
+ * @member MinMagMipLinear
+ * @member Anisotropic
+ * @member ComparisonMinMagMipPoint
+ * @member ComparisonMinMagPointMipLinear
+ * @member ComparisonMinPointMagLinearMipPoint
+ * @member ComparisonMinPointMagMipLinear
+ * @member ComparisonMinLinearMagMipPoint
+ * @member ComparisonMinLinearMagPointMipLinear
+ * @member ComparisonMinMagLinearMipPoint
+ * @member ComparisonMinMagMipLinear
+ * @member ComparisonAnisotropic
+ * @member MinimumMinMagMipPoint
+ * @member MinimumMinMagPointMipLinear
+ * @member MinimumMinPointMagLinearMipPoint
+ * @member MinimumMinPointMagMipLinear
+ * @member MinimumMinLinearMagMipPoint
+ * @member MinimumMinLinearMagPointMipLinear
+ * @member MinimumMinMagLinearMipPoint
+ * @member MinimumMinMagMipLinear
+ * @member MinimumAnisotropic
+ * @member MaximumMinMagMipPoint
+ * @member MaximumMinMagPointMipLinear
+ * @member MaximumMinPointMagLinearMipPoint
+ * @member MaximumMinPointMagMipLinear
+ * @member MaximumMinLinearMagMipPoint
+ * @member MaximumMinLinearMagPointMipLinear
+ * @member MaximumMinMagLinearMipPoint
+ * @member MaximumMinMagMipLinear
+ * @member MaximumAnisotropic
+ * @enum_end 
+ */
+
+/**
+ * @enum_partial ID3D11TextureAddressMode
+ * @member Wrap
+ * @member Mirror
+ * @member Clamp
+ * @member Border
+ * @member MirrorOnce
+ * @enum_end 
+ */
+
+/**
+ * @enum_partial ID3D11ComparisonFunc
+ * @member Never
+ * @member Less
+ * @member Equal
+ * @member LessEqual
+ * @member Greater
+ * @member NotEqual
+ * @member GreaterEqual
+ * @member Always
+ * @enum_end 
+ */
+
+/**
+ * @enum_partial ID3D11FillMode
+ * @member Wireframe
+ * @member Solid
+ * @enum_end 
+ */
+
+/**
+ * @enum_partial ID3D11CullMode
+ * @member None
+ * @member Front
+ * @member Back
+ * @enum_end 
+ */
+
+/**
+ * @enum_partial ID3D11Blend
+ * @member Zero
+ * @member One
+ * @member SrcColor
+ * @member InvSrcColor
+ * @member SrcAlpha
+ * @member InvSrcAlpha
+ * @member DestAlpha
+ * @member InvDestAlpha
+ * @member DestColor
+ * @member InvDestColor
+ * @member SrcAlphaSat
+ * @member BlendFactor
+ * @member InvBlendFactor
+ * @member Src1Color
+ * @member InvSrc1Color
+ * @member Src1Alpha
+ * @member InvSrc1Alpha
+ * @enum_end 
+ */
+
+/**
+ * @enum_partial ID3D11BlendOp
+ * @member Add
+ * @member Subtract
+ * @member RevSubtract
+ * @member Min
+ * @member Max
+ * @enum_end 
+ */
+
+/**
+ * @enum_partial ID3D11ColorWriteEnable
+ * @member Red
+ * @member Green
+ * @member Blue
+ * @member Alpha
+ * @member All
+ * @enum_end 
+ */
+
+/**
+ * @enum_partial ID3D11DepthWriteMask
+ * @member Zero
+ * @member All
+ * @enum_end 
+ */
+
+/**
+ * @enum_partial ID3D11StencilOp
+ * @member Keep
+ * @member Zero
+ * @member Replace
+ * @member IncrSat
+ * @member DecrSat
+ * @member Invert
+ * @member Incr
+ * @member Decr
+ * @enum_end 
+ */
+
+/**
+ * @enum_partial ID3D11Query
+ * @member Event
+ * @member Occlusion
+ * @member Timestamp
+ * @member TimestampDisjoint
+ * @member PipelineStatistics
+ * @member OcclusionPredicate
+ * @member StreamOutputStatistics
+ * @member StreamOutputOverflowPredicate
+ * @member StreamOutputStatisticsStream0
+ * @member StreamOutputOverflowPredicateStream0
+ * @member StreamOutputStatisticsStream1
+ * @member StreamOutputOverflowPredicateStream1
+ * @member StreamOutputStatisticsStream2
+ * @member StreamOutputOverflowPredicateStream2
+ * @member StreamOutputStatisticsStream3
+ * @member StreamOutputOverflowPredicateStream3
+ * @enum_end 
+ */
+
+/**
+ * @enum_partial ID3D11QueryMiscFlag
+ * @member PredicateHint
+ * @enum_end 
+ */
+
+/**
+ * @enum_partial ID3D11AsyncGetDataFlag
+ * @member DoNotFlush
+ * @enum_end 
+ */
+
+/**
+ * @enum_partial ID3D11Counter
+ * @member DeviceDependent0
+ * @enum_end 
+ */
+
+/**
+ * @enum_partial ID3D11CounterType
+ * @member Float32
+ * @member Uint16
+ * @member Uint32
+ * @member Uint64
+ * @enum_end 
+ */
+
+/**
+ * @enum_partial ID3D11PrimitiveTopology
+ * @member Undefined
+ * @member PointList
+ * @member LineList
+ * @member LineStrip
+ * @member TriangleList
+ * @member TriangleStrip
+ * @member LineListAdjacency
+ * @member LineStripAdjacency
+ * @member TriangleListAdjacency
+ * @member TriangleStripAdjacency
+ * @member PatchList1
+ * @member PatchList2
+ * @member PatchList3
+ * @member PatchList4
+ * @member PatchList5
+ * @member PatchList6
+ * @member PatchList7
+ * @member PatchList8
+ * @member PatchList9
+ * @member PatchList10
+ * @member PatchList11
+ * @member PatchList12
+ * @member PatchList13
+ * @member PatchList14
+ * @member PatchList15
+ * @member PatchList16
+ * @member PatchList17
+ * @member PatchList18
+ * @member PatchList19
+ * @member PatchList20
+ * @member PatchList21
+ * @member PatchList22
+ * @member PatchList23
+ * @member PatchList24
+ * @member PatchList25
+ * @member PatchList26
+ * @member PatchList27
+ * @member PatchList28
+ * @member PatchList29
+ * @member PatchList30
+ * @member PatchList31
+ * @member PatchList32
+ * @enum_end 
+ */
+
+/**
+ * @const_partial macros
+ * @const_end 
+ */
+

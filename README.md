@@ -1,66 +1,71 @@
-# GMD3D11
+# ID3D11
 
-> D3D11 functions extension for GameMaker
+GameMaker ↔ Direct3D 11 bindings generated from GMIDL with YoYo Games' Extension Generator.
 
-[![License](https://img.shields.io/github/license/blueburncz/GMD3D11)](LICENSE)
-[![Discord](https://img.shields.io/discord/298884075585011713?label=Discord)](https://discord.gg/ep2BGPm)
+This fork is being rebuilt around a complete, typed `id3d11_*` API. The original `d3d11_*` implementation and `GMD3D11.dll` remain in the project as a compatibility baseline while interfaces migrate to the new core.
 
-## Status: Community Project 💙
+## Current status
 
-This is a community-developed project, released under **CC0 1.0 Universal (Public Domain)**. It is **no longer actively maintained** by the original author. Feel free to fork, modify, or experiment.
+The new `ID3D11.dll` path is functional end to end:
 
-## Features
+- GameMaker obtains the runner's `ID3D11Device`, immediate context, and DXGI swap chain through `os_get_info()`.
+- Native COM ownership uses `Microsoft::WRL::ComPtr`.
+- GML sees generation-checked 64-bit handles instead of raw COM pointers.
+- `QueryInterface` supports core and versioned D3D11 interface kinds through D3D11.4.
+- `ID3D11Buffer` and Texture1D/2D/3D creation support no-data and buffer-backed initialization, including multi-subresource offset/pitch tables.
+- Resource type, eviction priority, parent-device lookup, and texture/buffer descriptor round trips are exposed.
+- SRV, RTV, DSV, and UAV creation support both default and explicit flattened descriptors, with view descriptor/resource lookup.
+- Runtime HLSL compilation feeds exact bytecode lengths into all six shader stages, InputLayout, and Stream Output GeometryShader creation. ClassLinkage creation, class-instance lookup/creation, descriptors, names, and parent-linkage queries are exposed as typed APIs.
+- Sampler, rasterizer, blend, and depth-stencil states support typed creation and complete descriptor round trips, including nested stencil operations and all eight render-target blend slots.
+- Query, predicate, and device-dependent counter objects expose typed creation, capability checks, `GetDataSize`, and descriptor round trips; the immediate context supports `Begin`, `End`, `GetData`, and `Flush` with checked GameMaker output buffers.
+- Immediate-context execution covers direct and indirect Draw/Dispatch, whole-resource and boxed subresource copies, structured-UAV counter copies, RTV/UAV/DSV clears, mip generation, resource minimum LOD, and multisample resolve. Indirect argument buffers, boxes, clear flags, device identity, and resource shapes are validated before dispatch.
+- Base pipeline state binding covers IA InputLayout/topology/vertex/index buffers, RS state/viewports/scissors, OM blend/depth-stencil states, predication, and shader/constant-buffer/SRV/sampler bindings for all six shader stages. Shader bindings carry up to 256 class-instance handles. Array getters return typed structs or handle arrays, and the VM smoke test restores every captured Runner binding.
+- A startup smoke test exercises typed structs, enums, `uint64`, `GMBuffer`, COM interface upgrades, all current resource/view/shader/state/asynchronous paths, bounds rejection, stale-handle rejection, and resource lifetime inside the real GameMaker VM runner. It prints one result line and calls `game_end()` so `gm-cli run` terminates deterministically.
 
-* [x] Shaders
-  * [x] Compile from file (optimization level 3)
-  * [x] Save and load compiled shaders
-  * [x] Hook into `ID3D11DeviceContext::Draw` calls to swap out used vertex and pixel shaders with custom ones
-  * [x] Vertex
-  * [x] Pixel
-  * [x] Geometry
-  * [x] Tessellation
-  * [x] Compute
-* [x] Vertex formats
-* [x] Buffers
-  * [x] Vertex
-  * [x] Index
-  * [x] Constant
-  * [x] Structured (read-only)
-  * [x] Compute (read/write structured)
-  * [x] Append/consume
-  * [x] Indirect args
-  * [x] Raw
-  * [x] Upload (CPU -> GPU)
-  * [x] Readback (GPU -> CPU)
-* [x] Textures
-  * [x] `texture_set_stage_vs()` - vertex texture fetching of native GM textures (`sprite_get_texture()`, `surface_get_texture()`)
-  * [x] Samplers
-  * [x] 2D
-  * [x] 3D
-  * [x] Arrays
-* [x] DSV
-* [x] RTV
-* [x] SRV
-* [x] UAV
-* [x] Occlusion queries
-* [x] Timestamps
-* [x] `vertex_submit_instanced()` - instanced rendering of native GM vertex buffers
-* [x] Viewports
-* [x] Scissor rects
+See [Architecture](docs/ARCHITECTURE.md) and [API coverage](docs/API_COVERAGE.md).
 
-## Building the DLL
+## Build
 
-> Requires [CMake](https://cmake.org/) 3.23 at least and [Python 3](https://www.python.org/downloads/)!
+Requirements:
 
-Simply run `./build.ps1` from the root directory to build the DLL, copy it into `datafiles` and generate
-`__d3d11_generated.gml`.
+- `extgen` on `PATH`
+- CMake 3.25 or newer
+- Visual Studio 2026 with the v145 toolset and Windows SDK
+- `gm-cli` on `PATH` for GameMaker compile verification
 
-## Links
+Run the complete generation, native build, and GameMaker compile pipeline:
 
-* [Documentation](https://blueburn.cz/gmd3d11/docs) - for the latest release, not the `main` branch!!!
+```powershell
+.\build.ps1
+```
 
-## Credits
+Useful options:
 
-* <https://github.com/ParinovYT/cVmtHook-x64> - x64 VMT hook
-* <https://polyhaven.com/a/rubber_duck_toy> - model used in instanced rendering example
+```powershell
+.\build.ps1 -Configuration Debug
+.\build.ps1 -SkipGenerate
+.\build.ps1 -SkipGameMaker
+.\build.ps1 -Legacy
+```
 
+The new DLL is copied to `extensions/ID3D11/ID3D11.dll`. The legacy switch builds `GMD3D11.dll` into `datafiles/` and regenerates the old wrappers.
+
+## Development workflow
+
+1. Define the public API in `binding/id3d11.gmidl`.
+2. Run `binding/generate.ps1` (or the root build script).
+3. Implement native behavior under `binding/src/native/`.
+4. Build with the checked-in `win-v145` CMake preset.
+5. Compile or run `ID3D11.yyp` with `gm-cli`.
+
+Generated files under `binding/code_gen/`, the GML API script, runtime script, and extension function metadata are build-managed. The generation wrapper reapplies the hidden runner bootstrap metadata and zero-initializes numeric input descriptors after every extgen run. Native implementation files under `binding/src/` are developer-owned.
+
+An optional native dynamic-linkage probe lives under `binding/probes/`. It reproduces the exact `ID3D11ClassLinkage`/`PSSetShader` sequence independently of GameMaker and supports `--warp` for a software-driver control run. It is not part of the normal extension build.
+
+## Legacy feature baseline
+
+The pre-refactor project already demonstrates shaders, vertex/index/constant/structured/compute/raw/upload/readback buffers, 2D/3D/array textures, DSV/RTV/SRV/UAV views, queries, timestamps, instanced rendering, viewports, and scissor rectangles. These remain available through the old `d3d11_*` surface until equivalent typed `id3d11_*` APIs replace them.
+
+## License
+
+CC0 1.0 Universal (Public Domain). See [LICENSE](LICENSE).

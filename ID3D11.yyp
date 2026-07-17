@@ -1,6 +1,6 @@
 {
   "$GMProject":"v1",
-  "%Name":"GMD3D11",
+  "%Name":"ID3D11",
   "AudioGroups":[
     {"$GMAudioGroup":"v1","%Name":"audiogroup_default","exportDir":"","name":"audiogroup_default","resourceType":"GMAudioGroup","resourceVersion":"2.0","targets":-1,},
   ],
@@ -35,8 +35,9 @@
   "MetaData":{
     "IDEVersion":"2024.1400.0.911",
   },
-  "name":"GMD3D11",
+  "name":"ID3D11",
   "resources":[
+    {"id":{"name":"ID3D11","path":"extensions/ID3D11/ID3D11.yy",},},
     {"id":{"name":"OComputeShader","path":"objects/OComputeShader/OComputeShader.yy",},},
     {"id":{"name":"OGeometryShader","path":"objects/OGeometryShader/OGeometryShader.yy",},},
     {"id":{"name":"OInstancedRendering","path":"objects/OInstancedRendering/OInstancedRendering.yy",},},
@@ -56,6 +57,9 @@
     {"id":{"name":"__d3d11_texture2d","path":"scripts/__d3d11_texture2d/__d3d11_texture2d.yy",},},
     {"id":{"name":"__d3d11","path":"scripts/__d3d11/__d3d11.yy",},},
     {"id":{"name":"__dxgi_format","path":"scripts/__dxgi_format/__dxgi_format.yy",},},
+    {"id":{"name":"__id3d11_api","path":"scripts/__id3d11_api/__id3d11_api.yy",},},
+    {"id":{"name":"__id3d11_bootstrap","path":"scripts/__id3d11_bootstrap/__id3d11_bootstrap.yy",},},
+    {"id":{"name":"__id3d11_runtime","path":"scripts/__id3d11_runtime/__id3d11_runtime.yy",},},
     {"id":{"name":"assert","path":"scripts/assert/assert.yy",},},
     {"id":{"name":"yamc","path":"scripts/yamc/yamc.yy",},},
     {"id":{"name":"ShVTF","path":"shaders/ShVTF/ShVTF.yy",},},
