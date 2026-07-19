@@ -2614,13 +2614,22 @@ if (os_type == os_windows && os_browser == browser_not_a_browser)
 
 show_debug_message(
 	$"[ID3D11] bootstrap={global.__id3d11_bootstrap_ok} smoke={global.__id3d11_smoke_ok} shader={global.__id3d11_shader_smoke_ok} state={global.__id3d11_state_smoke_ok} async={global.__id3d11_async_smoke_ok} context={global.__id3d11_context_smoke_ok} pipeline={global.__id3d11_pipeline_smoke_ok} feature_level={global.__id3d11_feature_level}");
-if (global.__id3d11_bootstrap_ok)
+
+// Headless smoke only: do not tear down when running demos/rooms.
+// Marker file is reliable if env does not reach Runner through gm-cli.
+var _smoke_auto_exit =
+	environment_get_variable("ID3D11_SMOKE_AUTO_EXIT") == "1" ||
+	file_exists("ID3D11_SMOKE_AUTO_EXIT");
+if (_smoke_auto_exit)
 {
-	id3d11_shutdown();
-	global.__id3d11_device = 0;
-	global.__id3d11_context = 0;
-	global.__id3d11_swapchain = 0;
-	global.__id3d11_device1 = 0;
-	show_debug_message("[ID3D11] shutdown complete");
+	if (global.__id3d11_bootstrap_ok)
+	{
+		id3d11_shutdown();
+		global.__id3d11_device = 0;
+		global.__id3d11_context = 0;
+		global.__id3d11_swapchain = 0;
+		global.__id3d11_device1 = 0;
+		show_debug_message("[ID3D11] shutdown complete");
+	}
+	game_end();
 }
-game_end();
