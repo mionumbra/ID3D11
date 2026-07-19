@@ -2391,6 +2391,88 @@ if (os_type == os_windows && os_browser == browser_not_a_browser)
 			_clear_state_cleared_rtv_release_ok &&
 			_clear_state_cleared_dsv_release_ok;
 
+		var _immediate_type = id3d11_device_context_get_type(global.__id3d11_context);
+		var _immediate_flags = id3d11_device_context_get_context_flags(
+			global.__id3d11_context);
+		var _deferred_result = id3d11_device_create_deferred_context(
+			global.__id3d11_device,
+			0);
+		var _deferred_type = id3d11_device_context_get_type(_deferred_result.handle);
+		var _deferred_flags = id3d11_device_context_get_context_flags(
+			_deferred_result.handle);
+		var _deferred_topology_set = id3d11_device_context_ia_set_primitive_topology(
+			_deferred_result.handle,
+			4);
+		var _deferred_topology = id3d11_device_context_ia_get_primitive_topology(
+			_deferred_result.handle);
+		var _command_list_result = id3d11_device_context_finish_command_list(
+			_deferred_result.handle,
+			false);
+		var _command_list_flags = id3d11_command_list_get_context_flags(
+			_command_list_result.handle);
+		var _command_list_kind = id3d11_handle_get_kind(_command_list_result.handle);
+		var _finish_on_immediate_rejected =
+			id3d11_device_context_finish_command_list(
+				global.__id3d11_context,
+				false).hresult != 0;
+		var _execute_on_deferred_rejected = !id3d11_device_context_execute_command_list(
+			_deferred_result.handle,
+			_command_list_result.handle,
+			true);
+		var _saved_om_for_execute = id3d11_device_context_om_get_render_targets(
+			global.__id3d11_context,
+			1);
+		var _saved_topology_for_execute = id3d11_device_context_ia_get_primitive_topology(
+			global.__id3d11_context);
+		var _saved_viewports_for_execute = id3d11_device_context_rs_get_viewports(
+			global.__id3d11_context);
+		var _execute_ok = id3d11_device_context_execute_command_list(
+			global.__id3d11_context,
+			_command_list_result.handle,
+			true);
+		var _restore_om_after_execute = id3d11_device_context_om_set_render_targets(
+			global.__id3d11_context,
+			_saved_om_for_execute.renderTargetViews,
+			_saved_om_for_execute.depthStencilView);
+		var _restore_topology_after_execute = id3d11_device_context_ia_set_primitive_topology(
+			global.__id3d11_context,
+			_saved_topology_for_execute);
+		var _restore_viewports_after_execute = id3d11_device_context_rs_set_viewports(
+			global.__id3d11_context,
+			_saved_viewports_for_execute);
+		var _saved_execute_rtv = array_length(_saved_om_for_execute.renderTargetViews) > 0
+			? _saved_om_for_execute.renderTargetViews[0]
+			: 0;
+		var _saved_execute_rtv_release_ok =
+			_saved_execute_rtv == 0 ||
+			id3d11_handle_release(_saved_execute_rtv);
+		var _saved_execute_dsv_release_ok =
+			_saved_om_for_execute.depthStencilView == 0 ||
+			id3d11_handle_release(_saved_om_for_execute.depthStencilView);
+		var _command_list_release_ok = id3d11_handle_release(_command_list_result.handle);
+		var _deferred_release_ok = id3d11_handle_release(_deferred_result.handle);
+		var _deferred_smoke_ok =
+			_immediate_type == ID3D11DeviceContextType.Immediate &&
+			_immediate_flags == 0 &&
+			_deferred_result.hresult == 0 &&
+			_deferred_type == ID3D11DeviceContextType.Deferred &&
+			_deferred_flags == 0 &&
+			_deferred_topology_set &&
+			_deferred_topology == 4 &&
+			_command_list_result.hresult == 0 &&
+			_command_list_kind == ID3D11HandleKind.CommandList &&
+			_command_list_flags == 0 &&
+			_finish_on_immediate_rejected &&
+			_execute_on_deferred_rejected &&
+			_execute_ok &&
+			_restore_om_after_execute &&
+			_restore_topology_after_execute &&
+			_restore_viewports_after_execute &&
+			_saved_execute_rtv_release_ok &&
+			_saved_execute_dsv_release_ok &&
+			_command_list_release_ok &&
+			_deferred_release_ok;
+
 		global.__id3d11_pipeline_smoke_ok =
 			_fixed_pipeline_smoke_ok &&
 			_pipeline_binding_smoke_ok &&
@@ -2402,7 +2484,8 @@ if (os_type == os_windows && os_browser == browser_not_a_browser)
 			_pipeline_invalid_predicate_rejected &&
 			_pipeline_predication_restored &&
 			_previous_predicate_release_ok &&
-			_clear_state_smoke_ok;
+			_clear_state_smoke_ok &&
+			_deferred_smoke_ok;
 
 		var _async_kinds_ok =
 			id3d11_handle_get_kind(_query_result.handle) == ID3D11HandleKind.Query &&

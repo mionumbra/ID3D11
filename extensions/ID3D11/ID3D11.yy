@@ -1459,6 +1459,118 @@
         },
         {
           "$GMExtensionFunction": "",
+          "%Name": "__id3d11_device_create_deferred_context",
+          "argCount": 4,
+          "args": [
+            1,
+            2,
+            1,
+            2
+          ],
+          "documentation": "@param {Pointer} _arg_buffer\r\n@param {Real} _arg_buffer_length\r\n@param {Pointer} _ret_buffer\r\n@param {Real} _ret_buffer_length\r\n@returns {Real}",
+          "externalName": "__EXT_NATIVE__id3d11_device_create_deferred_context",
+          "help": "",
+          "hidden": true,
+          "kind": 4,
+          "name": "__id3d11_device_create_deferred_context",
+          "resourceType": "GMExtensionFunction",
+          "resourceVersion": "2.0",
+          "returnType": 2
+        },
+        {
+          "$GMExtensionFunction": "",
+          "%Name": "__id3d11_device_context_finish_command_list",
+          "argCount": 4,
+          "args": [
+            1,
+            2,
+            1,
+            2
+          ],
+          "documentation": "@param {Pointer} _arg_buffer\r\n@param {Real} _arg_buffer_length\r\n@param {Pointer} _ret_buffer\r\n@param {Real} _ret_buffer_length\r\n@returns {Real}",
+          "externalName": "__EXT_NATIVE__id3d11_device_context_finish_command_list",
+          "help": "",
+          "hidden": true,
+          "kind": 4,
+          "name": "__id3d11_device_context_finish_command_list",
+          "resourceType": "GMExtensionFunction",
+          "resourceVersion": "2.0",
+          "returnType": 2
+        },
+        {
+          "$GMExtensionFunction": "",
+          "%Name": "__id3d11_device_context_execute_command_list",
+          "argCount": 2,
+          "args": [
+            1,
+            2
+          ],
+          "documentation": "@param {Pointer} _arg_buffer\r\n@param {Real} _arg_buffer_length\r\n@returns {Real}",
+          "externalName": "__EXT_NATIVE__id3d11_device_context_execute_command_list",
+          "help": "",
+          "hidden": true,
+          "kind": 4,
+          "name": "__id3d11_device_context_execute_command_list",
+          "resourceType": "GMExtensionFunction",
+          "resourceVersion": "2.0",
+          "returnType": 2
+        },
+        {
+          "$GMExtensionFunction": "",
+          "%Name": "__id3d11_device_context_get_type",
+          "argCount": 2,
+          "args": [
+            1,
+            2
+          ],
+          "documentation": "@param {Pointer} _arg_buffer\r\n@param {Real} _arg_buffer_length\r\n@returns {Real}",
+          "externalName": "__EXT_NATIVE__id3d11_device_context_get_type",
+          "help": "",
+          "hidden": true,
+          "kind": 4,
+          "name": "__id3d11_device_context_get_type",
+          "resourceType": "GMExtensionFunction",
+          "resourceVersion": "2.0",
+          "returnType": 2
+        },
+        {
+          "$GMExtensionFunction": "",
+          "%Name": "__id3d11_device_context_get_context_flags",
+          "argCount": 2,
+          "args": [
+            1,
+            2
+          ],
+          "documentation": "@param {Pointer} _arg_buffer\r\n@param {Real} _arg_buffer_length\r\n@returns {Real}",
+          "externalName": "__EXT_NATIVE__id3d11_device_context_get_context_flags",
+          "help": "",
+          "hidden": true,
+          "kind": 4,
+          "name": "__id3d11_device_context_get_context_flags",
+          "resourceType": "GMExtensionFunction",
+          "resourceVersion": "2.0",
+          "returnType": 2
+        },
+        {
+          "$GMExtensionFunction": "",
+          "%Name": "__id3d11_command_list_get_context_flags",
+          "argCount": 2,
+          "args": [
+            1,
+            2
+          ],
+          "documentation": "@param {Pointer} _arg_buffer\r\n@param {Real} _arg_buffer_length\r\n@returns {Real}",
+          "externalName": "__EXT_NATIVE__id3d11_command_list_get_context_flags",
+          "help": "",
+          "hidden": true,
+          "kind": 4,
+          "name": "__id3d11_command_list_get_context_flags",
+          "resourceType": "GMExtensionFunction",
+          "resourceVersion": "2.0",
+          "returnType": 2
+        },
+        {
+          "$GMExtensionFunction": "",
           "%Name": "__id3d11_asynchronous_get_data_size",
           "argCount": 2,
           "args": [

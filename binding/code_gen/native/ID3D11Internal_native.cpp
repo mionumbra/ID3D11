@@ -1286,6 +1286,92 @@ GMEXPORT double __EXT_NATIVE__id3d11_device_create_counter(char* __arg_buffer, d
     return 0;
 }
 
+GMEXPORT double __EXT_NATIVE__id3d11_device_create_deferred_context(char* __arg_buffer, double __arg_buffer_length, char* __ret_buffer, double __ret_buffer_length)
+{
+    gm::byteio::BufferReader __br{__arg_buffer, static_cast<size_t>(__arg_buffer_length)};
+
+    // field: device, type: UInt64
+    std::uint64_t device = gm::wire::codec::readValue<std::uint64_t>(__br);
+
+    // field: contextFlags, type: UInt32
+    std::uint32_t contextFlags = gm::wire::codec::readValue<std::uint32_t>(__br);
+
+    auto&& __result = id3d11_device_create_deferred_context(device, contextFlags);
+    gm::byteio::BufferWriter __bw{__ret_buffer, static_cast<size_t>(__ret_buffer_length)};
+
+    // return: __result, type: struct ID3D11CreateHandleResult
+    gm::wire::codec::writeValue(__bw, __result);
+    return 0;
+}
+
+GMEXPORT double __EXT_NATIVE__id3d11_device_context_finish_command_list(char* __arg_buffer, double __arg_buffer_length, char* __ret_buffer, double __ret_buffer_length)
+{
+    gm::byteio::BufferReader __br{__arg_buffer, static_cast<size_t>(__arg_buffer_length)};
+
+    // field: context, type: UInt64
+    std::uint64_t context = gm::wire::codec::readValue<std::uint64_t>(__br);
+
+    // field: restoreDeferredContextState, type: Bool
+    bool restoreDeferredContextState = gm::wire::codec::readValue<bool>(__br);
+
+    auto&& __result = id3d11_device_context_finish_command_list(context, restoreDeferredContextState);
+    gm::byteio::BufferWriter __bw{__ret_buffer, static_cast<size_t>(__ret_buffer_length)};
+
+    // return: __result, type: struct ID3D11CreateHandleResult
+    gm::wire::codec::writeValue(__bw, __result);
+    return 0;
+}
+
+GMEXPORT double __EXT_NATIVE__id3d11_device_context_execute_command_list(char* __arg_buffer, double __arg_buffer_length)
+{
+    gm::byteio::BufferReader __br{__arg_buffer, static_cast<size_t>(__arg_buffer_length)};
+
+    // field: context, type: UInt64
+    std::uint64_t context = gm::wire::codec::readValue<std::uint64_t>(__br);
+
+    // field: commandList, type: UInt64
+    std::uint64_t commandList = gm::wire::codec::readValue<std::uint64_t>(__br);
+
+    // field: restoreContextState, type: Bool
+    bool restoreContextState = gm::wire::codec::readValue<bool>(__br);
+
+    auto&& __result = id3d11_device_context_execute_command_list(context, commandList, restoreContextState);
+    return static_cast<double>(__result);
+}
+
+GMEXPORT double __EXT_NATIVE__id3d11_device_context_get_type(char* __arg_buffer, double __arg_buffer_length)
+{
+    gm::byteio::BufferReader __br{__arg_buffer, static_cast<size_t>(__arg_buffer_length)};
+
+    // field: context, type: UInt64
+    std::uint64_t context = gm::wire::codec::readValue<std::uint64_t>(__br);
+
+    auto&& __result = id3d11_device_context_get_type(context);
+    return static_cast<double>(__result);
+}
+
+GMEXPORT double __EXT_NATIVE__id3d11_device_context_get_context_flags(char* __arg_buffer, double __arg_buffer_length)
+{
+    gm::byteio::BufferReader __br{__arg_buffer, static_cast<size_t>(__arg_buffer_length)};
+
+    // field: context, type: UInt64
+    std::uint64_t context = gm::wire::codec::readValue<std::uint64_t>(__br);
+
+    auto&& __result = id3d11_device_context_get_context_flags(context);
+    return static_cast<double>(__result);
+}
+
+GMEXPORT double __EXT_NATIVE__id3d11_command_list_get_context_flags(char* __arg_buffer, double __arg_buffer_length)
+{
+    gm::byteio::BufferReader __br{__arg_buffer, static_cast<size_t>(__arg_buffer_length)};
+
+    // field: commandList, type: UInt64
+    std::uint64_t commandList = gm::wire::codec::readValue<std::uint64_t>(__br);
+
+    auto&& __result = id3d11_command_list_get_context_flags(commandList);
+    return static_cast<double>(__result);
+}
+
 GMEXPORT double __EXT_NATIVE__id3d11_asynchronous_get_data_size(char* __arg_buffer, double __arg_buffer_length)
 {
     gm::byteio::BufferReader __br{__arg_buffer, static_cast<size_t>(__arg_buffer_length)};

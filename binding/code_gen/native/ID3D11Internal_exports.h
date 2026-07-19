@@ -80,6 +80,12 @@ GMEXPORT double __EXT_NATIVE__id3d11_depth_stencil_state_get_desc(char* __arg_bu
 GMEXPORT double __EXT_NATIVE__id3d11_device_create_query(char* __arg_buffer, double __arg_buffer_length, char* __ret_buffer, double __ret_buffer_length);
 GMEXPORT double __EXT_NATIVE__id3d11_device_create_predicate(char* __arg_buffer, double __arg_buffer_length, char* __ret_buffer, double __ret_buffer_length);
 GMEXPORT double __EXT_NATIVE__id3d11_device_create_counter(char* __arg_buffer, double __arg_buffer_length, char* __ret_buffer, double __ret_buffer_length);
+GMEXPORT double __EXT_NATIVE__id3d11_device_create_deferred_context(char* __arg_buffer, double __arg_buffer_length, char* __ret_buffer, double __ret_buffer_length);
+GMEXPORT double __EXT_NATIVE__id3d11_device_context_finish_command_list(char* __arg_buffer, double __arg_buffer_length, char* __ret_buffer, double __ret_buffer_length);
+GMEXPORT double __EXT_NATIVE__id3d11_device_context_execute_command_list(char* __arg_buffer, double __arg_buffer_length);
+GMEXPORT double __EXT_NATIVE__id3d11_device_context_get_type(char* __arg_buffer, double __arg_buffer_length);
+GMEXPORT double __EXT_NATIVE__id3d11_device_context_get_context_flags(char* __arg_buffer, double __arg_buffer_length);
+GMEXPORT double __EXT_NATIVE__id3d11_command_list_get_context_flags(char* __arg_buffer, double __arg_buffer_length);
 GMEXPORT double __EXT_NATIVE__id3d11_asynchronous_get_data_size(char* __arg_buffer, double __arg_buffer_length);
 GMEXPORT double __EXT_NATIVE__id3d11_query_get_desc(char* __arg_buffer, double __arg_buffer_length, char* __ret_buffer, double __ret_buffer_length);
 GMEXPORT double __EXT_NATIVE__id3d11_counter_get_desc(char* __arg_buffer, double __arg_buffer_length, char* __ret_buffer, double __ret_buffer_length);

@@ -2,6 +2,13 @@
 module ID3D11;
 
 [global, bind = typed_gml]
+enum ID3D11DeviceContextType : uint32
+{
+    Immediate = 0,
+    Deferred = 1,
+}
+
+[global, bind = typed_gml]
 enum ID3D11HandleKind : uint32
 {
     Invalid = 0,
@@ -1609,6 +1616,34 @@ function id3d11_device_create_predicate(
 function id3d11_device_create_counter(
     [type_hint = `uint64`] device,
     [type_hint = `ID3D11CounterDesc`] desc) : gmval;
+
+[global, bind = typed_gml, type_hint = `ID3D11CreateHandleResult`]
+function id3d11_device_create_deferred_context(
+    [type_hint = `uint64`] device,
+    [type_hint = `uint32`] contextFlags) : gmval;
+
+[global, bind = typed_gml, type_hint = `ID3D11CreateHandleResult`]
+function id3d11_device_context_finish_command_list(
+    [type_hint = `uint64`] context,
+    restoreDeferredContextState : bool) : gmval;
+
+[global, bind = typed_gml]
+function id3d11_device_context_execute_command_list(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint64`] commandList,
+    restoreContextState : bool) : bool;
+
+[global, bind = typed_gml]
+function id3d11_device_context_get_type(
+    [type_hint = `uint64`] context) : uint32;
+
+[global, bind = typed_gml]
+function id3d11_device_context_get_context_flags(
+    [type_hint = `uint64`] context) : uint32;
+
+[global, bind = typed_gml]
+function id3d11_command_list_get_context_flags(
+    [type_hint = `uint64`] commandList) : uint32;
 
 [global, bind = typed_gml]
 function id3d11_asynchronous_get_data_size(

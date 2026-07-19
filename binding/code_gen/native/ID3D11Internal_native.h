@@ -15,6 +15,12 @@ namespace gm_consts
 
 namespace gm_enums
 {
+    enum class ID3D11DeviceContextType : std::uint32_t
+    {
+        Immediate = 0,
+        Deferred = 1
+    };
+
     enum class ID3D11HandleKind : std::uint32_t
     {
         Invalid = 0,
@@ -2140,6 +2146,12 @@ gm_structs::ID3D11DepthStencilDesc id3d11_depth_stencil_state_get_desc(std::uint
 gm_structs::ID3D11CreateHandleResult id3d11_device_create_query(std::uint64_t device, const gm_structs::ID3D11QueryDesc& desc);
 gm_structs::ID3D11CreateHandleResult id3d11_device_create_predicate(std::uint64_t device, const gm_structs::ID3D11QueryDesc& desc);
 gm_structs::ID3D11CreateHandleResult id3d11_device_create_counter(std::uint64_t device, const gm_structs::ID3D11CounterDesc& desc);
+gm_structs::ID3D11CreateHandleResult id3d11_device_create_deferred_context(std::uint64_t device, std::uint32_t contextFlags);
+gm_structs::ID3D11CreateHandleResult id3d11_device_context_finish_command_list(std::uint64_t context, bool restoreDeferredContextState);
+bool id3d11_device_context_execute_command_list(std::uint64_t context, std::uint64_t commandList, bool restoreContextState);
+std::uint32_t id3d11_device_context_get_type(std::uint64_t context);
+std::uint32_t id3d11_device_context_get_context_flags(std::uint64_t context);
+std::uint32_t id3d11_command_list_get_context_flags(std::uint64_t commandList);
 std::uint32_t id3d11_asynchronous_get_data_size(std::uint64_t asynchronous);
 gm_structs::ID3D11QueryDesc id3d11_query_get_desc(std::uint64_t query);
 gm_structs::ID3D11CounterDesc id3d11_counter_get_desc(std::uint64_t counter);

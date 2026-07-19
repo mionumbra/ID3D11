@@ -4,38 +4,38 @@ Date: 2026-07-19
 
 ## Current status
 
-Completed priority batch 1–3:
+Priority batch 1–5 from earlier handoff is complete, including deferred context / command list.
 
-1. **OMSet/GetRenderTargetsAndUnorderedAccessViews**
-   - Explicit `keepRenderTargets` / `keepUnorderedAccessViews` flags (no raw 0xFFFFFFFF magic in GML)
-   - Overlap validation: UAV start slot must be >= RT count when both are updated
-   - Smoke: set RT+UAV, keep-RT clear-UAV, overlap reject, restore, release
+### This session
 
-2. **ClearState**
-   - `id3d11_device_context_clear_state`
-   - Smoke captures OM/topology/viewports, clears, verifies empty, restores Runner state
-
-3. **Private data / debug names**
-   - `id3d11_device_child_set/get_debug_name` (WKPDID_D3DDebugObjectName)
-   - `id3d11_device_child_set/get_private_data` (GUID string + GML buffer)
-   - Smoke: name round-trip, 8-byte private payload round-trip, bad GUID reject
+**Deferred context / command list**
+- `id3d11_device_create_deferred_context(device, contextFlags)` — flags must be 0
+- `id3d11_device_context_finish_command_list(context, restoreDeferredContextState)` — deferred only
+- `id3d11_device_context_execute_command_list(context, commandList, restoreContextState)` — immediate only
+- `id3d11_device_context_get_type` / `get_context_flags`
+- `id3d11_command_list_get_context_flags`
+- Enum `ID3D11DeviceContextType` (Immediate / Deferred)
+- Ownership: same handle registry + device-identity checks as other context children
+- Smoke: create deferred → record topology → finish → reject wrong context types → execute on immediate with restore → restore Runner OM/topology/viewports → release
 
 ## Verified
 
 ```text
 [ID3D11] bootstrap=1 smoke=1 shader=1 state=1 async=1 context=1 pipeline=1 feature_level=45312
+[ID3D11] shutdown complete
 Smoke test passed.
 ```
 
-## Remaining lower priority
+## Remaining / next ideas
 
-4. **PS UAV (OM UAV slots as dedicated helpers)** — optional convenience over combo API
-5. **Deferred context / command list** — CreateDeferredContext, Finish/ExecuteCommandList; complex ownership
+1. **PS UAV convenience wrappers** (optional; OM combo already covers the path)
+2. **Device1–5 / Context1–4 real methods** beyond QI transport handles
+3. **Demo integration** — use deferred recording in a sample object
+4. **Multithread interface** (`ID3D11Multithread`) if multi-threaded GML workers are planned
 
 ## Do not regress
 
-- Never expose raw mapped pointers or `pData` to GML
-- Keep generation-checked handles and device-identity checks
-- Smoke must restore Runner bindings after ClearState / OM changes
-- Keep dynamic-linkage `PSSetShader` off the hardware smoke path
+- FinishCommandList only on deferred; ExecuteCommandList only on immediate
+- Smoke must restore Runner state after Execute (even with restoreContextState=true, be defensive)
+- Never expose raw mapped pointers to GML
 - After native changes: generate → CMake Release → gm-cli → `scripts/smoke.ps1`

@@ -8,6 +8,12 @@
 // # Enums
 // #####################################################################
 
+enum ID3D11DeviceContextType
+{
+    Immediate = 0,
+    Deferred = 1
+}
+
 enum ID3D11HandleKind
 {
     Invalid = 0,
@@ -6027,6 +6033,136 @@ function id3d11_device_create_counter(_device, _desc)
     var _result = undefined;
     _result = __ID3D11CreateHandleResult_decode(__ret_buffer, buffer_tell(__ret_buffer));
     return _result;
+}
+
+/**
+ * @param {Real} _device
+ * @param {Real} _contextFlags
+ * @returns {Struct.ID3D11CreateHandleResult} 
+ */
+function id3d11_device_create_deferred_context(_device, _contextFlags)
+{
+    var __args_buffer = __ext_core_get_args_buffer();
+
+    // param: _device, type: UInt64
+    if (!is_numeric(_device)) show_error($"{_GMFUNCTION_} :: _device expected number", true);
+    buffer_write(__args_buffer, buffer_u64, _device);
+
+    // param: _contextFlags, type: UInt32
+    if (!is_numeric(_contextFlags)) show_error($"{_GMFUNCTION_} :: _contextFlags expected number", true);
+    buffer_write(__args_buffer, buffer_u32, _contextFlags);
+
+    var __ret_buffer = __ext_core_get_ret_buffer();
+
+    var _return_value = __id3d11_device_create_deferred_context(buffer_get_address(__args_buffer), buffer_tell(__args_buffer), buffer_get_address(__ret_buffer), buffer_get_size(__ret_buffer));
+
+    var _result = undefined;
+    _result = __ID3D11CreateHandleResult_decode(__ret_buffer, buffer_tell(__ret_buffer));
+    return _result;
+}
+
+/**
+ * @param {Real} _context
+ * @param {Bool} _restoreDeferredContextState
+ * @returns {Struct.ID3D11CreateHandleResult} 
+ */
+function id3d11_device_context_finish_command_list(_context, _restoreDeferredContextState)
+{
+    var __args_buffer = __ext_core_get_args_buffer();
+
+    // param: _context, type: UInt64
+    if (!is_numeric(_context)) show_error($"{_GMFUNCTION_} :: _context expected number", true);
+    buffer_write(__args_buffer, buffer_u64, _context);
+
+    // param: _restoreDeferredContextState, type: Bool
+    if (!is_bool(_restoreDeferredContextState)) show_error($"{_GMFUNCTION_} :: _restoreDeferredContextState expected bool", true);
+    buffer_write(__args_buffer, buffer_bool, _restoreDeferredContextState);
+
+    var __ret_buffer = __ext_core_get_ret_buffer();
+
+    var _return_value = __id3d11_device_context_finish_command_list(buffer_get_address(__args_buffer), buffer_tell(__args_buffer), buffer_get_address(__ret_buffer), buffer_get_size(__ret_buffer));
+
+    var _result = undefined;
+    _result = __ID3D11CreateHandleResult_decode(__ret_buffer, buffer_tell(__ret_buffer));
+    return _result;
+}
+
+/**
+ * @param {Real} _context
+ * @param {Real} _commandList
+ * @param {Bool} _restoreContextState
+ * @returns {Bool} 
+ */
+function id3d11_device_context_execute_command_list(_context, _commandList, _restoreContextState)
+{
+    var __args_buffer = __ext_core_get_args_buffer();
+
+    // param: _context, type: UInt64
+    if (!is_numeric(_context)) show_error($"{_GMFUNCTION_} :: _context expected number", true);
+    buffer_write(__args_buffer, buffer_u64, _context);
+
+    // param: _commandList, type: UInt64
+    if (!is_numeric(_commandList)) show_error($"{_GMFUNCTION_} :: _commandList expected number", true);
+    buffer_write(__args_buffer, buffer_u64, _commandList);
+
+    // param: _restoreContextState, type: Bool
+    if (!is_bool(_restoreContextState)) show_error($"{_GMFUNCTION_} :: _restoreContextState expected bool", true);
+    buffer_write(__args_buffer, buffer_bool, _restoreContextState);
+
+    var _return_value = __id3d11_device_context_execute_command_list(buffer_get_address(__args_buffer), buffer_tell(__args_buffer));
+
+    return _return_value;
+}
+
+/**
+ * @param {Real} _context
+ * @returns {Real} 
+ */
+function id3d11_device_context_get_type(_context)
+{
+    var __args_buffer = __ext_core_get_args_buffer();
+
+    // param: _context, type: UInt64
+    if (!is_numeric(_context)) show_error($"{_GMFUNCTION_} :: _context expected number", true);
+    buffer_write(__args_buffer, buffer_u64, _context);
+
+    var _return_value = __id3d11_device_context_get_type(buffer_get_address(__args_buffer), buffer_tell(__args_buffer));
+
+    return _return_value;
+}
+
+/**
+ * @param {Real} _context
+ * @returns {Real} 
+ */
+function id3d11_device_context_get_context_flags(_context)
+{
+    var __args_buffer = __ext_core_get_args_buffer();
+
+    // param: _context, type: UInt64
+    if (!is_numeric(_context)) show_error($"{_GMFUNCTION_} :: _context expected number", true);
+    buffer_write(__args_buffer, buffer_u64, _context);
+
+    var _return_value = __id3d11_device_context_get_context_flags(buffer_get_address(__args_buffer), buffer_tell(__args_buffer));
+
+    return _return_value;
+}
+
+/**
+ * @param {Real} _commandList
+ * @returns {Real} 
+ */
+function id3d11_command_list_get_context_flags(_commandList)
+{
+    var __args_buffer = __ext_core_get_args_buffer();
+
+    // param: _commandList, type: UInt64
+    if (!is_numeric(_commandList)) show_error($"{_GMFUNCTION_} :: _commandList expected number", true);
+    buffer_write(__args_buffer, buffer_u64, _commandList);
+
+    var _return_value = __id3d11_command_list_get_context_flags(buffer_get_address(__args_buffer), buffer_tell(__args_buffer));
+
+    return _return_value;
 }
 
 /**

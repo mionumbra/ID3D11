@@ -588,6 +588,52 @@
  */
 
 /**
+ * @function_partial id3d11_device_create_deferred_context
+ * @param {Real} device
+ * @param {Real} contextFlags
+ * @returns {Struct.ID3D11CreateHandleResult} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_finish_command_list
+ * @param {Real} context
+ * @param {Bool} restoreDeferredContextState
+ * @returns {Struct.ID3D11CreateHandleResult} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_execute_command_list
+ * @param {Real} context
+ * @param {Real} commandList
+ * @param {Bool} restoreContextState
+ * @returns {Bool} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_get_type
+ * @param {Real} context
+ * @returns {Real} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_get_context_flags
+ * @param {Real} context
+ * @returns {Real} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_command_list_get_context_flags
+ * @param {Real} commandList
+ * @returns {Real} 
+ * @function_end 
+ */
+
+/**
  * @function_partial id3d11_asynchronous_get_data_size
  * @param {Real} asynchronous
  * @returns {Real} 
@@ -2009,6 +2055,13 @@
  * @member {Struct.ID3D11DepthStencilOpDesc} frontFace
  * @member {Struct.ID3D11DepthStencilOpDesc} backFace
  * @struct_end 
+ */
+
+/**
+ * @enum_partial ID3D11DeviceContextType
+ * @member Immediate
+ * @member Deferred
+ * @enum_end 
  */
 
 /**
