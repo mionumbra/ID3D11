@@ -30,9 +30,9 @@ Status meanings:
 |---|---|---|
 | `ID3D11Device` | Partial | Buffers/textures/views/base states/query/predicate/counter creation; six shader creators, SO geometry shader, InputLayout, ClassLinkage; format/MSAA/counter checks and device queries |
 | `ID3D11Device1` … `ID3D11Device5` | Transport only | Typed `QueryInterface` handles |
-| `ID3D11DeviceContext` | Partial | `Begin`/`End`/checked `GetData`/`Flush`; direct/indirect Draw and Dispatch; resource/subresource/structure-count copies; RTV/UAV/DSV clear; GenerateMips, resource MinLOD, ResolveSubresource; IA InputLayout/topology/vertex/index buffers; RS state/viewports/scissors; OM blend/depth-stencil states; predication; VS/HS/DS/GS/PS/CS shader plus class instances, constant-buffer, SRV, and sampler slots |
+| `ID3D11DeviceContext` | Partial | `Begin`/`End`/checked `GetData`/`Flush`; direct/indirect Draw and Dispatch; resource/subresource/structure-count copies; checked `UpdateSubresource`; synchronous bounded Map read/write wrappers; RTV/UAV/DSV clear; GenerateMips, resource MinLOD, ResolveSubresource; IA InputLayout/topology/vertex/index buffers; RS state/viewports/scissors; OM blend/depth-stencil states; predication; VS/HS/DS/GS/PS/CS shader plus class instances, constant-buffer, SRV, and sampler slots |
 | `ID3D11DeviceContext1` … `ID3D11DeviceContext4` | Transport only | Typed `QueryInterface` handles |
-| `ID3D11Buffer` | Partial | `GetDesc`; creation, parent-device lookup, resource methods, and lifetime complete |
+| `ID3D11Buffer` | Partial | `GetDesc`; creation, parent-device lookup, resource methods, synchronous staging Map transfer, and lifetime complete |
 | `ID3D11Resource`, `Texture1D`, `Texture2D`, `Texture3D` | Partial | Type/eviction methods, `GetDesc`, no-data and checked multi-subresource creation |
 | `ID3D11Texture2D1`, `ID3D11Texture3D1` | Transport only | Typed `QueryInterface` handles |
 | Base SRV, RTV, DSV, UAV interfaces | Partial | Default/explicit creation, complete base `GetDesc`, `GetResource`, parent-device lookup, lifetime |

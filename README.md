@@ -33,7 +33,7 @@ Requirements:
 - Visual Studio 2026 with the v145 toolset and Windows SDK
 - `gm-cli` on `PATH` for GameMaker compile verification
 
-Run the complete generation, native build, and GameMaker compile pipeline:
+Run the complete generation, native build, GameMaker compile, and VM smoke-test pipeline:
 
 ```powershell
 .\build.ps1
@@ -45,10 +45,14 @@ Useful options:
 .\build.ps1 -Configuration Debug
 .\build.ps1 -SkipGenerate
 .\build.ps1 -SkipGameMaker
+.\build.ps1 -SkipSmoke
+.\scripts\smoke.ps1 -TimeoutSeconds 300 -LogPath .\smoke.log
 .\build.ps1 -Legacy
 ```
 
 The new DLL is copied to `extensions/ID3D11/ID3D11.dll`. The legacy switch builds `GMD3D11.dll` into `datafiles/` and regenerates the old wrappers.
+
+Run the deterministic VM smoke test directly with `.\scripts\smoke.ps1`. It compiles first unless `-SkipCompile` is supplied, then runs the project with explicit Windows VM settings. The script requires exactly one result line with every smoke category set to `1`, a clean `game_end`, and a zero `gm-cli` exit code. Use `-LogPath` to retain the combined Runner log; the default temporary log is removed after a successful run and retained after a failure.
 
 ## Development workflow
 

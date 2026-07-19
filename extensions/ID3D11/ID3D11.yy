@@ -1720,6 +1720,60 @@
         },
         {
           "$GMExtensionFunction": "",
+          "%Name": "__id3d11_device_context_update_subresource",
+          "argCount": 2,
+          "args": [
+            1,
+            2
+          ],
+          "documentation": "@param {Pointer} _arg_buffer\r\n@param {Real} _arg_buffer_length\r\n@returns {Real}",
+          "externalName": "__EXT_NATIVE__id3d11_device_context_update_subresource",
+          "help": "",
+          "hidden": true,
+          "kind": 4,
+          "name": "__id3d11_device_context_update_subresource",
+          "resourceType": "GMExtensionFunction",
+          "resourceVersion": "2.0",
+          "returnType": 2
+        },
+        {
+          "$GMExtensionFunction": "",
+          "%Name": "__id3d11_device_context_map_read_to_buffer",
+          "argCount": 2,
+          "args": [
+            1,
+            2
+          ],
+          "documentation": "@param {Pointer} _arg_buffer\r\n@param {Real} _arg_buffer_length\r\n@returns {Real}",
+          "externalName": "__EXT_NATIVE__id3d11_device_context_map_read_to_buffer",
+          "help": "",
+          "hidden": true,
+          "kind": 4,
+          "name": "__id3d11_device_context_map_read_to_buffer",
+          "resourceType": "GMExtensionFunction",
+          "resourceVersion": "2.0",
+          "returnType": 2
+        },
+        {
+          "$GMExtensionFunction": "",
+          "%Name": "__id3d11_device_context_map_write_from_buffer",
+          "argCount": 2,
+          "args": [
+            1,
+            2
+          ],
+          "documentation": "@param {Pointer} _arg_buffer\r\n@param {Real} _arg_buffer_length\r\n@returns {Real}",
+          "externalName": "__EXT_NATIVE__id3d11_device_context_map_write_from_buffer",
+          "help": "",
+          "hidden": true,
+          "kind": 4,
+          "name": "__id3d11_device_context_map_write_from_buffer",
+          "resourceType": "GMExtensionFunction",
+          "resourceVersion": "2.0",
+          "returnType": 2
+        },
+        {
+          "$GMExtensionFunction": "",
           "%Name": "__id3d11_device_context_copy_structure_count",
           "argCount": 2,
           "args": [

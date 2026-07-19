@@ -105,6 +105,20 @@ enum ID3D11Usage
     Staging = 3
 }
 
+enum ID3D11Map
+{
+    Read = 1,
+    Write = 2,
+    ReadWrite = 3,
+    WriteDiscard = 4,
+    WriteNoOverwrite = 5
+}
+
+enum ID3D11MapFlag
+{
+    DoNotWait = 1
+}
+
 enum ID3D11BindFlag
 {
     VertexBuffer = 1,
@@ -6151,6 +6165,154 @@ function id3d11_device_context_copy_resource(_context, _destinationResource, _so
     buffer_write(__args_buffer, buffer_u64, _sourceResource);
 
     var _return_value = __id3d11_device_context_copy_resource(buffer_get_address(__args_buffer), buffer_tell(__args_buffer));
+
+    return _return_value;
+}
+
+/**
+ * @param {Real} _context
+ * @param {Real} _destinationResource
+ * @param {Real} _destinationSubresource
+ * @param {Bool} _useDestinationBox
+ * @param {Struct.ID3D11Box} _destinationBox
+ * @param {Id.Buffer} _sourceData
+ * @param {Real} _sourceOffset
+ * @param {Real} _sourceLength
+ * @param {Real} _sourceRowPitch
+ * @param {Real} _sourceDepthPitch
+ * @returns {Bool} 
+ */
+function id3d11_device_context_update_subresource(_context, _destinationResource, _destinationSubresource, _useDestinationBox, _destinationBox, _sourceData, _sourceOffset, _sourceLength, _sourceRowPitch, _sourceDepthPitch)
+{
+    var __args_buffer = __ext_core_get_args_buffer();
+
+    // param: _context, type: UInt64
+    if (!is_numeric(_context)) show_error($"{_GMFUNCTION_} :: _context expected number", true);
+    buffer_write(__args_buffer, buffer_u64, _context);
+
+    // param: _destinationResource, type: UInt64
+    if (!is_numeric(_destinationResource)) show_error($"{_GMFUNCTION_} :: _destinationResource expected number", true);
+    buffer_write(__args_buffer, buffer_u64, _destinationResource);
+
+    // param: _destinationSubresource, type: UInt32
+    if (!is_numeric(_destinationSubresource)) show_error($"{_GMFUNCTION_} :: _destinationSubresource expected number", true);
+    buffer_write(__args_buffer, buffer_u32, _destinationSubresource);
+
+    // param: _useDestinationBox, type: Bool
+    if (!is_bool(_useDestinationBox)) show_error($"{_GMFUNCTION_} :: _useDestinationBox expected bool", true);
+    buffer_write(__args_buffer, buffer_bool, _useDestinationBox);
+
+    // param: _destinationBox, type: struct ID3D11Box
+    if (_destinationBox.__uid != 2185347734) show_error($"{_GMFUNCTION_} :: _destinationBox expected ID3D11Box", true);
+    __ID3D11Box_encode(_destinationBox, __args_buffer, buffer_tell(__args_buffer), _GMFUNCTION_);
+
+    // param: _sourceData, type: Buffer
+    if (!buffer_exists(_sourceData)) show_error($"{_GMFUNCTION_} :: _sourceData expected Id.Buffer", true);
+    __ID3D11_queue_buffer(buffer_get_address(_sourceData), buffer_get_size(_sourceData));
+
+    // param: _sourceOffset, type: UInt64
+    if (!is_numeric(_sourceOffset)) show_error($"{_GMFUNCTION_} :: _sourceOffset expected number", true);
+    buffer_write(__args_buffer, buffer_u64, _sourceOffset);
+
+    // param: _sourceLength, type: UInt64
+    if (!is_numeric(_sourceLength)) show_error($"{_GMFUNCTION_} :: _sourceLength expected number", true);
+    buffer_write(__args_buffer, buffer_u64, _sourceLength);
+
+    // param: _sourceRowPitch, type: UInt32
+    if (!is_numeric(_sourceRowPitch)) show_error($"{_GMFUNCTION_} :: _sourceRowPitch expected number", true);
+    buffer_write(__args_buffer, buffer_u32, _sourceRowPitch);
+
+    // param: _sourceDepthPitch, type: UInt32
+    if (!is_numeric(_sourceDepthPitch)) show_error($"{_GMFUNCTION_} :: _sourceDepthPitch expected number", true);
+    buffer_write(__args_buffer, buffer_u32, _sourceDepthPitch);
+
+    var _return_value = __id3d11_device_context_update_subresource(buffer_get_address(__args_buffer), buffer_tell(__args_buffer));
+
+    return _return_value;
+}
+
+/**
+ * @param {Real} _context
+ * @param {Real} _resource
+ * @param {Real} _subresource
+ * @param {Enum.ID3D11Map} _mapType
+ * @param {Real} _mapFlags
+ * @param {Id.Buffer} _destinationData
+ * @returns {Bool} 
+ */
+function id3d11_device_context_map_read_to_buffer(_context, _resource, _subresource, _mapType, _mapFlags, _destinationData)
+{
+    var __args_buffer = __ext_core_get_args_buffer();
+
+    // param: _context, type: UInt64
+    if (!is_numeric(_context)) show_error($"{_GMFUNCTION_} :: _context expected number", true);
+    buffer_write(__args_buffer, buffer_u64, _context);
+
+    // param: _resource, type: UInt64
+    if (!is_numeric(_resource)) show_error($"{_GMFUNCTION_} :: _resource expected number", true);
+    buffer_write(__args_buffer, buffer_u64, _resource);
+
+    // param: _subresource, type: UInt32
+    if (!is_numeric(_subresource)) show_error($"{_GMFUNCTION_} :: _subresource expected number", true);
+    buffer_write(__args_buffer, buffer_u32, _subresource);
+
+    // param: _mapType, type: enum ID3D11Map
+
+    if (!is_numeric(_mapType)) show_error($"{_GMFUNCTION_} :: _mapType expected number", true);
+    buffer_write(__args_buffer, buffer_u32, _mapType);
+
+    // param: _mapFlags, type: UInt32
+    if (!is_numeric(_mapFlags)) show_error($"{_GMFUNCTION_} :: _mapFlags expected number", true);
+    buffer_write(__args_buffer, buffer_u32, _mapFlags);
+
+    // param: _destinationData, type: Buffer
+    if (!buffer_exists(_destinationData)) show_error($"{_GMFUNCTION_} :: _destinationData expected Id.Buffer", true);
+    __ID3D11_queue_buffer(buffer_get_address(_destinationData), buffer_get_size(_destinationData));
+
+    var _return_value = __id3d11_device_context_map_read_to_buffer(buffer_get_address(__args_buffer), buffer_tell(__args_buffer));
+
+    return _return_value;
+}
+
+/**
+ * @param {Real} _context
+ * @param {Real} _resource
+ * @param {Real} _subresource
+ * @param {Enum.ID3D11Map} _mapType
+ * @param {Real} _mapFlags
+ * @param {Id.Buffer} _sourceData
+ * @returns {Bool} 
+ */
+function id3d11_device_context_map_write_from_buffer(_context, _resource, _subresource, _mapType, _mapFlags, _sourceData)
+{
+    var __args_buffer = __ext_core_get_args_buffer();
+
+    // param: _context, type: UInt64
+    if (!is_numeric(_context)) show_error($"{_GMFUNCTION_} :: _context expected number", true);
+    buffer_write(__args_buffer, buffer_u64, _context);
+
+    // param: _resource, type: UInt64
+    if (!is_numeric(_resource)) show_error($"{_GMFUNCTION_} :: _resource expected number", true);
+    buffer_write(__args_buffer, buffer_u64, _resource);
+
+    // param: _subresource, type: UInt32
+    if (!is_numeric(_subresource)) show_error($"{_GMFUNCTION_} :: _subresource expected number", true);
+    buffer_write(__args_buffer, buffer_u32, _subresource);
+
+    // param: _mapType, type: enum ID3D11Map
+
+    if (!is_numeric(_mapType)) show_error($"{_GMFUNCTION_} :: _mapType expected number", true);
+    buffer_write(__args_buffer, buffer_u32, _mapType);
+
+    // param: _mapFlags, type: UInt32
+    if (!is_numeric(_mapFlags)) show_error($"{_GMFUNCTION_} :: _mapFlags expected number", true);
+    buffer_write(__args_buffer, buffer_u32, _mapFlags);
+
+    // param: _sourceData, type: Buffer
+    if (!buffer_exists(_sourceData)) show_error($"{_GMFUNCTION_} :: _sourceData expected Id.Buffer", true);
+    __ID3D11_queue_buffer(buffer_get_address(_sourceData), buffer_get_size(_sourceData));
+
+    var _return_value = __id3d11_device_context_map_write_from_buffer(buffer_get_address(__args_buffer), buffer_tell(__args_buffer));
 
     return _return_value;
 }

@@ -102,6 +102,22 @@ enum ID3D11Usage : uint32
 }
 
 [global, bind = typed_gml]
+enum ID3D11Map : uint32
+{
+    Read = 1,
+    Write = 2,
+    ReadWrite = 3,
+    WriteDiscard = 4,
+    WriteNoOverwrite = 5,
+}
+
+[global, bind = typed_gml]
+enum ID3D11MapFlag : uint32
+{
+    DoNotWait = 1,
+}
+
+[global, bind = typed_gml]
 enum ID3D11BindFlag : uint32
 {
     VertexBuffer = 1,
@@ -1639,6 +1655,37 @@ function id3d11_device_context_copy_resource(
     [type_hint = `uint64`] context,
     [type_hint = `uint64`] destinationResource,
     [type_hint = `uint64`] sourceResource) : bool;
+
+[global, bind = typed_gml]
+function id3d11_device_context_update_subresource(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint64`] destinationResource,
+    [type_hint = `uint32`] destinationSubresource,
+    useDestinationBox : bool,
+    [type_hint = `ID3D11Box`] destinationBox,
+    [type_hint = `buffer`] sourceData,
+    [type_hint = `uint64`] sourceOffset,
+    [type_hint = `uint64`] sourceLength,
+    [type_hint = `uint32`] sourceRowPitch,
+    [type_hint = `uint32`] sourceDepthPitch) : bool;
+
+[global, bind = typed_gml]
+function id3d11_device_context_map_read_to_buffer(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint64`] resource,
+    [type_hint = `uint32`] subresource,
+    [type_hint = `ID3D11Map`] mapType,
+    [type_hint = `uint32`] mapFlags,
+    [type_hint = `buffer`] destinationData) : bool;
+
+[global, bind = typed_gml]
+function id3d11_device_context_map_write_from_buffer(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint64`] resource,
+    [type_hint = `uint32`] subresource,
+    [type_hint = `ID3D11Map`] mapType,
+    [type_hint = `uint32`] mapFlags,
+    [type_hint = `buffer`] sourceData) : bool;
 
 [global, bind = typed_gml]
 function id3d11_device_context_copy_structure_count(

@@ -5,7 +5,6 @@
     {"name":"InstancedRendering","order":1,"path":"folders/Examples/InstancedRendering.yy",},
   ],
   "ResourceOrderSettings":[
-    {"name":"ID3D11","order":0,"path":"extensions/ID3D11/ID3D11.yy",},
     {"name":"OMain","order":5,"path":"objects/OMain/OMain.yy",},
     {"name":"RmComputeShader","order":1,"path":"rooms/RmComputeShader/RmComputeShader.yy",},
     {"name":"RmGeometryShader","order":1,"path":"rooms/RmGeometryShader/RmGeometryShader.yy",},

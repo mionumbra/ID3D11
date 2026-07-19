@@ -5,6 +5,12 @@ param(
 
     [switch]$SkipGenerate,
     [switch]$SkipGameMaker,
+
+    [switch]$SkipSmoke,
+
+    [ValidateRange(10, 3600)]
+    [int]$SmokeTimeoutSeconds = 180,
+
     [switch]$Legacy
 )
 
@@ -62,7 +68,18 @@ finally
 if (!$SkipGameMaker)
 {
     Invoke-Checked gm-cli compile (Join-Path $repositoryRoot "ID3D11.yyp") `
-        --target=windows --runtime=vm --errors-only
+        --target=windows --runtime=vm
+}
+
+if (!$SkipSmoke -and !$SkipGameMaker)
+{
+    & (Join-Path $repositoryRoot "scripts/smoke.ps1") `
+        -SkipCompile `
+        -TimeoutSeconds $SmokeTimeoutSeconds
+    if ($LASTEXITCODE -ne 0)
+    {
+        throw "GameMaker smoke test failed."
+    }
 }
 
 Write-Host "ID3D11 $Configuration build completed."

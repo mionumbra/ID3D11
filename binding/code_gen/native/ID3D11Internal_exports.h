@@ -94,6 +94,9 @@ GMEXPORT double __EXT_NATIVE__id3d11_device_context_dispatch(char* __arg_buffer,
 GMEXPORT double __EXT_NATIVE__id3d11_device_context_dispatch_indirect(char* __arg_buffer, double __arg_buffer_length);
 GMEXPORT double __EXT_NATIVE__id3d11_device_context_copy_subresource_region(char* __arg_buffer, double __arg_buffer_length);
 GMEXPORT double __EXT_NATIVE__id3d11_device_context_copy_resource(char* __arg_buffer, double __arg_buffer_length);
+GMEXPORT double __EXT_NATIVE__id3d11_device_context_update_subresource(char* __arg_buffer, double __arg_buffer_length);
+GMEXPORT double __EXT_NATIVE__id3d11_device_context_map_read_to_buffer(char* __arg_buffer, double __arg_buffer_length);
+GMEXPORT double __EXT_NATIVE__id3d11_device_context_map_write_from_buffer(char* __arg_buffer, double __arg_buffer_length);
 GMEXPORT double __EXT_NATIVE__id3d11_device_context_copy_structure_count(char* __arg_buffer, double __arg_buffer_length);
 GMEXPORT double __EXT_NATIVE__id3d11_device_context_clear_render_target_view(char* __arg_buffer, double __arg_buffer_length);
 GMEXPORT double __EXT_NATIVE__id3d11_device_context_clear_unordered_access_view_uint(char* __arg_buffer, double __arg_buffer_length);

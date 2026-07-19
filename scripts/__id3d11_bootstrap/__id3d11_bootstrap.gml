@@ -1476,6 +1476,57 @@ if (os_type == os_windows && os_browser == browser_not_a_browser)
 			0,
 			true,
 			_copy_box);
+
+		var _staging_buffer_desc = new ID3D11BufferDesc();
+		_staging_buffer_desc.byteWidth = 16;
+		_staging_buffer_desc.usage = ID3D11Usage.Staging;
+		_staging_buffer_desc.cpuAccessFlags =
+			ID3D11CpuAccessFlag.Read | ID3D11CpuAccessFlag.Write;
+		var _staging_buffer_result = id3d11_device_create_buffer(
+			global.__id3d11_device,
+			_staging_buffer_desc);
+		show_debug_message("[ID3D11] transfer buffer created");
+		var _map_write_ok = id3d11_device_context_map_write_from_buffer(
+			global.__id3d11_context,
+			_staging_buffer_result.handle,
+			0,
+			ID3D11Map.Write,
+			0,
+			_copy_data);
+		show_debug_message("[ID3D11] transfer buffer written");
+		var _map_read_data = buffer_create(16, buffer_fixed, 1);
+		var _map_read_ok = id3d11_device_context_map_read_to_buffer(
+			global.__id3d11_context,
+			_staging_buffer_result.handle,
+			0,
+			ID3D11Map.Read,
+			0,
+			_map_read_data);
+		show_debug_message("[ID3D11] transfer buffer read");
+		var _map_roundtrip_ok =
+			buffer_peek(_map_read_data, 0, buffer_u32) == 10 &&
+			buffer_peek(_map_read_data, 4, buffer_u32) == 20 &&
+			buffer_peek(_map_read_data, 8, buffer_u32) == 30 &&
+			buffer_peek(_map_read_data, 12, buffer_u32) == 40;
+		var _map_short_data = buffer_create(15, buffer_fixed, 1);
+		var _map_bounds_rejected = !id3d11_device_context_map_read_to_buffer(
+			global.__id3d11_context,
+			_staging_buffer_result.handle,
+			0,
+			ID3D11Map.Read,
+			0,
+			_map_short_data);
+		var _map_type_rejected = !id3d11_device_context_map_write_from_buffer(
+			global.__id3d11_context,
+			_staging_buffer_result.handle,
+			0,
+			ID3D11Map.WriteDiscard,
+			0,
+			_copy_data);
+		var _staging_buffer_release_ok = id3d11_handle_release(
+			_staging_buffer_result.handle);
+		buffer_delete(_map_short_data);
+		buffer_delete(_map_read_data);
 		var _copy_source_release_ok = id3d11_handle_release(_copy_source_result.handle);
 		var _copy_destination_release_ok = id3d11_handle_release(
 			_copy_destination_result.handle);
@@ -1504,6 +1555,79 @@ if (os_type == os_windows && os_browser == browser_not_a_browser)
 		var _execution_rtv_result = id3d11_device_create_render_target_view_default(
 			global.__id3d11_device,
 			_execution_texture_result.handle);
+		var _update_texture_desc = new ID3D11Texture2DDesc();
+		_update_texture_desc.width = 2;
+		_update_texture_desc.height = 2;
+		_update_texture_desc.mipLevels = 1;
+		_update_texture_desc.arraySize = 1;
+		_update_texture_desc.format = 28;
+		_update_texture_desc.sampleCount = 1;
+		_update_texture_desc.usage = ID3D11Usage.Default;
+		var _update_texture_result = id3d11_device_create_texture2d(
+			global.__id3d11_device,
+			_update_texture_desc);
+		show_debug_message("[ID3D11] transfer texture created");
+		var _update_source = buffer_create(24, buffer_fixed, 1);
+		buffer_poke(_update_source, 0, buffer_u32, 101);
+		buffer_poke(_update_source, 4, buffer_u32, 102);
+		buffer_poke(_update_source, 12, buffer_u32, 103);
+		buffer_poke(_update_source, 16, buffer_u32, 104);
+		var _update_box = new ID3D11Box();
+		var _update_texture_ok = id3d11_device_context_update_subresource(
+			global.__id3d11_context,
+			_update_texture_result.handle,
+			0,
+			false,
+			_update_box,
+			_update_source,
+			0,
+			24,
+			12,
+			24);
+		show_debug_message("[ID3D11] transfer texture updated");
+		var _update_bounds_rejected = !id3d11_device_context_update_subresource(
+			global.__id3d11_context,
+			_update_texture_result.handle,
+			0,
+			false,
+			_update_box,
+			_update_source,
+			0,
+			19,
+			12,
+			24);
+		var _staging_texture_desc = new ID3D11Texture2DDesc();
+		_staging_texture_desc.width = 2;
+		_staging_texture_desc.height = 2;
+		_staging_texture_desc.mipLevels = 1;
+		_staging_texture_desc.arraySize = 1;
+		_staging_texture_desc.format = 28;
+		_staging_texture_desc.sampleCount = 1;
+		_staging_texture_desc.usage = ID3D11Usage.Staging;
+		_staging_texture_desc.cpuAccessFlags = ID3D11CpuAccessFlag.Read;
+		var _staging_texture_result = id3d11_device_create_texture2d(
+			global.__id3d11_device,
+			_staging_texture_desc);
+		var _update_copy_ok = id3d11_device_context_copy_resource(
+			global.__id3d11_context,
+			_staging_texture_result.handle,
+			_update_texture_result.handle);
+		var _update_readback = buffer_create(16, buffer_fixed, 1);
+		var _update_readback_ok = id3d11_device_context_map_read_to_buffer(
+			global.__id3d11_context,
+			_staging_texture_result.handle,
+			0,
+			ID3D11Map.Read,
+			0,
+			_update_readback);
+		show_debug_message("[ID3D11] transfer texture read");
+		var _update_values_ok =
+			buffer_peek(_update_readback, 0, buffer_u32) == 101 &&
+			buffer_peek(_update_readback, 4, buffer_u32) == 102 &&
+			buffer_peek(_update_readback, 8, buffer_u32) == 103 &&
+			buffer_peek(_update_readback, 12, buffer_u32) == 104;
+		buffer_delete(_update_readback);
+		buffer_delete(_update_source);
 		var _execution_uav_texture_desc = new ID3D11Texture2DDesc();
 		_execution_uav_texture_desc.width = 1;
 		_execution_uav_texture_desc.height = 1;
@@ -1719,7 +1843,9 @@ if (os_type == os_windows && os_browser == browser_not_a_browser)
 			id3d11_handle_release(_lod_texture_result.handle) &&
 			id3d11_handle_release(_execution_depth_result.handle) &&
 			id3d11_handle_release(_structured_result.handle) &&
-			id3d11_handle_release(_count_destination_result.handle);
+			id3d11_handle_release(_count_destination_result.handle) &&
+			id3d11_handle_release(_update_texture_result.handle) &&
+			id3d11_handle_release(_staging_texture_result.handle);
 		var _context_execution_smoke_ok =
 			_direct_execution_ok &&
 			_indirect_result.hresult == 0 &&
@@ -1732,11 +1858,25 @@ if (os_type == os_windows && os_browser == browser_not_a_browser)
 			_copy_full_region_ok &&
 			_copy_same_resource_rejected &&
 			_copy_region_bounds_rejected &&
+			_staging_buffer_result.hresult == 0 &&
+			_map_write_ok &&
+			_map_read_ok &&
+			_map_roundtrip_ok &&
+			_map_bounds_rejected &&
+			_map_type_rejected &&
+			_staging_buffer_release_ok &&
 			_copy_source_release_ok &&
 			_copy_destination_release_ok &&
 			_execution_texture_result.hresult == 0 &&
 			_execution_srv_result.hresult == 0 &&
 			_execution_rtv_result.hresult == 0 &&
+			_update_texture_result.hresult == 0 &&
+			_staging_texture_result.hresult == 0 &&
+			_update_texture_ok &&
+			_update_bounds_rejected &&
+			_update_copy_ok &&
+			_update_readback_ok &&
+			_update_values_ok &&
 			_execution_uav_texture_result.hresult == 0 &&
 			_execution_uav_result.hresult == 0 &&
 			_clear_rtv_ok &&

@@ -83,7 +83,9 @@ Direct and instanced Draw calls, DrawAuto, Dispatch, and their indirect variants
 
 Resource operations validate common device identity and native resource metadata. Whole-resource copies require distinct resources with identical shapes; boxed subresource copies validate subresource indices, source extents, destination bounds, and non-empty boxes. Structure-count copies require an append/counter buffer UAV and an aligned four-byte destination span. Clear calls preserve typed RTV/UAV/DSV handles and validate depth/stencil flags and ranges. GenerateMips and resource MinLOD require their corresponding resource-misc flags, while ResolveSubresource verifies a multisampled 2D source, single-sampled destination, and matching subresource extents.
 
-`Map`/`Unmap` and `UpdateSubresource` are intentionally handled in the next transport layer because their native pointers require complete DXGI format, row-pitch, slice-pitch, and byte-footprint validation before GameMaker buffers can be used safely.
+`UpdateSubresource` validates the resource usage, subresource, format layout, optional box alignment, source span, row pitch, and depth pitch before passing a synchronous `GMBuffer` view to D3D11. The layout module handles ordinary typed and block-compressed color formats; typeless, planar, video, depth/stencil, and other unsupported layouts fail with `E_INVALIDARG` rather than using an estimated footprint.
+
+Mapped pointers are never returned to GML. The map helpers perform `Map`, bounded row/slice copies between a compact GameMaker buffer and the mapped resource, and exactly one `Unmap` in the same native call. They validate usage/CPU-access permissions, sample-count restrictions, output capacity, map flags, and `DO_NOT_WAIT` HRESULTs. This synchronous wrapper intentionally does not expose a reusable map-session handle, so there is no cross-call pointer or double-unmap lifetime.
 
 ## Pipeline bindings
 

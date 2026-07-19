@@ -112,6 +112,20 @@ namespace gm_enums
         Staging = 3
     };
 
+    enum class ID3D11Map : std::uint32_t
+    {
+        Read = 1,
+        Write = 2,
+        ReadWrite = 3,
+        WriteDiscard = 4,
+        WriteNoOverwrite = 5
+    };
+
+    enum class ID3D11MapFlag : std::uint32_t
+    {
+        DoNotWait = 1
+    };
+
     enum class ID3D11BindFlag : std::uint32_t
     {
         VertexBuffer = 1,
@@ -2017,6 +2031,9 @@ bool id3d11_device_context_dispatch(std::uint64_t context, std::uint32_t threadG
 bool id3d11_device_context_dispatch_indirect(std::uint64_t context, std::uint64_t argumentBuffer, std::uint32_t alignedByteOffset);
 bool id3d11_device_context_copy_subresource_region(std::uint64_t context, std::uint64_t destinationResource, std::uint32_t destinationSubresource, std::uint32_t destinationX, std::uint32_t destinationY, std::uint32_t destinationZ, std::uint64_t sourceResource, std::uint32_t sourceSubresource, bool useSourceBox, const gm_structs::ID3D11Box& sourceBox);
 bool id3d11_device_context_copy_resource(std::uint64_t context, std::uint64_t destinationResource, std::uint64_t sourceResource);
+bool id3d11_device_context_update_subresource(std::uint64_t context, std::uint64_t destinationResource, std::uint32_t destinationSubresource, bool useDestinationBox, const gm_structs::ID3D11Box& destinationBox, gm::wire::GMBuffer sourceData, std::uint64_t sourceOffset, std::uint64_t sourceLength, std::uint32_t sourceRowPitch, std::uint32_t sourceDepthPitch);
+bool id3d11_device_context_map_read_to_buffer(std::uint64_t context, std::uint64_t resource, std::uint32_t subresource, gm_enums::ID3D11Map mapType, std::uint32_t mapFlags, gm::wire::GMBuffer destinationData);
+bool id3d11_device_context_map_write_from_buffer(std::uint64_t context, std::uint64_t resource, std::uint32_t subresource, gm_enums::ID3D11Map mapType, std::uint32_t mapFlags, gm::wire::GMBuffer sourceData);
 bool id3d11_device_context_copy_structure_count(std::uint64_t context, std::uint64_t destinationBuffer, std::uint32_t destinationAlignedByteOffset, std::uint64_t sourceView);
 bool id3d11_device_context_clear_render_target_view(std::uint64_t context, std::uint64_t renderTargetView, float red, float green, float blue, float alpha);
 bool id3d11_device_context_clear_unordered_access_view_uint(std::uint64_t context, std::uint64_t unorderedAccessView, std::uint32_t value0, std::uint32_t value1, std::uint32_t value2, std::uint32_t value3);

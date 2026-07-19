@@ -724,6 +724,46 @@
  */
 
 /**
+ * @function_partial id3d11_device_context_update_subresource
+ * @param {Real} context
+ * @param {Real} destinationResource
+ * @param {Real} destinationSubresource
+ * @param {Bool} useDestinationBox
+ * @param {Struct.ID3D11Box} destinationBox
+ * @param {Buffer} sourceData
+ * @param {Real} sourceOffset
+ * @param {Real} sourceLength
+ * @param {Real} sourceRowPitch
+ * @param {Real} sourceDepthPitch
+ * @returns {Bool} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_map_read_to_buffer
+ * @param {Real} context
+ * @param {Real} resource
+ * @param {Real} subresource
+ * @param {Enum.ID3D11Map} mapType
+ * @param {Real} mapFlags
+ * @param {Buffer} destinationData
+ * @returns {Bool} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_map_write_from_buffer
+ * @param {Real} context
+ * @param {Real} resource
+ * @param {Real} subresource
+ * @param {Enum.ID3D11Map} mapType
+ * @param {Real} mapFlags
+ * @param {Buffer} sourceData
+ * @returns {Bool} 
+ * @function_end 
+ */
+
+/**
  * @function_partial id3d11_device_context_copy_structure_count
  * @param {Real} context
  * @param {Real} destinationBuffer
@@ -1920,6 +1960,22 @@
  * @member Immutable
  * @member Dynamic
  * @member Staging
+ * @enum_end 
+ */
+
+/**
+ * @enum_partial ID3D11Map
+ * @member Read
+ * @member Write
+ * @member ReadWrite
+ * @member WriteDiscard
+ * @member WriteNoOverwrite
+ * @enum_end 
+ */
+
+/**
+ * @enum_partial ID3D11MapFlag
+ * @member DoNotWait
  * @enum_end 
  */
 

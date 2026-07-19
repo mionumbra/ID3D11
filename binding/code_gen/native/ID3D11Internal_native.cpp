@@ -1563,6 +1563,99 @@ GMEXPORT double __EXT_NATIVE__id3d11_device_context_copy_resource(char* __arg_bu
     return static_cast<double>(__result);
 }
 
+GMEXPORT double __EXT_NATIVE__id3d11_device_context_update_subresource(char* __arg_buffer, double __arg_buffer_length)
+{
+    gm::byteio::BufferReader __br{__arg_buffer, static_cast<size_t>(__arg_buffer_length)};
+
+    // field: context, type: UInt64
+    std::uint64_t context = gm::wire::codec::readValue<std::uint64_t>(__br);
+
+    // field: destinationResource, type: UInt64
+    std::uint64_t destinationResource = gm::wire::codec::readValue<std::uint64_t>(__br);
+
+    // field: destinationSubresource, type: UInt32
+    std::uint32_t destinationSubresource = gm::wire::codec::readValue<std::uint32_t>(__br);
+
+    // field: useDestinationBox, type: Bool
+    bool useDestinationBox = gm::wire::codec::readValue<bool>(__br);
+
+    // field: destinationBox, type: struct ID3D11Box
+    gm_structs::ID3D11Box destinationBox = gm::wire::codec::readValue<gm_structs::ID3D11Box>(__br);
+
+    // field: sourceData, type: Buffer
+    gm::wire::GMBuffer sourceData = __buffer_queue.front();
+    __buffer_queue.pop();
+
+    // field: sourceOffset, type: UInt64
+    std::uint64_t sourceOffset = gm::wire::codec::readValue<std::uint64_t>(__br);
+
+    // field: sourceLength, type: UInt64
+    std::uint64_t sourceLength = gm::wire::codec::readValue<std::uint64_t>(__br);
+
+    // field: sourceRowPitch, type: UInt32
+    std::uint32_t sourceRowPitch = gm::wire::codec::readValue<std::uint32_t>(__br);
+
+    // field: sourceDepthPitch, type: UInt32
+    std::uint32_t sourceDepthPitch = gm::wire::codec::readValue<std::uint32_t>(__br);
+
+    auto&& __result = id3d11_device_context_update_subresource(context, destinationResource, destinationSubresource, useDestinationBox, destinationBox, sourceData, sourceOffset, sourceLength, sourceRowPitch, sourceDepthPitch);
+    return static_cast<double>(__result);
+}
+
+GMEXPORT double __EXT_NATIVE__id3d11_device_context_map_read_to_buffer(char* __arg_buffer, double __arg_buffer_length)
+{
+    gm::byteio::BufferReader __br{__arg_buffer, static_cast<size_t>(__arg_buffer_length)};
+
+    // field: context, type: UInt64
+    std::uint64_t context = gm::wire::codec::readValue<std::uint64_t>(__br);
+
+    // field: resource, type: UInt64
+    std::uint64_t resource = gm::wire::codec::readValue<std::uint64_t>(__br);
+
+    // field: subresource, type: UInt32
+    std::uint32_t subresource = gm::wire::codec::readValue<std::uint32_t>(__br);
+
+    // field: mapType, type: enum ID3D11Map
+    gm_enums::ID3D11Map mapType = gm::wire::codec::readValue<gm_enums::ID3D11Map>(__br);
+
+    // field: mapFlags, type: UInt32
+    std::uint32_t mapFlags = gm::wire::codec::readValue<std::uint32_t>(__br);
+
+    // field: destinationData, type: Buffer
+    gm::wire::GMBuffer destinationData = __buffer_queue.front();
+    __buffer_queue.pop();
+
+    auto&& __result = id3d11_device_context_map_read_to_buffer(context, resource, subresource, mapType, mapFlags, destinationData);
+    return static_cast<double>(__result);
+}
+
+GMEXPORT double __EXT_NATIVE__id3d11_device_context_map_write_from_buffer(char* __arg_buffer, double __arg_buffer_length)
+{
+    gm::byteio::BufferReader __br{__arg_buffer, static_cast<size_t>(__arg_buffer_length)};
+
+    // field: context, type: UInt64
+    std::uint64_t context = gm::wire::codec::readValue<std::uint64_t>(__br);
+
+    // field: resource, type: UInt64
+    std::uint64_t resource = gm::wire::codec::readValue<std::uint64_t>(__br);
+
+    // field: subresource, type: UInt32
+    std::uint32_t subresource = gm::wire::codec::readValue<std::uint32_t>(__br);
+
+    // field: mapType, type: enum ID3D11Map
+    gm_enums::ID3D11Map mapType = gm::wire::codec::readValue<gm_enums::ID3D11Map>(__br);
+
+    // field: mapFlags, type: UInt32
+    std::uint32_t mapFlags = gm::wire::codec::readValue<std::uint32_t>(__br);
+
+    // field: sourceData, type: Buffer
+    gm::wire::GMBuffer sourceData = __buffer_queue.front();
+    __buffer_queue.pop();
+
+    auto&& __result = id3d11_device_context_map_write_from_buffer(context, resource, subresource, mapType, mapFlags, sourceData);
+    return static_cast<double>(__result);
+}
+
 GMEXPORT double __EXT_NATIVE__id3d11_device_context_copy_structure_count(char* __arg_buffer, double __arg_buffer_length)
 {
     gm::byteio::BufferReader __br{__arg_buffer, static_cast<size_t>(__arg_buffer_length)};
