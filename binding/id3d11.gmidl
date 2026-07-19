@@ -1092,6 +1092,49 @@ class `[[ID3D11PredicationBinding]]` prototype Object
 }
 
 [global]
+class `[[ID3D11OutputMergerTargets]]` prototype Object
+{
+    [field, type_hint = `uint64[]`]
+    property renderTargetViews : gmval { get; set; }
+
+    [field, type_hint = `uint64`]
+    property depthStencilView : gmval { get; set; }
+}
+[global]
+class `[[ID3D11OutputMergerTargetsAndUAVs]]` prototype Object
+{
+    [field, type_hint = `uint64[]`]
+    property renderTargetViews : gmval { get; set; }
+
+    [field, type_hint = `uint64`]
+    property depthStencilView : gmval { get; set; }
+
+    [field, type_hint = `uint64[]`]
+    property unorderedAccessViews : gmval { get; set; }
+}
+
+
+[global]
+class `[[ID3D11StreamOutputTarget]]` prototype Object
+{
+    [field, type_hint = `uint64`]
+    property buffer : gmval { get; set; }
+
+    [field]
+    property offset : uint32 { get; set; }
+}
+
+[global]
+class `[[ID3D11UnorderedAccessViewBinding]]` prototype Object
+{
+    [field, type_hint = `uint64`]
+    property view : gmval { get; set; }
+
+    [field]
+    property initialCount : uint32 { get; set; }
+}
+
+[global]
 class `[[ID3D11VertexBufferBinding]]` prototype Object
 {
     [field, type_hint = `uint64`]
@@ -1231,6 +1274,9 @@ function id3d11_get_version() : gmval;
 [global, bind = typed_gml]
 function id3d11_is_initialized() : bool;
 
+[global, bind = typed_gml, finish_fn]
+function id3d11_shutdown() : unit;
+
 [global, bind = typed_gml]
 function id3d11_get_last_hresult() : int32;
 
@@ -1307,6 +1353,27 @@ function id3d11_buffer_get_desc([type_hint = `uint64`] bufferHandle) : gmval;
 
 [global, bind = typed_gml, type_hint = `uint64`]
 function id3d11_device_child_get_device([type_hint = `uint64`] deviceChild) : gmval;
+
+[global, bind = typed_gml]
+function id3d11_device_child_set_debug_name(
+    [type_hint = `uint64`] deviceChild,
+    name : string) : bool;
+
+[global, bind = typed_gml]
+function id3d11_device_child_get_debug_name(
+    [type_hint = `uint64`] deviceChild) : string;
+
+[global, bind = typed_gml]
+function id3d11_device_child_set_private_data(
+    [type_hint = `uint64`] deviceChild,
+    guid : string,
+    [type_hint = `buffer`] data) : bool;
+
+[global, bind = typed_gml]
+function id3d11_device_child_get_private_data(
+    [type_hint = `uint64`] deviceChild,
+    guid : string,
+    [type_hint = `buffer`] data) : int32;
 
 [global, bind = typed_gml, type_hint = `ID3D11ResourceDimension`]
 function id3d11_resource_get_dimension([type_hint = `uint64`] resource) : gmval;
@@ -1580,6 +1647,9 @@ function id3d11_device_context_get_data(
 function id3d11_device_context_flush([type_hint = `uint64`] context) : bool;
 
 [global, bind = typed_gml]
+function id3d11_device_context_clear_state([type_hint = `uint64`] context) : bool;
+
+[global, bind = typed_gml]
 function id3d11_device_context_draw_indexed(
     [type_hint = `uint64`] context,
     [type_hint = `uint32`] indexCount,
@@ -1800,6 +1870,56 @@ function id3d11_device_context_om_set_depth_stencil_state(
 [global, bind = typed_gml, type_hint = `ID3D11DepthStencilStateBinding`]
 function id3d11_device_context_om_get_depth_stencil_state(
     [type_hint = `uint64`] context) : gmval;
+
+[global, bind = typed_gml]
+function id3d11_device_context_om_set_render_targets(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint64[]`] renderTargetViews,
+    [type_hint = `uint64`] depthStencilView) : bool;
+
+[global, bind = typed_gml, type_hint = `ID3D11OutputMergerTargets`]
+function id3d11_device_context_om_get_render_targets(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint32`] count) : gmval;
+[global, bind = typed_gml]
+function id3d11_device_context_om_set_render_targets_and_unordered_access_views(
+    [type_hint = `uint64`] context,
+    [type_hint = `bool`] keepRenderTargets,
+    [type_hint = `uint64[]`] renderTargetViews,
+    [type_hint = `uint64`] depthStencilView,
+    [type_hint = `uint32`] uavStartSlot,
+    [type_hint = `bool`] keepUnorderedAccessViews,
+    [type_hint = `ID3D11UnorderedAccessViewBinding[]`] unorderedAccessViews) : bool;
+
+[global, bind = typed_gml, type_hint = `ID3D11OutputMergerTargetsAndUAVs`]
+function id3d11_device_context_om_get_render_targets_and_unordered_access_views(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint32`] renderTargetCount,
+    [type_hint = `uint32`] uavStartSlot,
+    [type_hint = `uint32`] uavCount) : gmval;
+
+
+[global, bind = typed_gml]
+function id3d11_device_context_so_set_targets(
+    [type_hint = `uint64`] context,
+    [type_hint = `ID3D11StreamOutputTarget[]`] targets) : bool;
+
+[global, bind = typed_gml, type_hint = `uint64[]`]
+function id3d11_device_context_so_get_targets(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint32`] count) : gmval;
+
+[global, bind = typed_gml]
+function id3d11_device_context_cs_set_unordered_access_views(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint32`] startSlot,
+    [type_hint = `ID3D11UnorderedAccessViewBinding[]`] views) : bool;
+
+[global, bind = typed_gml, type_hint = `uint64[]`]
+function id3d11_device_context_cs_get_unordered_access_views(
+    [type_hint = `uint64`] context,
+    [type_hint = `uint32`] startSlot,
+    [type_hint = `uint32`] count) : gmval;
 
 [global, bind = typed_gml]
 function id3d11_device_context_set_predication(

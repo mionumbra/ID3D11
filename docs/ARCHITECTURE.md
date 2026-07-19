@@ -89,7 +89,7 @@ Mapped pointers are never returned to GML. The map helpers perform `Map`, bounde
 
 ## Pipeline bindings
 
-The base context binding layer currently covers IA InputLayout, primitive topology, vertex buffers, and index buffer; RS rasterizer state, viewports, and scissor rectangles; OM blend and depth-stencil state; predication; and shader, constant-buffer, shader-resource-view, and sampler bindings for VS, HS, DS, GS, PS, and CS. A shader binding is a typed shader handle plus up to the D3D11 limit of 256 class-instance handles. Multi-slot and variable-count values cross GMIDL as typed struct arrays or `uint64` handle arrays. Native code validates stage-specific 14/128/16 resource-slot limits, the class-instance limit and device identity, index formats/alignment, viewport depth ranges, rectangle ordering, optional-null handles, and immediate-context thread ownership before touching the context.
+The base context binding layer currently covers IA InputLayout, primitive topology, vertex buffers, and index buffer; RS rasterizer state, viewports, and scissor rectangles; OM blend/depth-stencil state, render-target/depth-stencil views, and RT+UAV combo; SO targets; CS unordered-access views; ClearState; predication; and shader, constant-buffer, shader-resource-view, and sampler bindings for VS, HS, DS, GS, PS, and CS. A shader binding is a typed shader handle plus up to the D3D11 limit of 256 class-instance handles. Multi-slot and variable-count values cross GMIDL as typed struct arrays or `uint64` handle arrays. Native code validates stage-specific 14/128/16 resource-slot limits, the class-instance limit and device identity, index formats/alignment, viewport depth ranges, rectangle ordering, optional-null handles, and immediate-context thread ownership before touching the context.
 
 Context getters acquire COM references as required by D3D11, intern them through the generation-checked registry, and then release the temporary native references. Because the registry deduplicates by COM identity plus handle kind, the smoke test releases only distinct captured handles. It captures the Runner's original bindings, installs test state, checks the round trip and invalid-input paths, restores the originals, and only then releases test objects. The shader-stage test applies this sequence independently to all six stages so GameMaker's own slot-zero bindings survive the test unchanged.
 
@@ -114,3 +114,6 @@ Bootstrap records the GameMaker thread that owns the immediate context. Current 
 ## Compatibility
 
 The legacy `GMD3D11.dll`, included-file loading, and `d3d11_*` scripts remain present while migration proceeds. New code should use the `ID3D11` extension and `id3d11_*` names. Compatibility wrappers can later delegate old calls to typed handles once equivalent coverage exists.
+
+
+Device-child debug names use WKPDID_D3DDebugObjectName; generic private data accepts a GUID string plus GML buffer payload.

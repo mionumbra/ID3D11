@@ -8,6 +8,7 @@ GMEXPORT double __EXT_NATIVE__ID3D11_queue_buffer(char* __arg_buffer, double __a
 
 GMEXPORT double __EXT_NATIVE__id3d11_get_version(char* __ret_buffer, double __ret_buffer_length);
 GMEXPORT double __EXT_NATIVE__id3d11_is_initialized();
+GMEXPORT double __EXT_NATIVE__id3d11_shutdown();
 GMEXPORT double __EXT_NATIVE__id3d11_get_last_hresult();
 GMEXPORT double __EXT_NATIVE__id3d11_get_device_handle(char* __ret_buffer, double __ret_buffer_length);
 GMEXPORT double __EXT_NATIVE__id3d11_get_context_handle(char* __ret_buffer, double __ret_buffer_length);
@@ -29,6 +30,10 @@ GMEXPORT double __EXT_NATIVE__id3d11_device_create_buffer(char* __arg_buffer, do
 GMEXPORT double __EXT_NATIVE__id3d11_device_create_buffer_with_data(char* __arg_buffer, double __arg_buffer_length, char* __ret_buffer, double __ret_buffer_length);
 GMEXPORT double __EXT_NATIVE__id3d11_buffer_get_desc(char* __arg_buffer, double __arg_buffer_length, char* __ret_buffer, double __ret_buffer_length);
 GMEXPORT double __EXT_NATIVE__id3d11_device_child_get_device(char* __arg_buffer, double __arg_buffer_length, char* __ret_buffer, double __ret_buffer_length);
+GMEXPORT double __EXT_NATIVE__id3d11_device_child_set_debug_name(char* __arg_buffer, double __arg_buffer_length);
+GMEXPORT char* __EXT_NATIVE__id3d11_device_child_get_debug_name(char* __arg_buffer, double __arg_buffer_length);
+GMEXPORT double __EXT_NATIVE__id3d11_device_child_set_private_data(char* __arg_buffer, double __arg_buffer_length);
+GMEXPORT double __EXT_NATIVE__id3d11_device_child_get_private_data(char* __arg_buffer, double __arg_buffer_length);
 GMEXPORT double __EXT_NATIVE__id3d11_resource_get_dimension(char* __arg_buffer, double __arg_buffer_length, char* __ret_buffer, double __ret_buffer_length);
 GMEXPORT double __EXT_NATIVE__id3d11_resource_get_eviction_priority(char* __arg_buffer, double __arg_buffer_length);
 GMEXPORT double __EXT_NATIVE__id3d11_resource_set_eviction_priority(char* __arg_buffer, double __arg_buffer_length);
@@ -83,6 +88,7 @@ GMEXPORT double __EXT_NATIVE__id3d11_device_context_begin(char* __arg_buffer, do
 GMEXPORT double __EXT_NATIVE__id3d11_device_context_end(char* __arg_buffer, double __arg_buffer_length);
 GMEXPORT double __EXT_NATIVE__id3d11_device_context_get_data(char* __arg_buffer, double __arg_buffer_length);
 GMEXPORT double __EXT_NATIVE__id3d11_device_context_flush(char* __arg_buffer, double __arg_buffer_length);
+GMEXPORT double __EXT_NATIVE__id3d11_device_context_clear_state(char* __arg_buffer, double __arg_buffer_length);
 GMEXPORT double __EXT_NATIVE__id3d11_device_context_draw_indexed(char* __arg_buffer, double __arg_buffer_length);
 GMEXPORT double __EXT_NATIVE__id3d11_device_context_draw(char* __arg_buffer, double __arg_buffer_length);
 GMEXPORT double __EXT_NATIVE__id3d11_device_context_draw_indexed_instanced(char* __arg_buffer, double __arg_buffer_length);
@@ -116,6 +122,14 @@ GMEXPORT double __EXT_NATIVE__id3d11_device_context_om_set_blend_state(char* __a
 GMEXPORT double __EXT_NATIVE__id3d11_device_context_om_get_blend_state(char* __arg_buffer, double __arg_buffer_length, char* __ret_buffer, double __ret_buffer_length);
 GMEXPORT double __EXT_NATIVE__id3d11_device_context_om_set_depth_stencil_state(char* __arg_buffer, double __arg_buffer_length);
 GMEXPORT double __EXT_NATIVE__id3d11_device_context_om_get_depth_stencil_state(char* __arg_buffer, double __arg_buffer_length, char* __ret_buffer, double __ret_buffer_length);
+GMEXPORT double __EXT_NATIVE__id3d11_device_context_om_set_render_targets(char* __arg_buffer, double __arg_buffer_length);
+GMEXPORT double __EXT_NATIVE__id3d11_device_context_om_get_render_targets(char* __arg_buffer, double __arg_buffer_length, char* __ret_buffer, double __ret_buffer_length);
+GMEXPORT double __EXT_NATIVE__id3d11_device_context_om_set_render_targets_and_unordered_access_views(char* __arg_buffer, double __arg_buffer_length);
+GMEXPORT double __EXT_NATIVE__id3d11_device_context_om_get_render_targets_and_unordered_access_views(char* __arg_buffer, double __arg_buffer_length, char* __ret_buffer, double __ret_buffer_length);
+GMEXPORT double __EXT_NATIVE__id3d11_device_context_so_set_targets(char* __arg_buffer, double __arg_buffer_length);
+GMEXPORT double __EXT_NATIVE__id3d11_device_context_so_get_targets(char* __arg_buffer, double __arg_buffer_length, char* __ret_buffer, double __ret_buffer_length);
+GMEXPORT double __EXT_NATIVE__id3d11_device_context_cs_set_unordered_access_views(char* __arg_buffer, double __arg_buffer_length);
+GMEXPORT double __EXT_NATIVE__id3d11_device_context_cs_get_unordered_access_views(char* __arg_buffer, double __arg_buffer_length, char* __ret_buffer, double __ret_buffer_length);
 GMEXPORT double __EXT_NATIVE__id3d11_device_context_set_predication(char* __arg_buffer, double __arg_buffer_length);
 GMEXPORT double __EXT_NATIVE__id3d11_device_context_get_predication(char* __arg_buffer, double __arg_buffer_length, char* __ret_buffer, double __ret_buffer_length);
 GMEXPORT double __EXT_NATIVE__id3d11_device_context_ia_set_vertex_buffers(char* __arg_buffer, double __arg_buffer_length);

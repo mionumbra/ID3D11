@@ -30,7 +30,7 @@ Status meanings:
 |---|---|---|
 | `ID3D11Device` | Partial | Buffers/textures/views/base states/query/predicate/counter creation; six shader creators, SO geometry shader, InputLayout, ClassLinkage; format/MSAA/counter checks and device queries |
 | `ID3D11Device1` … `ID3D11Device5` | Transport only | Typed `QueryInterface` handles |
-| `ID3D11DeviceContext` | Partial | `Begin`/`End`/checked `GetData`/`Flush`; direct/indirect Draw and Dispatch; resource/subresource/structure-count copies; checked `UpdateSubresource`; synchronous bounded Map read/write wrappers; RTV/UAV/DSV clear; GenerateMips, resource MinLOD, ResolveSubresource; IA InputLayout/topology/vertex/index buffers; RS state/viewports/scissors; OM blend/depth-stencil states; predication; VS/HS/DS/GS/PS/CS shader plus class instances, constant-buffer, SRV, and sampler slots |
+| `ID3D11DeviceContext` | Partial | `Begin`/`End`/checked `GetData`/`Flush`; direct/indirect Draw and Dispatch; resource/subresource/structure-count copies; checked `UpdateSubresource`; synchronous bounded Map read/write wrappers; RTV/UAV/DSV clear; GenerateMips, resource MinLOD, ResolveSubresource; IA InputLayout/topology/vertex/index buffers; RS state/viewports/scissors; OM blend/depth-stencil states, render targets, and RT+UAV combo; SO targets; CS UAV slots; ClearState; predication; VS/HS/DS/GS/PS/CS shader plus class instances, constant-buffer, SRV, and sampler slots |
 | `ID3D11DeviceContext1` … `ID3D11DeviceContext4` | Transport only | Typed `QueryInterface` handles |
 | `ID3D11Buffer` | Partial | `GetDesc`; creation, parent-device lookup, resource methods, synchronous staging Map transfer, and lifetime complete |
 | `ID3D11Resource`, `Texture1D`, `Texture2D`, `Texture3D` | Partial | Type/eviction methods, `GetDesc`, no-data and checked multi-subresource creation |
@@ -47,7 +47,7 @@ Status meanings:
 | `ID3D11ClassInstance` | Partial | Parent ClassLinkage, complete base descriptor, instance name, type name, and typed lifetime |
 | Command list, fence | Transport only | Typed handles / upgrades |
 | Video device/context/processor/decoder/view/crypto interfaces | Transport only | Typed handles / upgrades |
-| `ID3D11DeviceChild`, `ID3D11View` | Partial | `GetDevice` and `GetResource`; private-data methods remain |
+| `ID3D11DeviceChild`, `ID3D11View` | Partial | `GetDevice` and `GetResource`; debug name + private data set/get |
 | `ID3D11Multithread` | Transport only | Typed `QueryInterface` handle |
 
 The core/versioned target contains 67 COM interfaces. Method-by-method completion will proceed in dependency order:

@@ -984,6 +984,71 @@ function ID3D11PredicationBinding() constructor
 }
 
 /**
+ * @returns {Struct.ID3D11OutputMergerTargets} 
+ */
+function ID3D11OutputMergerTargets() constructor
+{
+    /**
+     * Internally generated hash for quick validation
+     * @ignore 
+     */
+    static __uid = 2574204216;
+
+    self.renderTargetViews = undefined;
+    self.depthStencilView = undefined;
+
+}
+
+/**
+ * @returns {Struct.ID3D11OutputMergerTargetsAndUAVs} 
+ */
+function ID3D11OutputMergerTargetsAndUAVs() constructor
+{
+    /**
+     * Internally generated hash for quick validation
+     * @ignore 
+     */
+    static __uid = 635375968;
+
+    self.renderTargetViews = 0;
+    self.depthStencilView = 0;
+    self.unorderedAccessViews = 0;
+
+}
+
+/**
+ * @returns {Struct.ID3D11StreamOutputTarget} 
+ */
+function ID3D11StreamOutputTarget() constructor
+{
+    /**
+     * Internally generated hash for quick validation
+     * @ignore 
+     */
+    static __uid = 3617989361;
+
+    self.buffer = 0;
+    self.offset = 0;
+
+}
+
+/**
+ * @returns {Struct.ID3D11UnorderedAccessViewBinding} 
+ */
+function ID3D11UnorderedAccessViewBinding() constructor
+{
+    /**
+     * Internally generated hash for quick validation
+     * @ignore 
+     */
+    static __uid = 3751860425;
+
+    self.view = 0;
+    self.initialCount = 0;
+
+}
+
+/**
  * @returns {Struct.ID3D11VertexBufferBinding} 
  */
 function ID3D11VertexBufferBinding() constructor
@@ -1066,12 +1131,12 @@ function ID3D11Box() constructor
      */
     static __uid = 2185347734;
 
-    self.left = undefined;
-    self.top = undefined;
-    self.front = undefined;
-    self.right = undefined;
-    self.bottom = undefined;
-    self.back = undefined;
+    self.left = 0;
+    self.top = 0;
+    self.front = 0;
+    self.right = 0;
+    self.bottom = 0;
+    self.back = 0;
 
 }
 
@@ -3175,6 +3240,242 @@ function __ID3D11PredicationBinding_decode(_buffer, _offset)
 }
 
 /**
+ * @func __ID3D11OutputMergerTargets_encode(_inst, _buffer, _offset, _where)
+ * @param {Struct.ID3D11OutputMergerTargets} _inst
+ * @param {Id.Buffer} _buffer
+ * @param {Real} _offset
+ * @param {String} _where
+ * @ignore 
+ */
+function __ID3D11OutputMergerTargets_encode(_inst, _buffer, _offset, _where = _GMFUNCTION_)
+{
+    buffer_seek(_buffer, buffer_seek_start, _offset);
+    with (_inst)
+    {
+        // field: renderTargetViews, type: UInt64[]
+        if (!is_array(self.renderTargetViews)) show_error($"{_where} :: self.renderTargetViews expected array", true);
+        var _length = array_length(self.renderTargetViews);
+        buffer_write(_buffer, buffer_u32, _length);
+        for (var _i = 0; _i < _length; ++_i)
+        {
+            if (!is_numeric(self.renderTargetViews[_i])) show_error($"{_where} :: self.renderTargetViews[_i] expected number", true);
+            buffer_write(_buffer, buffer_u64, self.renderTargetViews[_i]);
+        }
+
+        // field: depthStencilView, type: UInt64
+        if (!is_numeric(self.depthStencilView)) show_error($"{_where} :: self.depthStencilView expected number", true);
+        buffer_write(_buffer, buffer_u64, self.depthStencilView);
+
+    }
+}
+
+/**
+ * @func __ID3D11OutputMergerTargets_decode(_buffer, _offset)
+ * @param {Id.Buffer} _buffer
+ * @param {Real} _offset
+ * @returns {Struct.ID3D11OutputMergerTargets} 
+ * @ignore 
+ */
+function __ID3D11OutputMergerTargets_decode(_buffer, _offset)
+{
+    buffer_seek(_buffer, buffer_seek_start, _offset);
+
+    _inst = new ID3D11OutputMergerTargets();
+    with (_inst)
+    {
+        // field: renderTargetViews, type: UInt64[]
+        var _length = buffer_read(_buffer, buffer_u32);
+        self.renderTargetViews = array_create(_length);
+        for (var _i = 0; _i < _length; ++_i)
+        {
+            self.renderTargetViews[_i] = buffer_read(_buffer, buffer_u64);
+        }
+
+        // field: depthStencilView, type: UInt64
+        self.depthStencilView = buffer_read(_buffer, buffer_u64);
+
+    }
+
+    return _inst;
+}
+
+/**
+ * @func __ID3D11OutputMergerTargetsAndUAVs_encode(_inst, _buffer, _offset, _where)
+ * @param {Struct.ID3D11OutputMergerTargetsAndUAVs} _inst
+ * @param {Id.Buffer} _buffer
+ * @param {Real} _offset
+ * @param {String} _where
+ * @ignore 
+ */
+function __ID3D11OutputMergerTargetsAndUAVs_encode(_inst, _buffer, _offset, _where = _GMFUNCTION_)
+{
+    buffer_seek(_buffer, buffer_seek_start, _offset);
+    with (_inst)
+    {
+        // field: renderTargetViews, type: UInt64[]
+        if (!is_array(self.renderTargetViews)) show_error($"{_where} :: self.renderTargetViews expected array", true);
+        var _length = array_length(self.renderTargetViews);
+        buffer_write(_buffer, buffer_u32, _length);
+        for (var _i = 0; _i < _length; ++_i)
+        {
+            if (!is_numeric(self.renderTargetViews[_i])) show_error($"{_where} :: self.renderTargetViews[_i] expected number", true);
+            buffer_write(_buffer, buffer_u64, self.renderTargetViews[_i]);
+        }
+
+        // field: depthStencilView, type: UInt64
+        if (!is_numeric(self.depthStencilView)) show_error($"{_where} :: self.depthStencilView expected number", true);
+        buffer_write(_buffer, buffer_u64, self.depthStencilView);
+
+        // field: unorderedAccessViews, type: UInt64[]
+        if (!is_array(self.unorderedAccessViews)) show_error($"{_where} :: self.unorderedAccessViews expected array", true);
+        var _length = array_length(self.unorderedAccessViews);
+        buffer_write(_buffer, buffer_u32, _length);
+        for (var _i = 0; _i < _length; ++_i)
+        {
+            if (!is_numeric(self.unorderedAccessViews[_i])) show_error($"{_where} :: self.unorderedAccessViews[_i] expected number", true);
+            buffer_write(_buffer, buffer_u64, self.unorderedAccessViews[_i]);
+        }
+
+    }
+}
+
+/**
+ * @func __ID3D11OutputMergerTargetsAndUAVs_decode(_buffer, _offset)
+ * @param {Id.Buffer} _buffer
+ * @param {Real} _offset
+ * @returns {Struct.ID3D11OutputMergerTargetsAndUAVs} 
+ * @ignore 
+ */
+function __ID3D11OutputMergerTargetsAndUAVs_decode(_buffer, _offset)
+{
+    buffer_seek(_buffer, buffer_seek_start, _offset);
+
+    _inst = new ID3D11OutputMergerTargetsAndUAVs();
+    with (_inst)
+    {
+        // field: renderTargetViews, type: UInt64[]
+        var _length = buffer_read(_buffer, buffer_u32);
+        self.renderTargetViews = array_create(_length);
+        for (var _i = 0; _i < _length; ++_i)
+        {
+            self.renderTargetViews[_i] = buffer_read(_buffer, buffer_u64);
+        }
+
+        // field: depthStencilView, type: UInt64
+        self.depthStencilView = buffer_read(_buffer, buffer_u64);
+
+        // field: unorderedAccessViews, type: UInt64[]
+        var _length = buffer_read(_buffer, buffer_u32);
+        self.unorderedAccessViews = array_create(_length);
+        for (var _i = 0; _i < _length; ++_i)
+        {
+            self.unorderedAccessViews[_i] = buffer_read(_buffer, buffer_u64);
+        }
+
+    }
+
+    return _inst;
+}
+
+/**
+ * @func __ID3D11StreamOutputTarget_encode(_inst, _buffer, _offset, _where)
+ * @param {Struct.ID3D11StreamOutputTarget} _inst
+ * @param {Id.Buffer} _buffer
+ * @param {Real} _offset
+ * @param {String} _where
+ * @ignore 
+ */
+function __ID3D11StreamOutputTarget_encode(_inst, _buffer, _offset, _where = _GMFUNCTION_)
+{
+    buffer_seek(_buffer, buffer_seek_start, _offset);
+    with (_inst)
+    {
+        // field: buffer, type: UInt64
+        if (!is_numeric(self.buffer)) show_error($"{_where} :: self.buffer expected number", true);
+        buffer_write(_buffer, buffer_u64, self.buffer);
+
+        // field: offset, type: UInt32
+        if (!is_numeric(self.offset)) show_error($"{_where} :: self.offset expected number", true);
+        buffer_write(_buffer, buffer_u32, self.offset);
+
+    }
+}
+
+/**
+ * @func __ID3D11StreamOutputTarget_decode(_buffer, _offset)
+ * @param {Id.Buffer} _buffer
+ * @param {Real} _offset
+ * @returns {Struct.ID3D11StreamOutputTarget} 
+ * @ignore 
+ */
+function __ID3D11StreamOutputTarget_decode(_buffer, _offset)
+{
+    buffer_seek(_buffer, buffer_seek_start, _offset);
+
+    _inst = new ID3D11StreamOutputTarget();
+    with (_inst)
+    {
+        // field: buffer, type: UInt64
+        self.buffer = buffer_read(_buffer, buffer_u64);
+
+        // field: offset, type: UInt32
+        self.offset = buffer_read(_buffer, buffer_u32);
+
+    }
+
+    return _inst;
+}
+
+/**
+ * @func __ID3D11UnorderedAccessViewBinding_encode(_inst, _buffer, _offset, _where)
+ * @param {Struct.ID3D11UnorderedAccessViewBinding} _inst
+ * @param {Id.Buffer} _buffer
+ * @param {Real} _offset
+ * @param {String} _where
+ * @ignore 
+ */
+function __ID3D11UnorderedAccessViewBinding_encode(_inst, _buffer, _offset, _where = _GMFUNCTION_)
+{
+    buffer_seek(_buffer, buffer_seek_start, _offset);
+    with (_inst)
+    {
+        // field: view, type: UInt64
+        if (!is_numeric(self.view)) show_error($"{_where} :: self.view expected number", true);
+        buffer_write(_buffer, buffer_u64, self.view);
+
+        // field: initialCount, type: UInt32
+        if (!is_numeric(self.initialCount)) show_error($"{_where} :: self.initialCount expected number", true);
+        buffer_write(_buffer, buffer_u32, self.initialCount);
+
+    }
+}
+
+/**
+ * @func __ID3D11UnorderedAccessViewBinding_decode(_buffer, _offset)
+ * @param {Id.Buffer} _buffer
+ * @param {Real} _offset
+ * @returns {Struct.ID3D11UnorderedAccessViewBinding} 
+ * @ignore 
+ */
+function __ID3D11UnorderedAccessViewBinding_decode(_buffer, _offset)
+{
+    buffer_seek(_buffer, buffer_seek_start, _offset);
+
+    _inst = new ID3D11UnorderedAccessViewBinding();
+    with (_inst)
+    {
+        // field: view, type: UInt64
+        self.view = buffer_read(_buffer, buffer_u64);
+
+        // field: initialCount, type: UInt32
+        self.initialCount = buffer_read(_buffer, buffer_u32);
+
+    }
+
+    return _inst;
+}
+
+/**
  * @func __ID3D11VertexBufferBinding_encode(_inst, _buffer, _offset, _where)
  * @param {Struct.ID3D11VertexBufferBinding} _inst
  * @param {Id.Buffer} _buffer
@@ -3882,6 +4183,9 @@ function id3d11_get_version()
 // Skipping function id3d11_is_initialized (no wrapper is required)
 
 
+// Skipping function id3d11_shutdown (no wrapper is required)
+
+
 // Skipping function id3d11_get_last_hresult (no wrapper is required)
 
 
@@ -4299,6 +4603,102 @@ function id3d11_device_child_get_device(_deviceChild)
     var _result = undefined;
     _result = buffer_read(__ret_buffer, buffer_u64);
     return _result;
+}
+
+/**
+ * @param {Real} _deviceChild
+ * @param {String} _name
+ * @returns {Bool} 
+ */
+function id3d11_device_child_set_debug_name(_deviceChild, _name)
+{
+    var __args_buffer = __ext_core_get_args_buffer();
+
+    // param: _deviceChild, type: UInt64
+    if (!is_numeric(_deviceChild)) show_error($"{_GMFUNCTION_} :: _deviceChild expected number", true);
+    buffer_write(__args_buffer, buffer_u64, _deviceChild);
+
+    // param: _name, type: String
+    if (!is_string(_name)) show_error($"{_GMFUNCTION_} :: _name expected string", true);
+    buffer_write(__args_buffer, buffer_u32, string_byte_length(_name));
+    buffer_write(__args_buffer, buffer_string, _name);
+
+    var _return_value = __id3d11_device_child_set_debug_name(buffer_get_address(__args_buffer), buffer_tell(__args_buffer));
+
+    return _return_value;
+}
+
+/**
+ * @param {Real} _deviceChild
+ * @returns {String} 
+ */
+function id3d11_device_child_get_debug_name(_deviceChild)
+{
+    var __args_buffer = __ext_core_get_args_buffer();
+
+    // param: _deviceChild, type: UInt64
+    if (!is_numeric(_deviceChild)) show_error($"{_GMFUNCTION_} :: _deviceChild expected number", true);
+    buffer_write(__args_buffer, buffer_u64, _deviceChild);
+
+    var _return_value = __id3d11_device_child_get_debug_name(buffer_get_address(__args_buffer), buffer_tell(__args_buffer));
+
+    return _return_value;
+}
+
+/**
+ * @param {Real} _deviceChild
+ * @param {String} _guid
+ * @param {Id.Buffer} _data
+ * @returns {Bool} 
+ */
+function id3d11_device_child_set_private_data(_deviceChild, _guid, _data)
+{
+    var __args_buffer = __ext_core_get_args_buffer();
+
+    // param: _deviceChild, type: UInt64
+    if (!is_numeric(_deviceChild)) show_error($"{_GMFUNCTION_} :: _deviceChild expected number", true);
+    buffer_write(__args_buffer, buffer_u64, _deviceChild);
+
+    // param: _guid, type: String
+    if (!is_string(_guid)) show_error($"{_GMFUNCTION_} :: _guid expected string", true);
+    buffer_write(__args_buffer, buffer_u32, string_byte_length(_guid));
+    buffer_write(__args_buffer, buffer_string, _guid);
+
+    // param: _data, type: Buffer
+    if (!buffer_exists(_data)) show_error($"{_GMFUNCTION_} :: _data expected Id.Buffer", true);
+    __ID3D11_queue_buffer(buffer_get_address(_data), buffer_get_size(_data));
+
+    var _return_value = __id3d11_device_child_set_private_data(buffer_get_address(__args_buffer), buffer_tell(__args_buffer));
+
+    return _return_value;
+}
+
+/**
+ * @param {Real} _deviceChild
+ * @param {String} _guid
+ * @param {Id.Buffer} _data
+ * @returns {Real} 
+ */
+function id3d11_device_child_get_private_data(_deviceChild, _guid, _data)
+{
+    var __args_buffer = __ext_core_get_args_buffer();
+
+    // param: _deviceChild, type: UInt64
+    if (!is_numeric(_deviceChild)) show_error($"{_GMFUNCTION_} :: _deviceChild expected number", true);
+    buffer_write(__args_buffer, buffer_u64, _deviceChild);
+
+    // param: _guid, type: String
+    if (!is_string(_guid)) show_error($"{_GMFUNCTION_} :: _guid expected string", true);
+    buffer_write(__args_buffer, buffer_u32, string_byte_length(_guid));
+    buffer_write(__args_buffer, buffer_string, _guid);
+
+    // param: _data, type: Buffer
+    if (!buffer_exists(_data)) show_error($"{_GMFUNCTION_} :: _data expected Id.Buffer", true);
+    __ID3D11_queue_buffer(buffer_get_address(_data), buffer_get_size(_data));
+
+    var _return_value = __id3d11_device_child_get_private_data(buffer_get_address(__args_buffer), buffer_tell(__args_buffer));
+
+    return _return_value;
 }
 
 /**
@@ -5814,6 +6214,23 @@ function id3d11_device_context_flush(_context)
 
 /**
  * @param {Real} _context
+ * @returns {Bool} 
+ */
+function id3d11_device_context_clear_state(_context)
+{
+    var __args_buffer = __ext_core_get_args_buffer();
+
+    // param: _context, type: UInt64
+    if (!is_numeric(_context)) show_error($"{_GMFUNCTION_} :: _context expected number", true);
+    buffer_write(__args_buffer, buffer_u64, _context);
+
+    var _return_value = __id3d11_device_context_clear_state(buffer_get_address(__args_buffer), buffer_tell(__args_buffer));
+
+    return _return_value;
+}
+
+/**
+ * @param {Real} _context
  * @param {Real} _indexCount
  * @param {Real} _startIndexLocation
  * @param {Real} _baseVertexLocation
@@ -6859,6 +7276,288 @@ function id3d11_device_context_om_get_depth_stencil_state(_context)
 
     var _result = undefined;
     _result = __ID3D11DepthStencilStateBinding_decode(__ret_buffer, buffer_tell(__ret_buffer));
+    return _result;
+}
+
+/**
+ * @param {Real} _context
+ * @param {Array[Real]} _renderTargetViews
+ * @param {Real} _depthStencilView
+ * @returns {Bool} 
+ */
+function id3d11_device_context_om_set_render_targets(_context, _renderTargetViews, _depthStencilView)
+{
+    var __args_buffer = __ext_core_get_args_buffer();
+
+    // param: _context, type: UInt64
+    if (!is_numeric(_context)) show_error($"{_GMFUNCTION_} :: _context expected number", true);
+    buffer_write(__args_buffer, buffer_u64, _context);
+
+    // param: _renderTargetViews, type: UInt64[]
+    if (!is_array(_renderTargetViews)) show_error($"{_GMFUNCTION_} :: _renderTargetViews expected array", true);
+    var _length = array_length(_renderTargetViews);
+    buffer_write(__args_buffer, buffer_u32, _length);
+    for (var _i = 0; _i < _length; ++_i)
+    {
+        if (!is_numeric(_renderTargetViews[_i])) show_error($"{_GMFUNCTION_} :: _renderTargetViews[_i] expected number", true);
+        buffer_write(__args_buffer, buffer_u64, _renderTargetViews[_i]);
+    }
+
+    // param: _depthStencilView, type: UInt64
+    if (!is_numeric(_depthStencilView)) show_error($"{_GMFUNCTION_} :: _depthStencilView expected number", true);
+    buffer_write(__args_buffer, buffer_u64, _depthStencilView);
+
+    var _return_value = __id3d11_device_context_om_set_render_targets(buffer_get_address(__args_buffer), buffer_tell(__args_buffer));
+
+    return _return_value;
+}
+
+/**
+ * @param {Real} _context
+ * @param {Real} _count
+ * @returns {Struct.ID3D11OutputMergerTargets} 
+ */
+function id3d11_device_context_om_get_render_targets(_context, _count)
+{
+    var __args_buffer = __ext_core_get_args_buffer();
+
+    // param: _context, type: UInt64
+    if (!is_numeric(_context)) show_error($"{_GMFUNCTION_} :: _context expected number", true);
+    buffer_write(__args_buffer, buffer_u64, _context);
+
+    // param: _count, type: UInt32
+    if (!is_numeric(_count)) show_error($"{_GMFUNCTION_} :: _count expected number", true);
+    buffer_write(__args_buffer, buffer_u32, _count);
+
+    var __ret_buffer = __ext_core_get_ret_buffer();
+
+    var _return_value = __id3d11_device_context_om_get_render_targets(buffer_get_address(__args_buffer), buffer_tell(__args_buffer), buffer_get_address(__ret_buffer), buffer_get_size(__ret_buffer));
+
+    var _result = undefined;
+    _result = __ID3D11OutputMergerTargets_decode(__ret_buffer, buffer_tell(__ret_buffer));
+    return _result;
+}
+
+/**
+ * @param {Real} _context
+ * @param {Bool} _keepRenderTargets
+ * @param {Array[Real]} _renderTargetViews
+ * @param {Real} _depthStencilView
+ * @param {Real} _uavStartSlot
+ * @param {Bool} _keepUnorderedAccessViews
+ * @param {Array[Struct.ID3D11UnorderedAccessViewBinding]} _unorderedAccessViews
+ * @returns {Bool} 
+ */
+function id3d11_device_context_om_set_render_targets_and_unordered_access_views(_context, _keepRenderTargets, _renderTargetViews, _depthStencilView, _uavStartSlot, _keepUnorderedAccessViews, _unorderedAccessViews)
+{
+    var __args_buffer = __ext_core_get_args_buffer();
+
+    // param: _context, type: UInt64
+    if (!is_numeric(_context)) show_error($"{_GMFUNCTION_} :: _context expected number", true);
+    buffer_write(__args_buffer, buffer_u64, _context);
+
+    // param: _keepRenderTargets, type: Bool
+    if (!is_bool(_keepRenderTargets)) show_error($"{_GMFUNCTION_} :: _keepRenderTargets expected bool", true);
+    buffer_write(__args_buffer, buffer_bool, _keepRenderTargets);
+
+    // param: _renderTargetViews, type: UInt64[]
+    if (!is_array(_renderTargetViews)) show_error($"{_GMFUNCTION_} :: _renderTargetViews expected array", true);
+    var _length = array_length(_renderTargetViews);
+    buffer_write(__args_buffer, buffer_u32, _length);
+    for (var _i = 0; _i < _length; ++_i)
+    {
+        if (!is_numeric(_renderTargetViews[_i])) show_error($"{_GMFUNCTION_} :: _renderTargetViews[_i] expected number", true);
+        buffer_write(__args_buffer, buffer_u64, _renderTargetViews[_i]);
+    }
+
+    // param: _depthStencilView, type: UInt64
+    if (!is_numeric(_depthStencilView)) show_error($"{_GMFUNCTION_} :: _depthStencilView expected number", true);
+    buffer_write(__args_buffer, buffer_u64, _depthStencilView);
+
+    // param: _uavStartSlot, type: UInt32
+    if (!is_numeric(_uavStartSlot)) show_error($"{_GMFUNCTION_} :: _uavStartSlot expected number", true);
+    buffer_write(__args_buffer, buffer_u32, _uavStartSlot);
+
+    // param: _keepUnorderedAccessViews, type: Bool
+    if (!is_bool(_keepUnorderedAccessViews)) show_error($"{_GMFUNCTION_} :: _keepUnorderedAccessViews expected bool", true);
+    buffer_write(__args_buffer, buffer_bool, _keepUnorderedAccessViews);
+
+    // param: _unorderedAccessViews, type: struct ID3D11UnorderedAccessViewBinding[]
+    if (!is_array(_unorderedAccessViews)) show_error($"{_GMFUNCTION_} :: _unorderedAccessViews expected array", true);
+    var _length = array_length(_unorderedAccessViews);
+    buffer_write(__args_buffer, buffer_u32, _length);
+    for (var _i = 0; _i < _length; ++_i)
+    {
+        if (_unorderedAccessViews[_i].__uid != 3751860425) show_error($"{_GMFUNCTION_} :: _unorderedAccessViews[_i] expected ID3D11UnorderedAccessViewBinding", true);
+        __ID3D11UnorderedAccessViewBinding_encode(_unorderedAccessViews[_i], __args_buffer, buffer_tell(__args_buffer), _GMFUNCTION_);
+    }
+
+    var _return_value = __id3d11_device_context_om_set_render_targets_and_unordered_access_views(buffer_get_address(__args_buffer), buffer_tell(__args_buffer));
+
+    return _return_value;
+}
+
+/**
+ * @param {Real} _context
+ * @param {Real} _renderTargetCount
+ * @param {Real} _uavStartSlot
+ * @param {Real} _uavCount
+ * @returns {Struct.ID3D11OutputMergerTargetsAndUAVs} 
+ */
+function id3d11_device_context_om_get_render_targets_and_unordered_access_views(_context, _renderTargetCount, _uavStartSlot, _uavCount)
+{
+    var __args_buffer = __ext_core_get_args_buffer();
+
+    // param: _context, type: UInt64
+    if (!is_numeric(_context)) show_error($"{_GMFUNCTION_} :: _context expected number", true);
+    buffer_write(__args_buffer, buffer_u64, _context);
+
+    // param: _renderTargetCount, type: UInt32
+    if (!is_numeric(_renderTargetCount)) show_error($"{_GMFUNCTION_} :: _renderTargetCount expected number", true);
+    buffer_write(__args_buffer, buffer_u32, _renderTargetCount);
+
+    // param: _uavStartSlot, type: UInt32
+    if (!is_numeric(_uavStartSlot)) show_error($"{_GMFUNCTION_} :: _uavStartSlot expected number", true);
+    buffer_write(__args_buffer, buffer_u32, _uavStartSlot);
+
+    // param: _uavCount, type: UInt32
+    if (!is_numeric(_uavCount)) show_error($"{_GMFUNCTION_} :: _uavCount expected number", true);
+    buffer_write(__args_buffer, buffer_u32, _uavCount);
+
+    var __ret_buffer = __ext_core_get_ret_buffer();
+
+    var _return_value = __id3d11_device_context_om_get_render_targets_and_unordered_access_views(buffer_get_address(__args_buffer), buffer_tell(__args_buffer), buffer_get_address(__ret_buffer), buffer_get_size(__ret_buffer));
+
+    var _result = undefined;
+    _result = __ID3D11OutputMergerTargetsAndUAVs_decode(__ret_buffer, buffer_tell(__ret_buffer));
+    return _result;
+}
+
+/**
+ * @param {Real} _context
+ * @param {Array[Struct.ID3D11StreamOutputTarget]} _targets
+ * @returns {Bool} 
+ */
+function id3d11_device_context_so_set_targets(_context, _targets)
+{
+    var __args_buffer = __ext_core_get_args_buffer();
+
+    // param: _context, type: UInt64
+    if (!is_numeric(_context)) show_error($"{_GMFUNCTION_} :: _context expected number", true);
+    buffer_write(__args_buffer, buffer_u64, _context);
+
+    // param: _targets, type: struct ID3D11StreamOutputTarget[]
+    if (!is_array(_targets)) show_error($"{_GMFUNCTION_} :: _targets expected array", true);
+    var _length = array_length(_targets);
+    buffer_write(__args_buffer, buffer_u32, _length);
+    for (var _i = 0; _i < _length; ++_i)
+    {
+        if (_targets[_i].__uid != 3617989361) show_error($"{_GMFUNCTION_} :: _targets[_i] expected ID3D11StreamOutputTarget", true);
+        __ID3D11StreamOutputTarget_encode(_targets[_i], __args_buffer, buffer_tell(__args_buffer), _GMFUNCTION_);
+    }
+
+    var _return_value = __id3d11_device_context_so_set_targets(buffer_get_address(__args_buffer), buffer_tell(__args_buffer));
+
+    return _return_value;
+}
+
+/**
+ * @param {Real} _context
+ * @param {Real} _count
+ * @returns {Array[Real]} 
+ */
+function id3d11_device_context_so_get_targets(_context, _count)
+{
+    var __args_buffer = __ext_core_get_args_buffer();
+
+    // param: _context, type: UInt64
+    if (!is_numeric(_context)) show_error($"{_GMFUNCTION_} :: _context expected number", true);
+    buffer_write(__args_buffer, buffer_u64, _context);
+
+    // param: _count, type: UInt32
+    if (!is_numeric(_count)) show_error($"{_GMFUNCTION_} :: _count expected number", true);
+    buffer_write(__args_buffer, buffer_u32, _count);
+
+    var __ret_buffer = __ext_core_get_ret_buffer();
+
+    var _return_value = __id3d11_device_context_so_get_targets(buffer_get_address(__args_buffer), buffer_tell(__args_buffer), buffer_get_address(__ret_buffer), buffer_get_size(__ret_buffer));
+
+    var _result = undefined;
+    var _length = buffer_read(__ret_buffer, buffer_u32);
+    _result = array_create(_length);
+    for (var _i = 0; _i < _length; ++_i)
+    {
+        _result[_i] = buffer_read(__ret_buffer, buffer_u64);
+    }
+    return _result;
+}
+
+/**
+ * @param {Real} _context
+ * @param {Real} _startSlot
+ * @param {Array[Struct.ID3D11UnorderedAccessViewBinding]} _views
+ * @returns {Bool} 
+ */
+function id3d11_device_context_cs_set_unordered_access_views(_context, _startSlot, _views)
+{
+    var __args_buffer = __ext_core_get_args_buffer();
+
+    // param: _context, type: UInt64
+    if (!is_numeric(_context)) show_error($"{_GMFUNCTION_} :: _context expected number", true);
+    buffer_write(__args_buffer, buffer_u64, _context);
+
+    // param: _startSlot, type: UInt32
+    if (!is_numeric(_startSlot)) show_error($"{_GMFUNCTION_} :: _startSlot expected number", true);
+    buffer_write(__args_buffer, buffer_u32, _startSlot);
+
+    // param: _views, type: struct ID3D11UnorderedAccessViewBinding[]
+    if (!is_array(_views)) show_error($"{_GMFUNCTION_} :: _views expected array", true);
+    var _length = array_length(_views);
+    buffer_write(__args_buffer, buffer_u32, _length);
+    for (var _i = 0; _i < _length; ++_i)
+    {
+        if (_views[_i].__uid != 3751860425) show_error($"{_GMFUNCTION_} :: _views[_i] expected ID3D11UnorderedAccessViewBinding", true);
+        __ID3D11UnorderedAccessViewBinding_encode(_views[_i], __args_buffer, buffer_tell(__args_buffer), _GMFUNCTION_);
+    }
+
+    var _return_value = __id3d11_device_context_cs_set_unordered_access_views(buffer_get_address(__args_buffer), buffer_tell(__args_buffer));
+
+    return _return_value;
+}
+
+/**
+ * @param {Real} _context
+ * @param {Real} _startSlot
+ * @param {Real} _count
+ * @returns {Array[Real]} 
+ */
+function id3d11_device_context_cs_get_unordered_access_views(_context, _startSlot, _count)
+{
+    var __args_buffer = __ext_core_get_args_buffer();
+
+    // param: _context, type: UInt64
+    if (!is_numeric(_context)) show_error($"{_GMFUNCTION_} :: _context expected number", true);
+    buffer_write(__args_buffer, buffer_u64, _context);
+
+    // param: _startSlot, type: UInt32
+    if (!is_numeric(_startSlot)) show_error($"{_GMFUNCTION_} :: _startSlot expected number", true);
+    buffer_write(__args_buffer, buffer_u32, _startSlot);
+
+    // param: _count, type: UInt32
+    if (!is_numeric(_count)) show_error($"{_GMFUNCTION_} :: _count expected number", true);
+    buffer_write(__args_buffer, buffer_u32, _count);
+
+    var __ret_buffer = __ext_core_get_ret_buffer();
+
+    var _return_value = __id3d11_device_context_cs_get_unordered_access_views(buffer_get_address(__args_buffer), buffer_tell(__args_buffer), buffer_get_address(__ret_buffer), buffer_get_size(__ret_buffer));
+
+    var _result = undefined;
+    var _length = buffer_read(__ret_buffer, buffer_u32);
+    _result = array_create(_length);
+    for (var _i = 0; _i < _length; ++_i)
+    {
+        _result[_i] = buffer_read(__ret_buffer, buffer_u64);
+    }
     return _result;
 }
 
@@ -8891,6 +9590,10 @@ function __ID3D11_get_decoders()
         __ID3D11BlendStateBinding_decode,
         __ID3D11DepthStencilStateBinding_decode,
         __ID3D11PredicationBinding_decode,
+        __ID3D11OutputMergerTargets_decode,
+        __ID3D11OutputMergerTargetsAndUAVs_decode,
+        __ID3D11StreamOutputTarget_decode,
+        __ID3D11UnorderedAccessViewBinding_decode,
         __ID3D11VertexBufferBinding_decode,
         __ID3D11IndexBufferBinding_decode,
         __ID3D11Viewport_decode,

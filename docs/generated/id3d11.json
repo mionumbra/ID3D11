@@ -11,6 +11,11 @@
  */
 
 /**
+ * @function_partial id3d11_shutdown
+ * @function_end 
+ */
+
+/**
  * @function_partial id3d11_get_last_hresult
  * @returns {Real} 
  * @function_end 
@@ -157,6 +162,39 @@
 /**
  * @function_partial id3d11_device_child_get_device
  * @param {Real} deviceChild
+ * @returns {Real} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_child_set_debug_name
+ * @param {Real} deviceChild
+ * @param {String} name
+ * @returns {Bool} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_child_get_debug_name
+ * @param {Real} deviceChild
+ * @returns {String} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_child_set_private_data
+ * @param {Real} deviceChild
+ * @param {String} guid
+ * @param {Buffer} data
+ * @returns {Bool} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_child_get_private_data
+ * @param {Real} deviceChild
+ * @param {String} guid
+ * @param {Buffer} data
  * @returns {Real} 
  * @function_end 
  */
@@ -613,6 +651,13 @@
  */
 
 /**
+ * @function_partial id3d11_device_context_clear_state
+ * @param {Real} context
+ * @returns {Bool} 
+ * @function_end 
+ */
+
+/**
  * @function_partial id3d11_device_context_draw_indexed
  * @param {Real} context
  * @param {Real} indexCount
@@ -932,6 +977,80 @@
  * @function_partial id3d11_device_context_om_get_depth_stencil_state
  * @param {Real} context
  * @returns {Struct.ID3D11DepthStencilStateBinding} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_om_set_render_targets
+ * @param {Real} context
+ * @param {Array[Real]} renderTargetViews
+ * @param {Real} depthStencilView
+ * @returns {Bool} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_om_get_render_targets
+ * @param {Real} context
+ * @param {Real} count
+ * @returns {Struct.ID3D11OutputMergerTargets} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_om_set_render_targets_and_unordered_access_views
+ * @param {Real} context
+ * @param {Bool} keepRenderTargets
+ * @param {Array[Real]} renderTargetViews
+ * @param {Real} depthStencilView
+ * @param {Real} uavStartSlot
+ * @param {Bool} keepUnorderedAccessViews
+ * @param {Array[Struct.ID3D11UnorderedAccessViewBinding]} unorderedAccessViews
+ * @returns {Bool} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_om_get_render_targets_and_unordered_access_views
+ * @param {Real} context
+ * @param {Real} renderTargetCount
+ * @param {Real} uavStartSlot
+ * @param {Real} uavCount
+ * @returns {Struct.ID3D11OutputMergerTargetsAndUAVs} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_so_set_targets
+ * @param {Real} context
+ * @param {Array[Struct.ID3D11StreamOutputTarget]} targets
+ * @returns {Bool} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_so_get_targets
+ * @param {Real} context
+ * @param {Real} count
+ * @returns {Array[Real]} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_cs_set_unordered_access_views
+ * @param {Real} context
+ * @param {Real} startSlot
+ * @param {Array[Struct.ID3D11UnorderedAccessViewBinding]} views
+ * @returns {Bool} 
+ * @function_end 
+ */
+
+/**
+ * @function_partial id3d11_device_context_cs_get_unordered_access_views
+ * @param {Real} context
+ * @param {Real} startSlot
+ * @param {Real} count
+ * @returns {Array[Real]} 
  * @function_end 
  */
 
@@ -1765,6 +1884,35 @@
  * @struct_partial ID3D11PredicationBinding
  * @member {Real} predicate
  * @member {Bool} predicateValue
+ * @struct_end 
+ */
+
+/**
+ * @struct_partial ID3D11OutputMergerTargets
+ * @member {Array[Real]} renderTargetViews
+ * @member {Real} depthStencilView
+ * @struct_end 
+ */
+
+/**
+ * @struct_partial ID3D11OutputMergerTargetsAndUAVs
+ * @member {Array[Real]} renderTargetViews
+ * @member {Real} depthStencilView
+ * @member {Array[Real]} unorderedAccessViews
+ * @struct_end 
+ */
+
+/**
+ * @struct_partial ID3D11StreamOutputTarget
+ * @member {Real} buffer
+ * @member {Real} offset
+ * @struct_end 
+ */
+
+/**
+ * @struct_partial ID3D11UnorderedAccessViewBinding
+ * @member {Real} view
+ * @member {Real} initialCount
  * @struct_end 
  */
 

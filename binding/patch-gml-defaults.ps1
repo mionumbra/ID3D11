@@ -25,7 +25,11 @@ $inputStructs = @(
     "ID3D11VertexBufferBinding",
     "ID3D11IndexBufferBinding",
     "ID3D11Viewport",
-    "ID3D11Rect"
+    "ID3D11Rect",
+    "ID3D11Box",
+    "ID3D11StreamOutputTarget",
+    "ID3D11UnorderedAccessViewBinding",
+    "ID3D11OutputMergerTargetsAndUAVs"
 )
 
 foreach ($structName in $inputStructs)

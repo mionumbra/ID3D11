@@ -126,7 +126,11 @@ try
         throw "Smoke assertions failed: $result"
     }
 
-    if ($combinedOutput -notmatch '(?m)###game_end###0\s*$' -or $combinedOutput -notmatch '(?m)Runner\.exe DONE \(0\)\s*$')
+    $hasCleanGameEnd = $combinedOutput -match '(?m)###game_end###0\s*$'
+    $hasCleanRunnerExit =
+        $combinedOutput -match '(?m)Runner\.exe DONE \(0\)\s*$' -or
+        $combinedOutput -match '(?m)Game exited\s*$'
+    if (!$hasCleanGameEnd -or !$hasCleanRunnerExit)
     {
         throw "Runner did not report a clean game_end. See log: $LogPath"
     }

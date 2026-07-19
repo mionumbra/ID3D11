@@ -22,7 +22,7 @@
       "constants": [],
       "copyToTargets": 9223372036854775807,
       "filename": "ID3D11.dll",
-      "final": "",
+      "final": "id3d11_shutdown",
       "functions": [
         {
           "$GMExtensionFunction": "",
@@ -53,6 +53,21 @@
           "hidden": false,
           "kind": 4,
           "name": "id3d11_is_initialized",
+          "resourceType": "GMExtensionFunction",
+          "resourceVersion": "2.0",
+          "returnType": 2
+        },
+        {
+          "$GMExtensionFunction": "",
+          "%Name": "id3d11_shutdown",
+          "argCount": 0,
+          "args": [],
+          "documentation": "@returns {Real}",
+          "externalName": "__EXT_NATIVE__id3d11_shutdown",
+          "help": "",
+          "hidden": false,
+          "kind": 4,
+          "name": "id3d11_shutdown",
           "resourceType": "GMExtensionFunction",
           "resourceVersion": "2.0",
           "returnType": 2
@@ -450,6 +465,78 @@
           "hidden": true,
           "kind": 4,
           "name": "__id3d11_device_child_get_device",
+          "resourceType": "GMExtensionFunction",
+          "resourceVersion": "2.0",
+          "returnType": 2
+        },
+        {
+          "$GMExtensionFunction": "",
+          "%Name": "__id3d11_device_child_set_debug_name",
+          "argCount": 2,
+          "args": [
+            1,
+            2
+          ],
+          "documentation": "@param {Pointer} _arg_buffer\r\n@param {Real} _arg_buffer_length\r\n@returns {Real}",
+          "externalName": "__EXT_NATIVE__id3d11_device_child_set_debug_name",
+          "help": "",
+          "hidden": true,
+          "kind": 4,
+          "name": "__id3d11_device_child_set_debug_name",
+          "resourceType": "GMExtensionFunction",
+          "resourceVersion": "2.0",
+          "returnType": 2
+        },
+        {
+          "$GMExtensionFunction": "",
+          "%Name": "__id3d11_device_child_get_debug_name",
+          "argCount": 2,
+          "args": [
+            1,
+            2
+          ],
+          "documentation": "@param {Pointer} _arg_buffer\r\n@param {Real} _arg_buffer_length\r\n@returns {String}",
+          "externalName": "__EXT_NATIVE__id3d11_device_child_get_debug_name",
+          "help": "",
+          "hidden": true,
+          "kind": 4,
+          "name": "__id3d11_device_child_get_debug_name",
+          "resourceType": "GMExtensionFunction",
+          "resourceVersion": "2.0",
+          "returnType": 1
+        },
+        {
+          "$GMExtensionFunction": "",
+          "%Name": "__id3d11_device_child_set_private_data",
+          "argCount": 2,
+          "args": [
+            1,
+            2
+          ],
+          "documentation": "@param {Pointer} _arg_buffer\r\n@param {Real} _arg_buffer_length\r\n@returns {Real}",
+          "externalName": "__EXT_NATIVE__id3d11_device_child_set_private_data",
+          "help": "",
+          "hidden": true,
+          "kind": 4,
+          "name": "__id3d11_device_child_set_private_data",
+          "resourceType": "GMExtensionFunction",
+          "resourceVersion": "2.0",
+          "returnType": 2
+        },
+        {
+          "$GMExtensionFunction": "",
+          "%Name": "__id3d11_device_child_get_private_data",
+          "argCount": 2,
+          "args": [
+            1,
+            2
+          ],
+          "documentation": "@param {Pointer} _arg_buffer\r\n@param {Real} _arg_buffer_length\r\n@returns {Real}",
+          "externalName": "__EXT_NATIVE__id3d11_device_child_get_private_data",
+          "help": "",
+          "hidden": true,
+          "kind": 4,
+          "name": "__id3d11_device_child_get_private_data",
           "resourceType": "GMExtensionFunction",
           "resourceVersion": "2.0",
           "returnType": 2
@@ -1522,6 +1609,24 @@
         },
         {
           "$GMExtensionFunction": "",
+          "%Name": "__id3d11_device_context_clear_state",
+          "argCount": 2,
+          "args": [
+            1,
+            2
+          ],
+          "documentation": "@param {Pointer} _arg_buffer\r\n@param {Real} _arg_buffer_length\r\n@returns {Real}",
+          "externalName": "__EXT_NATIVE__id3d11_device_context_clear_state",
+          "help": "",
+          "hidden": true,
+          "kind": 4,
+          "name": "__id3d11_device_context_clear_state",
+          "resourceType": "GMExtensionFunction",
+          "resourceVersion": "2.0",
+          "returnType": 2
+        },
+        {
+          "$GMExtensionFunction": "",
           "%Name": "__id3d11_device_context_draw_indexed",
           "argCount": 2,
           "args": [
@@ -2120,6 +2225,158 @@
           "hidden": true,
           "kind": 4,
           "name": "__id3d11_device_context_om_get_depth_stencil_state",
+          "resourceType": "GMExtensionFunction",
+          "resourceVersion": "2.0",
+          "returnType": 2
+        },
+        {
+          "$GMExtensionFunction": "",
+          "%Name": "__id3d11_device_context_om_set_render_targets",
+          "argCount": 2,
+          "args": [
+            1,
+            2
+          ],
+          "documentation": "@param {Pointer} _arg_buffer\r\n@param {Real} _arg_buffer_length\r\n@returns {Real}",
+          "externalName": "__EXT_NATIVE__id3d11_device_context_om_set_render_targets",
+          "help": "",
+          "hidden": true,
+          "kind": 4,
+          "name": "__id3d11_device_context_om_set_render_targets",
+          "resourceType": "GMExtensionFunction",
+          "resourceVersion": "2.0",
+          "returnType": 2
+        },
+        {
+          "$GMExtensionFunction": "",
+          "%Name": "__id3d11_device_context_om_get_render_targets",
+          "argCount": 4,
+          "args": [
+            1,
+            2,
+            1,
+            2
+          ],
+          "documentation": "@param {Pointer} _arg_buffer\r\n@param {Real} _arg_buffer_length\r\n@param {Pointer} _ret_buffer\r\n@param {Real} _ret_buffer_length\r\n@returns {Real}",
+          "externalName": "__EXT_NATIVE__id3d11_device_context_om_get_render_targets",
+          "help": "",
+          "hidden": true,
+          "kind": 4,
+          "name": "__id3d11_device_context_om_get_render_targets",
+          "resourceType": "GMExtensionFunction",
+          "resourceVersion": "2.0",
+          "returnType": 2
+        },
+        {
+          "$GMExtensionFunction": "",
+          "%Name": "__id3d11_device_context_om_set_render_targets_and_unordered_access_views",
+          "argCount": 2,
+          "args": [
+            1,
+            2
+          ],
+          "documentation": "@param {Pointer} _arg_buffer\r\n@param {Real} _arg_buffer_length\r\n@returns {Real}",
+          "externalName": "__EXT_NATIVE__id3d11_device_context_om_set_render_targets_and_unordered_access_views",
+          "help": "",
+          "hidden": true,
+          "kind": 4,
+          "name": "__id3d11_device_context_om_set_render_targets_and_unordered_access_views",
+          "resourceType": "GMExtensionFunction",
+          "resourceVersion": "2.0",
+          "returnType": 2
+        },
+        {
+          "$GMExtensionFunction": "",
+          "%Name": "__id3d11_device_context_om_get_render_targets_and_unordered_access_views",
+          "argCount": 4,
+          "args": [
+            1,
+            2,
+            1,
+            2
+          ],
+          "documentation": "@param {Pointer} _arg_buffer\r\n@param {Real} _arg_buffer_length\r\n@param {Pointer} _ret_buffer\r\n@param {Real} _ret_buffer_length\r\n@returns {Real}",
+          "externalName": "__EXT_NATIVE__id3d11_device_context_om_get_render_targets_and_unordered_access_views",
+          "help": "",
+          "hidden": true,
+          "kind": 4,
+          "name": "__id3d11_device_context_om_get_render_targets_and_unordered_access_views",
+          "resourceType": "GMExtensionFunction",
+          "resourceVersion": "2.0",
+          "returnType": 2
+        },
+        {
+          "$GMExtensionFunction": "",
+          "%Name": "__id3d11_device_context_so_set_targets",
+          "argCount": 2,
+          "args": [
+            1,
+            2
+          ],
+          "documentation": "@param {Pointer} _arg_buffer\r\n@param {Real} _arg_buffer_length\r\n@returns {Real}",
+          "externalName": "__EXT_NATIVE__id3d11_device_context_so_set_targets",
+          "help": "",
+          "hidden": true,
+          "kind": 4,
+          "name": "__id3d11_device_context_so_set_targets",
+          "resourceType": "GMExtensionFunction",
+          "resourceVersion": "2.0",
+          "returnType": 2
+        },
+        {
+          "$GMExtensionFunction": "",
+          "%Name": "__id3d11_device_context_so_get_targets",
+          "argCount": 4,
+          "args": [
+            1,
+            2,
+            1,
+            2
+          ],
+          "documentation": "@param {Pointer} _arg_buffer\r\n@param {Real} _arg_buffer_length\r\n@param {Pointer} _ret_buffer\r\n@param {Real} _ret_buffer_length\r\n@returns {Real}",
+          "externalName": "__EXT_NATIVE__id3d11_device_context_so_get_targets",
+          "help": "",
+          "hidden": true,
+          "kind": 4,
+          "name": "__id3d11_device_context_so_get_targets",
+          "resourceType": "GMExtensionFunction",
+          "resourceVersion": "2.0",
+          "returnType": 2
+        },
+        {
+          "$GMExtensionFunction": "",
+          "%Name": "__id3d11_device_context_cs_set_unordered_access_views",
+          "argCount": 2,
+          "args": [
+            1,
+            2
+          ],
+          "documentation": "@param {Pointer} _arg_buffer\r\n@param {Real} _arg_buffer_length\r\n@returns {Real}",
+          "externalName": "__EXT_NATIVE__id3d11_device_context_cs_set_unordered_access_views",
+          "help": "",
+          "hidden": true,
+          "kind": 4,
+          "name": "__id3d11_device_context_cs_set_unordered_access_views",
+          "resourceType": "GMExtensionFunction",
+          "resourceVersion": "2.0",
+          "returnType": 2
+        },
+        {
+          "$GMExtensionFunction": "",
+          "%Name": "__id3d11_device_context_cs_get_unordered_access_views",
+          "argCount": 4,
+          "args": [
+            1,
+            2,
+            1,
+            2
+          ],
+          "documentation": "@param {Pointer} _arg_buffer\r\n@param {Real} _arg_buffer_length\r\n@param {Pointer} _ret_buffer\r\n@param {Real} _ret_buffer_length\r\n@returns {Real}",
+          "externalName": "__EXT_NATIVE__id3d11_device_context_cs_get_unordered_access_views",
+          "help": "",
+          "hidden": true,
+          "kind": 4,
+          "name": "__id3d11_device_context_cs_get_unordered_access_views",
           "resourceType": "GMExtensionFunction",
           "resourceVersion": "2.0",
           "returnType": 2

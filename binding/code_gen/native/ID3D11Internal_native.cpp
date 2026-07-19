@@ -33,6 +33,12 @@ GMEXPORT double __EXT_NATIVE__id3d11_is_initialized()
     return static_cast<double>(__result);
 }
 
+GMEXPORT double __EXT_NATIVE__id3d11_shutdown()
+{
+    id3d11_shutdown();
+    return 0;
+}
+
 GMEXPORT double __EXT_NATIVE__id3d11_get_last_hresult()
 {
     auto&& __result = id3d11_get_last_hresult();
@@ -323,6 +329,68 @@ GMEXPORT double __EXT_NATIVE__id3d11_device_child_get_device(char* __arg_buffer,
     // return: __result, type: UInt64
     gm::wire::codec::writeValue(__bw, __result);
     return 0;
+}
+
+GMEXPORT double __EXT_NATIVE__id3d11_device_child_set_debug_name(char* __arg_buffer, double __arg_buffer_length)
+{
+    gm::byteio::BufferReader __br{__arg_buffer, static_cast<size_t>(__arg_buffer_length)};
+
+    // field: deviceChild, type: UInt64
+    std::uint64_t deviceChild = gm::wire::codec::readValue<std::uint64_t>(__br);
+
+    // field: name, type: String
+    std::string_view name = gm::wire::codec::readValue<std::string_view>(__br);
+
+    auto&& __result = id3d11_device_child_set_debug_name(deviceChild, name);
+    return static_cast<double>(__result);
+}
+
+GMEXPORT char* __EXT_NATIVE__id3d11_device_child_get_debug_name(char* __arg_buffer, double __arg_buffer_length)
+{
+    gm::byteio::BufferReader __br{__arg_buffer, static_cast<size_t>(__arg_buffer_length)};
+
+    // field: deviceChild, type: UInt64
+    std::uint64_t deviceChild = gm::wire::codec::readValue<std::uint64_t>(__br);
+
+    static std::string __result;
+    __result = id3d11_device_child_get_debug_name(deviceChild);
+    return (char*)__result.c_str();
+}
+
+GMEXPORT double __EXT_NATIVE__id3d11_device_child_set_private_data(char* __arg_buffer, double __arg_buffer_length)
+{
+    gm::byteio::BufferReader __br{__arg_buffer, static_cast<size_t>(__arg_buffer_length)};
+
+    // field: deviceChild, type: UInt64
+    std::uint64_t deviceChild = gm::wire::codec::readValue<std::uint64_t>(__br);
+
+    // field: guid, type: String
+    std::string_view guid = gm::wire::codec::readValue<std::string_view>(__br);
+
+    // field: data, type: Buffer
+    gm::wire::GMBuffer data = __buffer_queue.front();
+    __buffer_queue.pop();
+
+    auto&& __result = id3d11_device_child_set_private_data(deviceChild, guid, data);
+    return static_cast<double>(__result);
+}
+
+GMEXPORT double __EXT_NATIVE__id3d11_device_child_get_private_data(char* __arg_buffer, double __arg_buffer_length)
+{
+    gm::byteio::BufferReader __br{__arg_buffer, static_cast<size_t>(__arg_buffer_length)};
+
+    // field: deviceChild, type: UInt64
+    std::uint64_t deviceChild = gm::wire::codec::readValue<std::uint64_t>(__br);
+
+    // field: guid, type: String
+    std::string_view guid = gm::wire::codec::readValue<std::string_view>(__br);
+
+    // field: data, type: Buffer
+    gm::wire::GMBuffer data = __buffer_queue.front();
+    __buffer_queue.pop();
+
+    auto&& __result = id3d11_device_child_get_private_data(deviceChild, guid, data);
+    return static_cast<double>(__result);
 }
 
 GMEXPORT double __EXT_NATIVE__id3d11_resource_get_dimension(char* __arg_buffer, double __arg_buffer_length, char* __ret_buffer, double __ret_buffer_length)
@@ -1340,6 +1408,17 @@ GMEXPORT double __EXT_NATIVE__id3d11_device_context_flush(char* __arg_buffer, do
     return static_cast<double>(__result);
 }
 
+GMEXPORT double __EXT_NATIVE__id3d11_device_context_clear_state(char* __arg_buffer, double __arg_buffer_length)
+{
+    gm::byteio::BufferReader __br{__arg_buffer, static_cast<size_t>(__arg_buffer_length)};
+
+    // field: context, type: UInt64
+    std::uint64_t context = gm::wire::codec::readValue<std::uint64_t>(__br);
+
+    auto&& __result = id3d11_device_context_clear_state(context);
+    return static_cast<double>(__result);
+}
+
 GMEXPORT double __EXT_NATIVE__id3d11_device_context_draw_indexed(char* __arg_buffer, double __arg_buffer_length)
 {
     gm::byteio::BufferReader __br{__arg_buffer, static_cast<size_t>(__arg_buffer_length)};
@@ -1998,6 +2077,164 @@ GMEXPORT double __EXT_NATIVE__id3d11_device_context_om_get_depth_stencil_state(c
     gm::byteio::BufferWriter __bw{__ret_buffer, static_cast<size_t>(__ret_buffer_length)};
 
     // return: __result, type: struct ID3D11DepthStencilStateBinding
+    gm::wire::codec::writeValue(__bw, __result);
+    return 0;
+}
+
+GMEXPORT double __EXT_NATIVE__id3d11_device_context_om_set_render_targets(char* __arg_buffer, double __arg_buffer_length)
+{
+    gm::byteio::BufferReader __br{__arg_buffer, static_cast<size_t>(__arg_buffer_length)};
+
+    // field: context, type: UInt64
+    std::uint64_t context = gm::wire::codec::readValue<std::uint64_t>(__br);
+
+    // field: renderTargetViews, type: UInt64[]
+    std::vector<std::uint64_t> renderTargetViews = gm::wire::codec::readVector<std::uint64_t>(__br);
+
+    // field: depthStencilView, type: UInt64
+    std::uint64_t depthStencilView = gm::wire::codec::readValue<std::uint64_t>(__br);
+
+    auto&& __result = id3d11_device_context_om_set_render_targets(context, renderTargetViews, depthStencilView);
+    return static_cast<double>(__result);
+}
+
+GMEXPORT double __EXT_NATIVE__id3d11_device_context_om_get_render_targets(char* __arg_buffer, double __arg_buffer_length, char* __ret_buffer, double __ret_buffer_length)
+{
+    gm::byteio::BufferReader __br{__arg_buffer, static_cast<size_t>(__arg_buffer_length)};
+
+    // field: context, type: UInt64
+    std::uint64_t context = gm::wire::codec::readValue<std::uint64_t>(__br);
+
+    // field: count, type: UInt32
+    std::uint32_t count = gm::wire::codec::readValue<std::uint32_t>(__br);
+
+    auto&& __result = id3d11_device_context_om_get_render_targets(context, count);
+    gm::byteio::BufferWriter __bw{__ret_buffer, static_cast<size_t>(__ret_buffer_length)};
+
+    // return: __result, type: struct ID3D11OutputMergerTargets
+    gm::wire::codec::writeValue(__bw, __result);
+    return 0;
+}
+
+GMEXPORT double __EXT_NATIVE__id3d11_device_context_om_set_render_targets_and_unordered_access_views(char* __arg_buffer, double __arg_buffer_length)
+{
+    gm::byteio::BufferReader __br{__arg_buffer, static_cast<size_t>(__arg_buffer_length)};
+
+    // field: context, type: UInt64
+    std::uint64_t context = gm::wire::codec::readValue<std::uint64_t>(__br);
+
+    // field: keepRenderTargets, type: Bool
+    bool keepRenderTargets = gm::wire::codec::readValue<bool>(__br);
+
+    // field: renderTargetViews, type: UInt64[]
+    std::vector<std::uint64_t> renderTargetViews = gm::wire::codec::readVector<std::uint64_t>(__br);
+
+    // field: depthStencilView, type: UInt64
+    std::uint64_t depthStencilView = gm::wire::codec::readValue<std::uint64_t>(__br);
+
+    // field: uavStartSlot, type: UInt32
+    std::uint32_t uavStartSlot = gm::wire::codec::readValue<std::uint32_t>(__br);
+
+    // field: keepUnorderedAccessViews, type: Bool
+    bool keepUnorderedAccessViews = gm::wire::codec::readValue<bool>(__br);
+
+    // field: unorderedAccessViews, type: struct ID3D11UnorderedAccessViewBinding[]
+    std::vector<gm_structs::ID3D11UnorderedAccessViewBinding> unorderedAccessViews = gm::wire::codec::readVector<gm_structs::ID3D11UnorderedAccessViewBinding>(__br);
+
+    auto&& __result = id3d11_device_context_om_set_render_targets_and_unordered_access_views(context, keepRenderTargets, renderTargetViews, depthStencilView, uavStartSlot, keepUnorderedAccessViews, unorderedAccessViews);
+    return static_cast<double>(__result);
+}
+
+GMEXPORT double __EXT_NATIVE__id3d11_device_context_om_get_render_targets_and_unordered_access_views(char* __arg_buffer, double __arg_buffer_length, char* __ret_buffer, double __ret_buffer_length)
+{
+    gm::byteio::BufferReader __br{__arg_buffer, static_cast<size_t>(__arg_buffer_length)};
+
+    // field: context, type: UInt64
+    std::uint64_t context = gm::wire::codec::readValue<std::uint64_t>(__br);
+
+    // field: renderTargetCount, type: UInt32
+    std::uint32_t renderTargetCount = gm::wire::codec::readValue<std::uint32_t>(__br);
+
+    // field: uavStartSlot, type: UInt32
+    std::uint32_t uavStartSlot = gm::wire::codec::readValue<std::uint32_t>(__br);
+
+    // field: uavCount, type: UInt32
+    std::uint32_t uavCount = gm::wire::codec::readValue<std::uint32_t>(__br);
+
+    auto&& __result = id3d11_device_context_om_get_render_targets_and_unordered_access_views(context, renderTargetCount, uavStartSlot, uavCount);
+    gm::byteio::BufferWriter __bw{__ret_buffer, static_cast<size_t>(__ret_buffer_length)};
+
+    // return: __result, type: struct ID3D11OutputMergerTargetsAndUAVs
+    gm::wire::codec::writeValue(__bw, __result);
+    return 0;
+}
+
+GMEXPORT double __EXT_NATIVE__id3d11_device_context_so_set_targets(char* __arg_buffer, double __arg_buffer_length)
+{
+    gm::byteio::BufferReader __br{__arg_buffer, static_cast<size_t>(__arg_buffer_length)};
+
+    // field: context, type: UInt64
+    std::uint64_t context = gm::wire::codec::readValue<std::uint64_t>(__br);
+
+    // field: targets, type: struct ID3D11StreamOutputTarget[]
+    std::vector<gm_structs::ID3D11StreamOutputTarget> targets = gm::wire::codec::readVector<gm_structs::ID3D11StreamOutputTarget>(__br);
+
+    auto&& __result = id3d11_device_context_so_set_targets(context, targets);
+    return static_cast<double>(__result);
+}
+
+GMEXPORT double __EXT_NATIVE__id3d11_device_context_so_get_targets(char* __arg_buffer, double __arg_buffer_length, char* __ret_buffer, double __ret_buffer_length)
+{
+    gm::byteio::BufferReader __br{__arg_buffer, static_cast<size_t>(__arg_buffer_length)};
+
+    // field: context, type: UInt64
+    std::uint64_t context = gm::wire::codec::readValue<std::uint64_t>(__br);
+
+    // field: count, type: UInt32
+    std::uint32_t count = gm::wire::codec::readValue<std::uint32_t>(__br);
+
+    auto&& __result = id3d11_device_context_so_get_targets(context, count);
+    gm::byteio::BufferWriter __bw{__ret_buffer, static_cast<size_t>(__ret_buffer_length)};
+
+    // return: __result, type: UInt64[]
+    gm::wire::codec::writeValue(__bw, __result);
+    return 0;
+}
+
+GMEXPORT double __EXT_NATIVE__id3d11_device_context_cs_set_unordered_access_views(char* __arg_buffer, double __arg_buffer_length)
+{
+    gm::byteio::BufferReader __br{__arg_buffer, static_cast<size_t>(__arg_buffer_length)};
+
+    // field: context, type: UInt64
+    std::uint64_t context = gm::wire::codec::readValue<std::uint64_t>(__br);
+
+    // field: startSlot, type: UInt32
+    std::uint32_t startSlot = gm::wire::codec::readValue<std::uint32_t>(__br);
+
+    // field: views, type: struct ID3D11UnorderedAccessViewBinding[]
+    std::vector<gm_structs::ID3D11UnorderedAccessViewBinding> views = gm::wire::codec::readVector<gm_structs::ID3D11UnorderedAccessViewBinding>(__br);
+
+    auto&& __result = id3d11_device_context_cs_set_unordered_access_views(context, startSlot, views);
+    return static_cast<double>(__result);
+}
+
+GMEXPORT double __EXT_NATIVE__id3d11_device_context_cs_get_unordered_access_views(char* __arg_buffer, double __arg_buffer_length, char* __ret_buffer, double __ret_buffer_length)
+{
+    gm::byteio::BufferReader __br{__arg_buffer, static_cast<size_t>(__arg_buffer_length)};
+
+    // field: context, type: UInt64
+    std::uint64_t context = gm::wire::codec::readValue<std::uint64_t>(__br);
+
+    // field: startSlot, type: UInt32
+    std::uint32_t startSlot = gm::wire::codec::readValue<std::uint32_t>(__br);
+
+    // field: count, type: UInt32
+    std::uint32_t count = gm::wire::codec::readValue<std::uint32_t>(__br);
+
+    auto&& __result = id3d11_device_context_cs_get_unordered_access_views(context, startSlot, count);
+    gm::byteio::BufferWriter __bw{__ret_buffer, static_cast<size_t>(__ret_buffer_length)};
+
+    // return: __result, type: UInt64[]
     gm::wire::codec::writeValue(__bw, __result);
     return 0;
 }

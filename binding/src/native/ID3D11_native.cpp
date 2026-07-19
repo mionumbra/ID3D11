@@ -22,6 +22,12 @@ bool id3d11_is_initialized()
     return id3d11::BridgeState::instance().initialized();
 }
 
+void id3d11_shutdown()
+{
+    id3d11::HandleRegistry::instance().clear();
+    id3d11::BridgeState::instance().shutdown();
+}
+
 std::int32_t id3d11_get_last_hresult()
 {
     return id3d11::BridgeState::instance().lastHresult();

@@ -98,3 +98,16 @@ bool id3d11_device_context_flush(const std::uint64_t contextHandle)
     id3d11::BridgeState::instance().setLastHresult(S_OK);
     return true;
 }
+
+bool id3d11_device_context_clear_state(const std::uint64_t contextHandle)
+{
+    const auto context = id3d11::acquireContext(contextHandle);
+    if (!context)
+    {
+        return false;
+    }
+
+    context->ClearState();
+    id3d11::BridgeState::instance().setLastHresult(S_OK);
+    return true;
+}

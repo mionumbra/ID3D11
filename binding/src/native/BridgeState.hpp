@@ -20,6 +20,8 @@ namespace id3d11
             ID3D11DeviceContext* context,
             IDXGISwapChain* swapchain) noexcept;
 
+        void shutdown() noexcept;
+
         [[nodiscard]] bool initialized() const noexcept;
         [[nodiscard]] std::int32_t lastHresult() const noexcept;
         [[nodiscard]] std::uint32_t ownerThreadId() const noexcept;

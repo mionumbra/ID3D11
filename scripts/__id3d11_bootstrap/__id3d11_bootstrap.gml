@@ -75,6 +75,40 @@ if (os_type == os_windows && os_browser == browser_not_a_browser)
 		var _buffer_roundtrip = id3d11_buffer_get_desc(_buffer_result.handle);
 		var _buffer_dimension = id3d11_resource_get_dimension(_buffer_result.handle);
 		var _buffer_device = id3d11_device_child_get_device(_buffer_result.handle);
+		var _debug_name_set = id3d11_device_child_set_debug_name(
+			_buffer_result.handle,
+			"id3d11.smoke.buffer");
+		var _debug_name = id3d11_device_child_get_debug_name(_buffer_result.handle);
+		var _private_guid = "01234567-89ab-cdef-0123-456789abcdef";
+		var _private_write = buffer_create(8, buffer_fixed, 1);
+		buffer_write(_private_write, buffer_u32, $11223344);
+		buffer_write(_private_write, buffer_u32, $55667788);
+		var _private_set = id3d11_device_child_set_private_data(
+			_buffer_result.handle,
+			_private_guid,
+			_private_write);
+		var _private_read = buffer_create(8, buffer_fixed, 1);
+		var _private_size = id3d11_device_child_get_private_data(
+			_buffer_result.handle,
+			_private_guid,
+			_private_read);
+		buffer_seek(_private_read, buffer_seek_start, 0);
+		var _private_word0 = buffer_read(_private_read, buffer_u32);
+		var _private_word1 = buffer_read(_private_read, buffer_u32);
+		var _private_bad_guid_rejected = !id3d11_device_child_set_private_data(
+			_buffer_result.handle,
+			"not-a-guid",
+			_private_write);
+		var _debug_name_smoke_ok =
+			_debug_name_set &&
+			_debug_name == "id3d11.smoke.buffer" &&
+			_private_set &&
+			_private_size == 8 &&
+			_private_word0 == $11223344 &&
+			_private_word1 == $55667788 &&
+			_private_bad_guid_rejected;
+		buffer_delete(_private_write);
+		buffer_delete(_private_read);
 		var _buffer_release_ok = id3d11_handle_release(_buffer_result.handle);
 		var _buffer_stale_rejected = !id3d11_handle_is_valid(_buffer_result.handle);
 		buffer_delete(_buffer_data);
@@ -1025,6 +1059,370 @@ if (os_type == os_windows && os_browser == browser_not_a_browser)
 			_pipeline_vertex_buffer_release_ok &&
 			_pipeline_index_buffer_release_ok;
 
+		var _om_texture_desc = new ID3D11Texture2DDesc();
+		_om_texture_desc.width = 1;
+		_om_texture_desc.height = 1;
+		_om_texture_desc.mipLevels = 1;
+		_om_texture_desc.arraySize = 1;
+		_om_texture_desc.format = 28;
+		_om_texture_desc.sampleCount = 1;
+		_om_texture_desc.sampleQuality = 0;
+		_om_texture_desc.usage = ID3D11Usage.Default;
+		_om_texture_desc.bindFlags = ID3D11BindFlag.RenderTarget;
+		var _om_texture_result = id3d11_device_create_texture2d(
+			global.__id3d11_device,
+			_om_texture_desc);
+		var _om_rtv_result = id3d11_device_create_render_target_view_default(
+			global.__id3d11_device,
+			_om_texture_result.handle);
+		var _om_depth_desc = new ID3D11Texture2DDesc();
+		_om_depth_desc.width = 1;
+		_om_depth_desc.height = 1;
+		_om_depth_desc.mipLevels = 1;
+		_om_depth_desc.arraySize = 1;
+		_om_depth_desc.format = 45;
+		_om_depth_desc.sampleCount = 1;
+		_om_depth_desc.sampleQuality = 0;
+		_om_depth_desc.usage = ID3D11Usage.Default;
+		_om_depth_desc.bindFlags = ID3D11BindFlag.DepthStencil;
+		var _om_depth_result = id3d11_device_create_texture2d(
+			global.__id3d11_device,
+			_om_depth_desc);
+		var _om_dsv_result = id3d11_device_create_depth_stencil_view_default(
+			global.__id3d11_device,
+			_om_depth_result.handle);
+		var _previous_om_targets = id3d11_device_context_om_get_render_targets(
+			global.__id3d11_context,
+			1);
+		var _om_targets_set = id3d11_device_context_om_set_render_targets(
+			global.__id3d11_context,
+			[_om_rtv_result.handle],
+			_om_dsv_result.handle);
+		var _bound_om_targets = id3d11_device_context_om_get_render_targets(
+			global.__id3d11_context,
+			1);
+		var _om_count_rejected = array_length(
+			id3d11_device_context_om_get_render_targets(
+				global.__id3d11_context,
+				9).renderTargetViews) == 0;
+		var _om_targets_restored = id3d11_device_context_om_set_render_targets(
+			global.__id3d11_context,
+			_previous_om_targets.renderTargetViews,
+			_previous_om_targets.depthStencilView);
+		var _previous_om_rtv = array_length(_previous_om_targets.renderTargetViews) > 0
+			? _previous_om_targets.renderTargetViews[0]
+			: 0;
+		var _previous_om_rtv_release_ok =
+			_previous_om_rtv == 0 ||
+			_previous_om_rtv == _om_rtv_result.handle ||
+			id3d11_handle_release(_previous_om_rtv);
+		var _previous_om_dsv_release_ok =
+			_previous_om_targets.depthStencilView == 0 ||
+			_previous_om_targets.depthStencilView == _om_dsv_result.handle ||
+			id3d11_handle_release(_previous_om_targets.depthStencilView);
+		var _om_rtv_release_ok = id3d11_handle_release(_om_rtv_result.handle);
+		var _om_dsv_release_ok = id3d11_handle_release(_om_dsv_result.handle);
+		var _om_texture_release_ok = id3d11_handle_release(_om_texture_result.handle);
+		var _om_depth_release_ok = id3d11_handle_release(_om_depth_result.handle);
+
+		var _so_buffer_desc = new ID3D11BufferDesc();
+		_so_buffer_desc.byteWidth = 16;
+		_so_buffer_desc.usage = ID3D11Usage.Default;
+		_so_buffer_desc.bindFlags = ID3D11BindFlag.StreamOutput;
+		var _so_buffer_result = id3d11_device_create_buffer(
+			global.__id3d11_device,
+			_so_buffer_desc);
+		var _previous_so_targets = id3d11_device_context_so_get_targets(
+			global.__id3d11_context,
+			1);
+		var _so_target = new ID3D11StreamOutputTarget();
+		_so_target.buffer = _so_buffer_result.handle;
+		_so_target.offset = 0;
+		var _so_targets_set = id3d11_device_context_so_set_targets(
+			global.__id3d11_context,
+			[_so_target]);
+		var _bound_so_targets = id3d11_device_context_so_get_targets(
+			global.__id3d11_context,
+			1);
+		var _so_count_rejected = array_length(
+			id3d11_device_context_so_get_targets(
+				global.__id3d11_context,
+				5)) == 0;
+		var _so_restore_targets = [];
+		if (array_length(_previous_so_targets) > 0 && _previous_so_targets[0] != 0)
+		{
+			var _restore_so = new ID3D11StreamOutputTarget();
+			_restore_so.buffer = _previous_so_targets[0];
+			_restore_so.offset = 0;
+			array_push(_so_restore_targets, _restore_so);
+		}
+		var _so_targets_restored = id3d11_device_context_so_set_targets(
+			global.__id3d11_context,
+			_so_restore_targets);
+		var _previous_so_release_ok =
+			array_length(_previous_so_targets) == 0 ||
+			_previous_so_targets[0] == 0 ||
+			_previous_so_targets[0] == _so_buffer_result.handle ||
+			id3d11_handle_release(_previous_so_targets[0]);
+		var _so_buffer_release_ok = id3d11_handle_release(_so_buffer_result.handle);
+
+		var _cs_uav_texture_desc = new ID3D11Texture2DDesc();
+		_cs_uav_texture_desc.width = 1;
+		_cs_uav_texture_desc.height = 1;
+		_cs_uav_texture_desc.mipLevels = 1;
+		_cs_uav_texture_desc.arraySize = 1;
+		_cs_uav_texture_desc.format = 28;
+		_cs_uav_texture_desc.sampleCount = 1;
+		_cs_uav_texture_desc.sampleQuality = 0;
+		_cs_uav_texture_desc.usage = ID3D11Usage.Default;
+		_cs_uav_texture_desc.bindFlags = ID3D11BindFlag.UnorderedAccess;
+		var _cs_uav_texture_result = id3d11_device_create_texture2d(
+			global.__id3d11_device,
+			_cs_uav_texture_desc);
+		var _cs_uav_result = id3d11_device_create_unordered_access_view_default(
+			global.__id3d11_device,
+			_cs_uav_texture_result.handle);
+		var _previous_cs_uavs = id3d11_device_context_cs_get_unordered_access_views(
+			global.__id3d11_context,
+			0,
+			1);
+		var _cs_uav_binding = new ID3D11UnorderedAccessViewBinding();
+		_cs_uav_binding.view = _cs_uav_result.handle;
+		_cs_uav_binding.initialCount = 4294967295;
+		var _cs_uavs_set = id3d11_device_context_cs_set_unordered_access_views(
+			global.__id3d11_context,
+			0,
+			[_cs_uav_binding]);
+		var _bound_cs_uavs = id3d11_device_context_cs_get_unordered_access_views(
+			global.__id3d11_context,
+			0,
+			1);
+		var _cs_uav_slot_rejected = !id3d11_device_context_cs_set_unordered_access_views(
+			global.__id3d11_context,
+			64,
+			[_cs_uav_binding]);
+		var _cs_uav_restore_bindings = [];
+		if (array_length(_previous_cs_uavs) > 0)
+		{
+			var _restore_cs_uav = new ID3D11UnorderedAccessViewBinding();
+			_restore_cs_uav.view = _previous_cs_uavs[0];
+			_restore_cs_uav.initialCount = 4294967295;
+			array_push(_cs_uav_restore_bindings, _restore_cs_uav);
+		}
+		var _cs_uavs_restored = id3d11_device_context_cs_set_unordered_access_views(
+			global.__id3d11_context,
+			0,
+			_cs_uav_restore_bindings);
+		var _previous_cs_uav_release_ok =
+			array_length(_previous_cs_uavs) == 0 ||
+			_previous_cs_uavs[0] == 0 ||
+			_previous_cs_uavs[0] == _cs_uav_result.handle ||
+			id3d11_handle_release(_previous_cs_uavs[0]);
+		var _cs_uav_release_ok = id3d11_handle_release(_cs_uav_result.handle);
+		var _cs_uav_texture_release_ok = id3d11_handle_release(
+			_cs_uav_texture_result.handle);
+
+		var _om_combo_texture_desc = new ID3D11Texture2DDesc();
+		_om_combo_texture_desc.width = 1;
+		_om_combo_texture_desc.height = 1;
+		_om_combo_texture_desc.mipLevels = 1;
+		_om_combo_texture_desc.arraySize = 1;
+		_om_combo_texture_desc.format = 28;
+		_om_combo_texture_desc.sampleCount = 1;
+		_om_combo_texture_desc.sampleQuality = 0;
+		_om_combo_texture_desc.usage = ID3D11Usage.Default;
+		_om_combo_texture_desc.bindFlags = ID3D11BindFlag.RenderTarget;
+		var _om_combo_texture_result = id3d11_device_create_texture2d(
+			global.__id3d11_device,
+			_om_combo_texture_desc);
+		var _om_combo_rtv_result = id3d11_device_create_render_target_view_default(
+			global.__id3d11_device,
+			_om_combo_texture_result.handle);
+		var _om_combo_depth_desc = new ID3D11Texture2DDesc();
+		_om_combo_depth_desc.width = 1;
+		_om_combo_depth_desc.height = 1;
+		_om_combo_depth_desc.mipLevels = 1;
+		_om_combo_depth_desc.arraySize = 1;
+		_om_combo_depth_desc.format = 45;
+		_om_combo_depth_desc.sampleCount = 1;
+		_om_combo_depth_desc.sampleQuality = 0;
+		_om_combo_depth_desc.usage = ID3D11Usage.Default;
+		_om_combo_depth_desc.bindFlags = ID3D11BindFlag.DepthStencil;
+		var _om_combo_depth_result = id3d11_device_create_texture2d(
+			global.__id3d11_device,
+			_om_combo_depth_desc);
+		var _om_combo_dsv_result = id3d11_device_create_depth_stencil_view_default(
+			global.__id3d11_device,
+			_om_combo_depth_result.handle);
+		var _om_combo_uav_texture_desc = new ID3D11Texture2DDesc();
+		_om_combo_uav_texture_desc.width = 1;
+		_om_combo_uav_texture_desc.height = 1;
+		_om_combo_uav_texture_desc.mipLevels = 1;
+		_om_combo_uav_texture_desc.arraySize = 1;
+		_om_combo_uav_texture_desc.format = 28;
+		_om_combo_uav_texture_desc.sampleCount = 1;
+		_om_combo_uav_texture_desc.sampleQuality = 0;
+		_om_combo_uav_texture_desc.usage = ID3D11Usage.Default;
+		_om_combo_uav_texture_desc.bindFlags = ID3D11BindFlag.UnorderedAccess;
+		var _om_combo_uav_texture_result = id3d11_device_create_texture2d(
+			global.__id3d11_device,
+			_om_combo_uav_texture_desc);
+		var _om_combo_uav_result = id3d11_device_create_unordered_access_view_default(
+			global.__id3d11_device,
+			_om_combo_uav_texture_result.handle);
+		var _previous_om_combo = id3d11_device_context_om_get_render_targets_and_unordered_access_views(
+			global.__id3d11_context,
+			1,
+			1,
+			1);
+		var _om_combo_uav_binding = new ID3D11UnorderedAccessViewBinding();
+		_om_combo_uav_binding.view = _om_combo_uav_result.handle;
+		_om_combo_uav_binding.initialCount = 4294967295;
+		var _om_combo_set = id3d11_device_context_om_set_render_targets_and_unordered_access_views(
+			global.__id3d11_context,
+			false,
+			[_om_combo_rtv_result.handle],
+			_om_combo_dsv_result.handle,
+			1,
+			false,
+			[_om_combo_uav_binding]);
+		var _bound_om_combo = id3d11_device_context_om_get_render_targets_and_unordered_access_views(
+			global.__id3d11_context,
+			1,
+			1,
+			1);
+		var _om_combo_keep_rt = id3d11_device_context_om_set_render_targets_and_unordered_access_views(
+			global.__id3d11_context,
+			true,
+			[],
+			0,
+			1,
+			false,
+			[]);
+		var _om_combo_after_keep_rt = id3d11_device_context_om_get_render_targets_and_unordered_access_views(
+			global.__id3d11_context,
+			1,
+			1,
+			1);
+		var _om_combo_overlap_rejected = !id3d11_device_context_om_set_render_targets_and_unordered_access_views(
+			global.__id3d11_context,
+			false,
+			[_om_combo_rtv_result.handle],
+			_om_combo_dsv_result.handle,
+			0,
+			false,
+			[_om_combo_uav_binding]);
+		var _om_combo_restore_uavs = [];
+		if (array_length(_previous_om_combo.unorderedAccessViews) > 0)
+		{
+			var _restore_om_uav = new ID3D11UnorderedAccessViewBinding();
+			_restore_om_uav.view = _previous_om_combo.unorderedAccessViews[0];
+			_restore_om_uav.initialCount = 4294967295;
+			array_push(_om_combo_restore_uavs, _restore_om_uav);
+		}
+		var _om_combo_restored = id3d11_device_context_om_set_render_targets_and_unordered_access_views(
+			global.__id3d11_context,
+			false,
+			_previous_om_combo.renderTargetViews,
+			_previous_om_combo.depthStencilView,
+			1,
+			false,
+			_om_combo_restore_uavs);
+		var _previous_om_combo_rtv = array_length(_previous_om_combo.renderTargetViews) > 0
+			? _previous_om_combo.renderTargetViews[0]
+			: 0;
+		var _previous_om_combo_uav = array_length(_previous_om_combo.unorderedAccessViews) > 0
+			? _previous_om_combo.unorderedAccessViews[0]
+			: 0;
+		var _previous_om_combo_rtv_release_ok =
+			_previous_om_combo_rtv == 0 ||
+			_previous_om_combo_rtv == _om_combo_rtv_result.handle ||
+			id3d11_handle_release(_previous_om_combo_rtv);
+		var _previous_om_combo_dsv_release_ok =
+			_previous_om_combo.depthStencilView == 0 ||
+			_previous_om_combo.depthStencilView == _om_combo_dsv_result.handle ||
+			id3d11_handle_release(_previous_om_combo.depthStencilView);
+		var _previous_om_combo_uav_release_ok =
+			_previous_om_combo_uav == 0 ||
+			_previous_om_combo_uav == _om_combo_uav_result.handle ||
+			id3d11_handle_release(_previous_om_combo_uav);
+		var _om_combo_rtv_release_ok = id3d11_handle_release(_om_combo_rtv_result.handle);
+		var _om_combo_dsv_release_ok = id3d11_handle_release(_om_combo_dsv_result.handle);
+		var _om_combo_uav_release_ok = id3d11_handle_release(_om_combo_uav_result.handle);
+		var _om_combo_texture_release_ok = id3d11_handle_release(
+			_om_combo_texture_result.handle);
+		var _om_combo_depth_release_ok = id3d11_handle_release(
+			_om_combo_depth_result.handle);
+		var _om_combo_uav_texture_release_ok = id3d11_handle_release(
+			_om_combo_uav_texture_result.handle);
+		var _om_combo_smoke_ok =
+			_om_combo_texture_result.hresult == 0 &&
+			_om_combo_rtv_result.hresult == 0 &&
+			_om_combo_depth_result.hresult == 0 &&
+			_om_combo_dsv_result.hresult == 0 &&
+			_om_combo_uav_texture_result.hresult == 0 &&
+			_om_combo_uav_result.hresult == 0 &&
+			_om_combo_set &&
+			array_length(_bound_om_combo.renderTargetViews) == 1 &&
+			_bound_om_combo.renderTargetViews[0] == _om_combo_rtv_result.handle &&
+			_bound_om_combo.depthStencilView == _om_combo_dsv_result.handle &&
+			array_length(_bound_om_combo.unorderedAccessViews) == 1 &&
+			_bound_om_combo.unorderedAccessViews[0] == _om_combo_uav_result.handle &&
+			_om_combo_keep_rt &&
+			array_length(_om_combo_after_keep_rt.renderTargetViews) == 1 &&
+			_om_combo_after_keep_rt.renderTargetViews[0] == _om_combo_rtv_result.handle &&
+			array_length(_om_combo_after_keep_rt.unorderedAccessViews) == 1 &&
+			_om_combo_after_keep_rt.unorderedAccessViews[0] == 0 &&
+			_om_combo_overlap_rejected &&
+			_om_combo_restored &&
+			_previous_om_combo_rtv_release_ok &&
+			_previous_om_combo_dsv_release_ok &&
+			_previous_om_combo_uav_release_ok &&
+			_om_combo_rtv_release_ok &&
+			_om_combo_dsv_release_ok &&
+			_om_combo_uav_release_ok &&
+			_om_combo_texture_release_ok &&
+			_om_combo_depth_release_ok &&
+			_om_combo_uav_texture_release_ok;
+
+		_pipeline_binding_smoke_ok =
+			_pipeline_binding_smoke_ok &&
+			_om_texture_result.hresult == 0 &&
+			_om_rtv_result.hresult == 0 &&
+			_om_depth_result.hresult == 0 &&
+			_om_dsv_result.hresult == 0 &&
+			_om_targets_set &&
+			array_length(_bound_om_targets.renderTargetViews) == 1 &&
+			_bound_om_targets.renderTargetViews[0] == _om_rtv_result.handle &&
+			_bound_om_targets.depthStencilView == _om_dsv_result.handle &&
+			_om_count_rejected &&
+			_om_targets_restored &&
+			_previous_om_rtv_release_ok &&
+			_previous_om_dsv_release_ok &&
+			_om_rtv_release_ok &&
+			_om_dsv_release_ok &&
+			_om_texture_release_ok &&
+			_om_depth_release_ok &&
+			_so_buffer_result.hresult == 0 &&
+			_so_targets_set &&
+			array_length(_bound_so_targets) == 1 &&
+			_bound_so_targets[0] == _so_buffer_result.handle &&
+			_so_count_rejected &&
+			_so_targets_restored &&
+			_previous_so_release_ok &&
+			_so_buffer_release_ok &&
+			_cs_uav_texture_result.hresult == 0 &&
+			_cs_uav_result.hresult == 0 &&
+			_cs_uavs_set &&
+			array_length(_bound_cs_uavs) == 1 &&
+			_bound_cs_uavs[0] == _cs_uav_result.handle &&
+			_cs_uav_slot_rejected &&
+			_cs_uavs_restored &&
+			_previous_cs_uav_release_ok &&
+			_cs_uav_release_ok &&
+			_cs_uav_texture_release_ok &&
+			_om_combo_smoke_ok;
+
 		var _stage_constant_buffer_desc = new ID3D11BufferDesc();
 		_stage_constant_buffer_desc.byteWidth = 16;
 		_stage_constant_buffer_desc.usage = ID3D11Usage.Default;
@@ -1573,6 +1971,13 @@ if (os_type == os_windows && os_browser == browser_not_a_browser)
 		buffer_poke(_update_source, 12, buffer_u32, 103);
 		buffer_poke(_update_source, 16, buffer_u32, 104);
 		var _update_box = new ID3D11Box();
+		_update_box.left = 0;
+		_update_box.top = 0;
+		_update_box.front = 0;
+		_update_box.right = 0;
+		_update_box.bottom = 0;
+		_update_box.back = 0;
+		show_debug_message("[ID3D11] transfer texture update begin");
 		var _update_texture_ok = id3d11_device_context_update_subresource(
 			global.__id3d11_context,
 			_update_texture_result.handle,
@@ -1928,6 +2333,64 @@ if (os_type == os_windows && os_browser == browser_not_a_browser)
 			_previous_predication.predicate == 0 ||
 			_previous_predication.predicate == _predicate_result.handle ||
 			id3d11_handle_release(_previous_predication.predicate);
+		var _clear_state_saved_om = id3d11_device_context_om_get_render_targets(
+			global.__id3d11_context,
+			1);
+		var _clear_state_saved_topology = id3d11_device_context_ia_get_primitive_topology(
+			global.__id3d11_context);
+		var _clear_state_saved_viewports = id3d11_device_context_rs_get_viewports(
+			global.__id3d11_context);
+		var _clear_state_ok = id3d11_device_context_clear_state(global.__id3d11_context);
+		var _cleared_topology = id3d11_device_context_ia_get_primitive_topology(
+			global.__id3d11_context);
+		var _cleared_viewports = id3d11_device_context_rs_get_viewports(
+			global.__id3d11_context);
+		var _cleared_om = id3d11_device_context_om_get_render_targets(
+			global.__id3d11_context,
+			1);
+		var _clear_state_restored_om = id3d11_device_context_om_set_render_targets(
+			global.__id3d11_context,
+			_clear_state_saved_om.renderTargetViews,
+			_clear_state_saved_om.depthStencilView);
+		var _clear_state_restored_topology = id3d11_device_context_ia_set_primitive_topology(
+			global.__id3d11_context,
+			_clear_state_saved_topology);
+		var _clear_state_restored_viewports = id3d11_device_context_rs_set_viewports(
+			global.__id3d11_context,
+			_clear_state_saved_viewports);
+		var _clear_state_saved_rtv = array_length(_clear_state_saved_om.renderTargetViews) > 0
+			? _clear_state_saved_om.renderTargetViews[0]
+			: 0;
+		var _clear_state_saved_rtv_release_ok =
+			_clear_state_saved_rtv == 0 ||
+			id3d11_handle_release(_clear_state_saved_rtv);
+		var _clear_state_saved_dsv_release_ok =
+			_clear_state_saved_om.depthStencilView == 0 ||
+			id3d11_handle_release(_clear_state_saved_om.depthStencilView);
+		var _clear_state_cleared_rtv = array_length(_cleared_om.renderTargetViews) > 0
+			? _cleared_om.renderTargetViews[0]
+			: 0;
+		var _clear_state_cleared_rtv_release_ok =
+			_clear_state_cleared_rtv == 0 ||
+			id3d11_handle_release(_clear_state_cleared_rtv);
+		var _clear_state_cleared_dsv_release_ok =
+			_cleared_om.depthStencilView == 0 ||
+			id3d11_handle_release(_cleared_om.depthStencilView);
+		var _clear_state_smoke_ok =
+			_clear_state_ok &&
+			_cleared_topology == 0 &&
+			array_length(_cleared_viewports) == 0 &&
+			(array_length(_cleared_om.renderTargetViews) == 0 ||
+				_cleared_om.renderTargetViews[0] == 0) &&
+			_cleared_om.depthStencilView == 0 &&
+			_clear_state_restored_om &&
+			_clear_state_restored_topology &&
+			_clear_state_restored_viewports &&
+			_clear_state_saved_rtv_release_ok &&
+			_clear_state_saved_dsv_release_ok &&
+			_clear_state_cleared_rtv_release_ok &&
+			_clear_state_cleared_dsv_release_ok;
+
 		global.__id3d11_pipeline_smoke_ok =
 			_fixed_pipeline_smoke_ok &&
 			_pipeline_binding_smoke_ok &&
@@ -1938,7 +2401,8 @@ if (os_type == os_windows && os_browser == browser_not_a_browser)
 			_bound_predication.predicateValue &&
 			_pipeline_invalid_predicate_rejected &&
 			_pipeline_predication_restored &&
-			_previous_predicate_release_ok;
+			_previous_predicate_release_ok &&
+			_clear_state_smoke_ok;
 
 		var _async_kinds_ok =
 			id3d11_handle_get_kind(_query_result.handle) == ID3D11HandleKind.Query &&
@@ -2000,6 +2464,7 @@ if (os_type == os_windows && os_browser == browser_not_a_browser)
 			_buffer_roundtrip.bindFlags == 4 &&
 			_buffer_dimension == ID3D11ResourceDimension.Buffer &&
 			_buffer_device == global.__id3d11_device &&
+			_debug_name_smoke_ok &&
 			_buffer_release_ok &&
 			_buffer_stale_rejected &&
 			_texture1d_result.hresult == 0 &&
@@ -2066,4 +2531,13 @@ if (os_type == os_windows && os_browser == browser_not_a_browser)
 
 show_debug_message(
 	$"[ID3D11] bootstrap={global.__id3d11_bootstrap_ok} smoke={global.__id3d11_smoke_ok} shader={global.__id3d11_shader_smoke_ok} state={global.__id3d11_state_smoke_ok} async={global.__id3d11_async_smoke_ok} context={global.__id3d11_context_smoke_ok} pipeline={global.__id3d11_pipeline_smoke_ok} feature_level={global.__id3d11_feature_level}");
+if (global.__id3d11_bootstrap_ok)
+{
+	id3d11_shutdown();
+	global.__id3d11_device = 0;
+	global.__id3d11_context = 0;
+	global.__id3d11_swapchain = 0;
+	global.__id3d11_device1 = 0;
+	show_debug_message("[ID3D11] shutdown complete");
+}
 game_end();

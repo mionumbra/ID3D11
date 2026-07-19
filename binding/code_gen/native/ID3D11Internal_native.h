@@ -500,6 +500,10 @@ namespace gm_structs
     struct ID3D11BlendStateBinding;
     struct ID3D11DepthStencilStateBinding;
     struct ID3D11PredicationBinding;
+    struct ID3D11OutputMergerTargets;
+    struct ID3D11OutputMergerTargetsAndUAVs;
+    struct ID3D11StreamOutputTarget;
+    struct ID3D11UnorderedAccessViewBinding;
     struct ID3D11VertexBufferBinding;
     struct ID3D11IndexBufferBinding;
     struct ID3D11Viewport;
@@ -766,6 +770,31 @@ namespace gm_structs
     {
         std::uint64_t predicate;
         bool predicateValue;
+    };
+
+    struct ID3D11OutputMergerTargets
+    {
+        std::vector<std::uint64_t> renderTargetViews;
+        std::uint64_t depthStencilView;
+    };
+
+    struct ID3D11OutputMergerTargetsAndUAVs
+    {
+        std::vector<std::uint64_t> renderTargetViews;
+        std::uint64_t depthStencilView;
+        std::vector<std::uint64_t> unorderedAccessViews;
+    };
+
+    struct ID3D11StreamOutputTarget
+    {
+        std::uint64_t buffer;
+        std::uint32_t offset;
+    };
+
+    struct ID3D11UnorderedAccessViewBinding
+    {
+        std::uint64_t view;
+        std::uint32_t initialCount;
     };
 
     struct ID3D11VertexBufferBinding
@@ -1476,6 +1505,72 @@ namespace gm::wire::codec
     }
 
     template<>
+    inline void writeValue<gm_structs::ID3D11OutputMergerTargets>(gm::byteio::IByteWriter& _buf, const gm_structs::ID3D11OutputMergerTargets& obj)
+    {
+        gm::wire::codec::writeValue(_buf, obj.renderTargetViews);
+        gm::wire::codec::writeValue(_buf, obj.depthStencilView);
+    }
+
+    template<>
+    inline gm_structs::ID3D11OutputMergerTargets readValue<gm_structs::ID3D11OutputMergerTargets>(gm::byteio::BufferReader& _buf)
+    {
+        gm_structs::ID3D11OutputMergerTargets obj;
+        obj.renderTargetViews = gm::wire::codec::readVector<std::uint64_t>(_buf);
+        obj.depthStencilView = gm::wire::codec::readValue<std::uint64_t>(_buf);
+        return obj;
+    }
+
+    template<>
+    inline void writeValue<gm_structs::ID3D11OutputMergerTargetsAndUAVs>(gm::byteio::IByteWriter& _buf, const gm_structs::ID3D11OutputMergerTargetsAndUAVs& obj)
+    {
+        gm::wire::codec::writeValue(_buf, obj.renderTargetViews);
+        gm::wire::codec::writeValue(_buf, obj.depthStencilView);
+        gm::wire::codec::writeValue(_buf, obj.unorderedAccessViews);
+    }
+
+    template<>
+    inline gm_structs::ID3D11OutputMergerTargetsAndUAVs readValue<gm_structs::ID3D11OutputMergerTargetsAndUAVs>(gm::byteio::BufferReader& _buf)
+    {
+        gm_structs::ID3D11OutputMergerTargetsAndUAVs obj;
+        obj.renderTargetViews = gm::wire::codec::readVector<std::uint64_t>(_buf);
+        obj.depthStencilView = gm::wire::codec::readValue<std::uint64_t>(_buf);
+        obj.unorderedAccessViews = gm::wire::codec::readVector<std::uint64_t>(_buf);
+        return obj;
+    }
+
+    template<>
+    inline void writeValue<gm_structs::ID3D11StreamOutputTarget>(gm::byteio::IByteWriter& _buf, const gm_structs::ID3D11StreamOutputTarget& obj)
+    {
+        gm::wire::codec::writeValue(_buf, obj.buffer);
+        gm::wire::codec::writeValue(_buf, obj.offset);
+    }
+
+    template<>
+    inline gm_structs::ID3D11StreamOutputTarget readValue<gm_structs::ID3D11StreamOutputTarget>(gm::byteio::BufferReader& _buf)
+    {
+        gm_structs::ID3D11StreamOutputTarget obj;
+        obj.buffer = gm::wire::codec::readValue<std::uint64_t>(_buf);
+        obj.offset = gm::wire::codec::readValue<std::uint32_t>(_buf);
+        return obj;
+    }
+
+    template<>
+    inline void writeValue<gm_structs::ID3D11UnorderedAccessViewBinding>(gm::byteio::IByteWriter& _buf, const gm_structs::ID3D11UnorderedAccessViewBinding& obj)
+    {
+        gm::wire::codec::writeValue(_buf, obj.view);
+        gm::wire::codec::writeValue(_buf, obj.initialCount);
+    }
+
+    template<>
+    inline gm_structs::ID3D11UnorderedAccessViewBinding readValue<gm_structs::ID3D11UnorderedAccessViewBinding>(gm::byteio::BufferReader& _buf)
+    {
+        gm_structs::ID3D11UnorderedAccessViewBinding obj;
+        obj.view = gm::wire::codec::readValue<std::uint64_t>(_buf);
+        obj.initialCount = gm::wire::codec::readValue<std::uint32_t>(_buf);
+        return obj;
+    }
+
+    template<>
     inline void writeValue<gm_structs::ID3D11VertexBufferBinding>(gm::byteio::IByteWriter& _buf, const gm_structs::ID3D11VertexBufferBinding& obj)
     {
         gm::wire::codec::writeValue(_buf, obj.buffer);
@@ -1872,79 +1967,108 @@ namespace gm::wire::details
     };
 
     template<>
-    struct gm_struct_traits<gm_structs::ID3D11VertexBufferBinding>
+    struct gm_struct_traits<gm_structs::ID3D11OutputMergerTargets>
     {
         static constexpr bool is_gm_struct = true;
         static constexpr std::uint32_t codec_id = 26;
     };
 
     template<>
-    struct gm_struct_traits<gm_structs::ID3D11IndexBufferBinding>
+    struct gm_struct_traits<gm_structs::ID3D11OutputMergerTargetsAndUAVs>
     {
         static constexpr bool is_gm_struct = true;
         static constexpr std::uint32_t codec_id = 27;
     };
 
     template<>
-    struct gm_struct_traits<gm_structs::ID3D11Viewport>
+    struct gm_struct_traits<gm_structs::ID3D11StreamOutputTarget>
     {
         static constexpr bool is_gm_struct = true;
         static constexpr std::uint32_t codec_id = 28;
     };
 
     template<>
-    struct gm_struct_traits<gm_structs::ID3D11Rect>
+    struct gm_struct_traits<gm_structs::ID3D11UnorderedAccessViewBinding>
     {
         static constexpr bool is_gm_struct = true;
         static constexpr std::uint32_t codec_id = 29;
     };
 
     template<>
-    struct gm_struct_traits<gm_structs::ID3D11Box>
+    struct gm_struct_traits<gm_structs::ID3D11VertexBufferBinding>
     {
         static constexpr bool is_gm_struct = true;
         static constexpr std::uint32_t codec_id = 30;
     };
 
     template<>
-    struct gm_struct_traits<gm_structs::ID3D11ShaderBinding>
+    struct gm_struct_traits<gm_structs::ID3D11IndexBufferBinding>
     {
         static constexpr bool is_gm_struct = true;
         static constexpr std::uint32_t codec_id = 31;
     };
 
     template<>
-    struct gm_struct_traits<gm_structs::ID3D11ClassInstanceDesc>
+    struct gm_struct_traits<gm_structs::ID3D11Viewport>
     {
         static constexpr bool is_gm_struct = true;
         static constexpr std::uint32_t codec_id = 32;
     };
 
     template<>
-    struct gm_struct_traits<gm_structs::ID3D11CreateHandleResult>
+    struct gm_struct_traits<gm_structs::ID3D11Rect>
     {
         static constexpr bool is_gm_struct = true;
         static constexpr std::uint32_t codec_id = 33;
     };
 
     template<>
-    struct gm_struct_traits<gm_structs::ID3D11BlendDesc>
+    struct gm_struct_traits<gm_structs::ID3D11Box>
     {
         static constexpr bool is_gm_struct = true;
         static constexpr std::uint32_t codec_id = 34;
     };
 
     template<>
-    struct gm_struct_traits<gm_structs::ID3D11DepthStencilDesc>
+    struct gm_struct_traits<gm_structs::ID3D11ShaderBinding>
     {
         static constexpr bool is_gm_struct = true;
         static constexpr std::uint32_t codec_id = 35;
+    };
+
+    template<>
+    struct gm_struct_traits<gm_structs::ID3D11ClassInstanceDesc>
+    {
+        static constexpr bool is_gm_struct = true;
+        static constexpr std::uint32_t codec_id = 36;
+    };
+
+    template<>
+    struct gm_struct_traits<gm_structs::ID3D11CreateHandleResult>
+    {
+        static constexpr bool is_gm_struct = true;
+        static constexpr std::uint32_t codec_id = 37;
+    };
+
+    template<>
+    struct gm_struct_traits<gm_structs::ID3D11BlendDesc>
+    {
+        static constexpr bool is_gm_struct = true;
+        static constexpr std::uint32_t codec_id = 38;
+    };
+
+    template<>
+    struct gm_struct_traits<gm_structs::ID3D11DepthStencilDesc>
+    {
+        static constexpr bool is_gm_struct = true;
+        static constexpr std::uint32_t codec_id = 39;
     };
 
 }
 
 gm_structs::ID3D11Version id3d11_get_version();
 bool id3d11_is_initialized();
+void id3d11_shutdown();
 std::int32_t id3d11_get_last_hresult();
 std::uint64_t id3d11_get_device_handle();
 std::uint64_t id3d11_get_context_handle();
@@ -1966,6 +2090,10 @@ gm_structs::ID3D11CreateHandleResult id3d11_device_create_buffer(std::uint64_t d
 gm_structs::ID3D11CreateHandleResult id3d11_device_create_buffer_with_data(std::uint64_t device, const gm_structs::ID3D11BufferDesc& desc, gm::wire::GMBuffer data);
 gm_structs::ID3D11BufferDesc id3d11_buffer_get_desc(std::uint64_t bufferHandle);
 std::uint64_t id3d11_device_child_get_device(std::uint64_t deviceChild);
+bool id3d11_device_child_set_debug_name(std::uint64_t deviceChild, std::string_view name);
+std::string id3d11_device_child_get_debug_name(std::uint64_t deviceChild);
+bool id3d11_device_child_set_private_data(std::uint64_t deviceChild, std::string_view guid, gm::wire::GMBuffer data);
+std::int32_t id3d11_device_child_get_private_data(std::uint64_t deviceChild, std::string_view guid, gm::wire::GMBuffer data);
 gm_enums::ID3D11ResourceDimension id3d11_resource_get_dimension(std::uint64_t resource);
 std::uint32_t id3d11_resource_get_eviction_priority(std::uint64_t resource);
 bool id3d11_resource_set_eviction_priority(std::uint64_t resource, std::uint32_t evictionPriority);
@@ -2020,6 +2148,7 @@ bool id3d11_device_context_begin(std::uint64_t context, std::uint64_t asynchrono
 bool id3d11_device_context_end(std::uint64_t context, std::uint64_t asynchronous);
 std::int32_t id3d11_device_context_get_data(std::uint64_t context, std::uint64_t asynchronous, gm::wire::GMBuffer data, std::uint64_t dataSize, std::uint32_t flags);
 bool id3d11_device_context_flush(std::uint64_t context);
+bool id3d11_device_context_clear_state(std::uint64_t context);
 bool id3d11_device_context_draw_indexed(std::uint64_t context, std::uint32_t indexCount, std::uint32_t startIndexLocation, std::int32_t baseVertexLocation);
 bool id3d11_device_context_draw(std::uint64_t context, std::uint32_t vertexCount, std::uint32_t startVertexLocation);
 bool id3d11_device_context_draw_indexed_instanced(std::uint64_t context, std::uint32_t indexCountPerInstance, std::uint32_t instanceCount, std::uint32_t startIndexLocation, std::int32_t baseVertexLocation, std::uint32_t startInstanceLocation);
@@ -2053,6 +2182,14 @@ bool id3d11_device_context_om_set_blend_state(std::uint64_t context, std::uint64
 gm_structs::ID3D11BlendStateBinding id3d11_device_context_om_get_blend_state(std::uint64_t context);
 bool id3d11_device_context_om_set_depth_stencil_state(std::uint64_t context, std::uint64_t state, std::uint32_t stencilRef);
 gm_structs::ID3D11DepthStencilStateBinding id3d11_device_context_om_get_depth_stencil_state(std::uint64_t context);
+bool id3d11_device_context_om_set_render_targets(std::uint64_t context, const std::vector<std::uint64_t>& renderTargetViews, std::uint64_t depthStencilView);
+gm_structs::ID3D11OutputMergerTargets id3d11_device_context_om_get_render_targets(std::uint64_t context, std::uint32_t count);
+bool id3d11_device_context_om_set_render_targets_and_unordered_access_views(std::uint64_t context, bool keepRenderTargets, const std::vector<std::uint64_t>& renderTargetViews, std::uint64_t depthStencilView, std::uint32_t uavStartSlot, bool keepUnorderedAccessViews, const std::vector<gm_structs::ID3D11UnorderedAccessViewBinding>& unorderedAccessViews);
+gm_structs::ID3D11OutputMergerTargetsAndUAVs id3d11_device_context_om_get_render_targets_and_unordered_access_views(std::uint64_t context, std::uint32_t renderTargetCount, std::uint32_t uavStartSlot, std::uint32_t uavCount);
+bool id3d11_device_context_so_set_targets(std::uint64_t context, const std::vector<gm_structs::ID3D11StreamOutputTarget>& targets);
+std::vector<std::uint64_t> id3d11_device_context_so_get_targets(std::uint64_t context, std::uint32_t count);
+bool id3d11_device_context_cs_set_unordered_access_views(std::uint64_t context, std::uint32_t startSlot, const std::vector<gm_structs::ID3D11UnorderedAccessViewBinding>& views);
+std::vector<std::uint64_t> id3d11_device_context_cs_get_unordered_access_views(std::uint64_t context, std::uint32_t startSlot, std::uint32_t count);
 bool id3d11_device_context_set_predication(std::uint64_t context, std::uint64_t predicate, bool predicateValue);
 gm_structs::ID3D11PredicationBinding id3d11_device_context_get_predication(std::uint64_t context);
 bool id3d11_device_context_ia_set_vertex_buffers(std::uint64_t context, std::uint32_t startSlot, const std::vector<gm_structs::ID3D11VertexBufferBinding>& bindings);

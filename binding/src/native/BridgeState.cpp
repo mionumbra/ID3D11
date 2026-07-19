@@ -73,6 +73,20 @@ namespace id3d11
         return true;
     }
 
+    void BridgeState::shutdown() noexcept
+    {
+        {
+            const std::scoped_lock lock(mutex_);
+            device_.Reset();
+            context_.Reset();
+            swapchain_.Reset();
+            ownerThreadId_ = 0;
+        }
+
+        lastHresult_.store(S_OK, std::memory_order_release);
+        initialized_.store(false, std::memory_order_release);
+    }
+
     bool BridgeState::initialized() const noexcept
     {
         return initialized_.load(std::memory_order_acquire);
