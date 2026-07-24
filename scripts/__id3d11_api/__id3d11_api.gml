@@ -4238,6 +4238,32 @@ function id3d11_get_swapchain_handle()
 }
 
 /**
+ * @param {Real} _swapchain
+ * @param {Real} _bufferIndex
+ * @returns {Struct.ID3D11CreateHandleResult} 
+ */
+function id3d11_swapchain_get_buffer(_swapchain, _bufferIndex)
+{
+    var __args_buffer = __ext_core_get_args_buffer();
+
+    // param: _swapchain, type: UInt64
+    if (!is_numeric(_swapchain)) show_error($"{_GMFUNCTION_} :: _swapchain expected number", true);
+    buffer_write(__args_buffer, buffer_u64, _swapchain);
+
+    // param: _bufferIndex, type: UInt32
+    if (!is_numeric(_bufferIndex)) show_error($"{_GMFUNCTION_} :: _bufferIndex expected number", true);
+    buffer_write(__args_buffer, buffer_u32, _bufferIndex);
+
+    var __ret_buffer = __ext_core_get_ret_buffer();
+
+    var _return_value = __id3d11_swapchain_get_buffer(buffer_get_address(__args_buffer), buffer_tell(__args_buffer), buffer_get_address(__ret_buffer), buffer_get_size(__ret_buffer));
+
+    var _result = undefined;
+    _result = __ID3D11CreateHandleResult_decode(__ret_buffer, buffer_tell(__ret_buffer));
+    return _result;
+}
+
+/**
  * @param {Real} _handle
  * @param {Enum.ID3D11HandleKind} _interfaceKind
  * @returns {Real} 
@@ -9743,4 +9769,3 @@ function __ID3D11_get_decoders()
     ];
     return __decoders;
 }
-

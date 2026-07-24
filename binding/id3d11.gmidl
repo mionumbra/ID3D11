@@ -1296,6 +1296,11 @@ function id3d11_get_context_handle() : gmval;
 [global, bind = typed_gml, type_hint = `uint64`]
 function id3d11_get_swapchain_handle() : gmval;
 
+[global, bind = typed_gml, type_hint = `ID3D11CreateHandleResult`]
+function id3d11_swapchain_get_buffer(
+    [type_hint = `uint64`] swapchain,
+    [type_hint = `uint32`] bufferIndex) : gmval;
+
 [global, bind = typed_gml, type_hint = `uint64`]
 function id3d11_handle_query_interface(
     [type_hint = `uint64`] handle,

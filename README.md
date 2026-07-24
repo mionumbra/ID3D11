@@ -28,7 +28,7 @@ See [Architecture](docs/ARCHITECTURE.md) and [API coverage](docs/API_COVERAGE.md
 
 Requirements:
 
-- `extgen` on `PATH`
+- `extgen v1.225bddc` on `PATH`
 - CMake 3.25 or newer
 - Visual Studio 2026 with the v145 toolset and Windows SDK
 - `gm-cli` on `PATH` for GameMaker compile verification
@@ -52,17 +52,17 @@ Useful options:
 
 The new DLL is copied to `extensions/ID3D11/ID3D11.dll`. The legacy switch builds `GMD3D11.dll` into `datafiles/` and regenerates the old wrappers.
 
-Run the deterministic VM smoke test directly with `.\scripts\smoke.ps1`. It compiles first unless `-SkipCompile` is supplied, then runs the project with explicit Windows VM settings. The script requires exactly one result line with every smoke category set to `1`, a clean `game_end`, and a zero `gm-cli` exit code. Use `-LogPath` to retain the combined Runner log; the default temporary log is removed after a successful run and retained after a failure.
+Run the deterministic VM smoke test directly with `.\scripts\smoke.ps1`. It compiles first unless `-SkipCompile` is supplied, then runs the project with explicit Windows VM settings and enables the test-only `ID3D11_SMOKE` path for that child process. Ordinary project startup performs bootstrap only. The script requires exactly one result line with every smoke category set to `1`, a clean `game_end`, and a zero `gm-cli` exit code. Use `-LogPath` to retain the combined Runner log; the default temporary log is removed after a successful run and retained after a failure.
 
 ## Development workflow
 
 1. Define the public API in `binding/id3d11.gmidl`.
-2. Run `binding/generate.ps1` (or the root build script).
+2. Run `binding/generate.ps1` (or the root build script). Do not invoke `extgen` directly: the wrapper validates output and reapplies required post-generation patches.
 3. Implement native behavior under `binding/src/native/`.
-4. Build with the checked-in `win-v145` CMake preset.
+4. Build with the checked-in `win-v145` CMake preset. The selected Debug or Release build deploys to `extensions/ID3D11/ID3D11.dll`.
 5. Compile or run `ID3D11.yyp` with `gm-cli`.
 
-Generated files under `binding/code_gen/`, the GML API script, runtime script, and extension function metadata are build-managed. The generation wrapper reapplies the hidden runner bootstrap metadata and zero-initializes numeric input descriptors after every extgen run. Native implementation files under `binding/src/` are developer-owned.
+Generated files under `binding/code_gen/`, the GML API script, runtime script, extension function metadata, and `docs/generated/id3d11.json` are build-managed. The generation wrapper reapplies the hidden runner bootstrap metadata and zero-initializes numeric input descriptors after every extgen run. Native implementation files under `binding/src/` are developer-owned. The root `binding/CMakeLists.txt` is generator-managed; preserve project-specific CMake changes through `binding/src/CMakeLists.txt` or the documented post-generation patches.
 
 An optional native dynamic-linkage probe lives under `binding/probes/`. It reproduces the exact `ID3D11ClassLinkage`/`PSSetShader` sequence independently of GameMaker and supports `--warp` for a software-driver control run. It is not part of the normal extension build.
 

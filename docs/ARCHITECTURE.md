@@ -41,7 +41,8 @@ GML never owns or dereferences raw COM pointers. A public handle is a 64-bit val
 ```
 
 - Handle `0` is always invalid.
-- Each occupied slot owns a canonical `IUnknown` through `ComPtr`.
+- Each occupied slot owns a canonical `IUnknown` through `ComPtr` and tracks public leases.
+- Repeated getters may return the same numeric handle, but every nonzero return is one lease and must be released once.
 - Releasing a handle increments its generation before the slot can be reused.
 - A stale GML value therefore cannot alias a newly created COM object.
 - The slot also stores `ID3D11HandleKind`; APIs reject handles of the wrong kind.
@@ -50,6 +51,8 @@ GML never owns or dereferences raw COM pointers. A public handle is a 64-bit val
 ## Errors
 
 HRESULT-returning APIs preserve the HRESULT in their result struct or direct return value and also update `id3d11_get_last_hresult()`. Invalid or stale handles report `E_HANDLE`. Argument validation happens before D3D11 calls where buffer sizes or null data could otherwise cause unsafe reads.
+
+`id3d11_device_set_exception_mode` directly changes the GameMaker Runner's shared D3D11 device. Enabling D3D11 raise flags can convert later device errors into non-continuable process exceptions; use it only for controlled diagnostics and restore the previous mode immediately afterward.
 
 ## Binary subresources
 
@@ -75,7 +78,7 @@ Base query, predicate, and device-dependent counter descriptors use typed enums 
 
 Device-dependent counters are optional. The VM smoke test first checks capability: supported counters must create and round-trip successfully, while unsupported adapters must return a failed HRESULT and handle `0`. Query and predicate paths are exercised unconditionally.
 
-The execution layer exposes `DeviceContext::Begin`, `End`, `GetData`, and `Flush`. `GetData` checks the declared byte count against both `UINT` and the actual GameMaker buffer length, rejects unknown flags, and validates that the context and asynchronous object belong to the same D3D11 device. The smoke test submits an event query, flushes, polls it to completion, and verifies the returned native `BOOL`.
+The execution layer exposes `DeviceContext::Begin`, `End`, `GetData`, and `Flush`. `GetData` checks the declared byte count against both `UINT` and the actual GameMaker buffer length, rejects unknown flags, and validates that the context and asynchronous object belong to the same D3D11 device. The smoke test submits an event query, flushes, polls it to completion, and verifies the returned native `BOOL`. The complete smoke suite runs only when `ID3D11_SMOKE=1`; ordinary startup performs bootstrap without destructive pipeline tests.
 
 ## Context execution and resource operations
 
@@ -83,7 +86,7 @@ Direct and instanced Draw calls, DrawAuto, Dispatch, and their indirect variants
 
 Resource operations validate common device identity and native resource metadata. Whole-resource copies require distinct resources with identical shapes; boxed subresource copies validate subresource indices, source extents, destination bounds, and non-empty boxes. Structure-count copies require an append/counter buffer UAV and an aligned four-byte destination span. Clear calls preserve typed RTV/UAV/DSV handles and validate depth/stencil flags and ranges. GenerateMips and resource MinLOD require their corresponding resource-misc flags, while ResolveSubresource verifies a multisampled 2D source, single-sampled destination, and matching subresource extents.
 
-`UpdateSubresource` validates the resource usage, subresource, format layout, optional box alignment, source span, row pitch, and depth pitch before passing a synchronous `GMBuffer` view to D3D11. The layout module handles ordinary typed and block-compressed color formats; typeless, planar, video, depth/stencil, and other unsupported layouts fail with `E_INVALIDARG` rather than using an estimated footprint.
+`UpdateSubresource` validates the resource usage, subresource, format layout, optional box alignment, source span, row pitch, and depth pitch before passing a synchronous `GMBuffer` view to D3D11. Deferred-context boxed updates with a nonzero destination origin are rejected with `E_NOTIMPL` because older drivers can apply the destination offset to the source pointer and read beyond a compact GameMaker buffer. The layout module handles ordinary typed and block-compressed color formats; typeless, planar, video, depth/stencil, and other unsupported layouts fail with `E_INVALIDARG` rather than using an estimated footprint.
 
 Mapped pointers are never returned to GML. The map helpers perform `Map`, bounded row/slice copies between a compact GameMaker buffer and the mapped resource, and exactly one `Unmap` in the same native call. They validate usage/CPU-access permissions, sample-count restrictions, output capacity, map flags, and `DO_NOT_WAIT` HRESULTs. This synchronous wrapper intentionally does not expose a reusable map-session handle, so there is no cross-call pointer or double-unmap lifetime.
 
@@ -91,7 +94,7 @@ Mapped pointers are never returned to GML. The map helpers perform `Map`, bounde
 
 The base context binding layer currently covers IA InputLayout, primitive topology, vertex buffers, and index buffer; RS rasterizer state, viewports, and scissor rectangles; OM blend/depth-stencil state, render-target/depth-stencil views, and RT+UAV combo; SO targets; CS unordered-access views; ClearState; deferred contexts and command lists; predication; and shader, constant-buffer, shader-resource-view, and sampler bindings for VS, HS, DS, GS, PS, and CS. A shader binding is a typed shader handle plus up to the D3D11 limit of 256 class-instance handles. Multi-slot and variable-count values cross GMIDL as typed struct arrays or `uint64` handle arrays. Native code validates stage-specific 14/128/16 resource-slot limits, the class-instance limit and device identity, index formats/alignment, viewport depth ranges, rectangle ordering, optional-null handles, and immediate-context thread ownership before touching the context.
 
-Context getters acquire COM references as required by D3D11, intern them through the generation-checked registry, and then release the temporary native references. Because the registry deduplicates by COM identity plus handle kind, the smoke test releases only distinct captured handles. It captures the Runner's original bindings, installs test state, checks the round trip and invalid-input paths, restores the originals, and only then releases test objects. The shader-stage test applies this sequence independently to all six stages so GameMaker's own slot-zero bindings survive the test unchanged.
+Context getters acquire COM references as required by D3D11, intern them through the generation-checked registry, and then release the temporary native references. The registry deduplicates by COM identity plus handle kind while retaining a logical lease count, so every getter result is released once even when multiple results have the same numeric value. The smoke test captures the Runner's original bindings, installs test state, checks the round trip and invalid-input paths, restores the originals, and only then releases all captured leases and test objects. The shader-stage test applies this sequence independently to all six stages so GameMaker's own slot-zero bindings survive the test unchanged.
 
 ## Dynamic-linkage driver diagnostic
 

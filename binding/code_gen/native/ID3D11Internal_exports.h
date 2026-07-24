@@ -13,6 +13,7 @@ GMEXPORT double __EXT_NATIVE__id3d11_get_last_hresult();
 GMEXPORT double __EXT_NATIVE__id3d11_get_device_handle(char* __ret_buffer, double __ret_buffer_length);
 GMEXPORT double __EXT_NATIVE__id3d11_get_context_handle(char* __ret_buffer, double __ret_buffer_length);
 GMEXPORT double __EXT_NATIVE__id3d11_get_swapchain_handle(char* __ret_buffer, double __ret_buffer_length);
+GMEXPORT double __EXT_NATIVE__id3d11_swapchain_get_buffer(char* __arg_buffer, double __arg_buffer_length, char* __ret_buffer, double __ret_buffer_length);
 GMEXPORT double __EXT_NATIVE__id3d11_handle_query_interface(char* __arg_buffer, double __arg_buffer_length, char* __ret_buffer, double __ret_buffer_length);
 GMEXPORT double __EXT_NATIVE__id3d11_handle_is_valid(char* __arg_buffer, double __arg_buffer_length);
 GMEXPORT double __EXT_NATIVE__id3d11_handle_get_kind(char* __arg_buffer, double __arg_buffer_length, char* __ret_buffer, double __ret_buffer_length);

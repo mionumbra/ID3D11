@@ -9,6 +9,7 @@
 
 #include <cstdint>
 #include <cstdio>
+#include <limits>
 #include <string>
 #include <string_view>
 #include <vector>
@@ -24,15 +25,27 @@ namespace
 
     [[nodiscard]] bool parseGuid(const std::string_view text, GUID& outGuid) noexcept
     {
-        std::string cleaned;
-        cleaned.reserve(text.size());
+        if (text.size() > 42)
+        {
+            return false;
+        }
+        char cleaned[37]{};
+        std::size_t cleanedLength = 0;
         for (const char ch : text)
         {
             if (ch == '{' || ch == '}' || ch == '(' || ch == ')')
             {
                 continue;
             }
-            cleaned.push_back(ch);
+            if (cleanedLength >= 36)
+            {
+                return false;
+            }
+            cleaned[cleanedLength++] = ch;
+        }
+        if (cleanedLength != 36)
+        {
+            return false;
         }
 
         unsigned int data1 = 0;
@@ -47,7 +60,7 @@ namespace
         unsigned int b6 = 0;
         unsigned int b7 = 0;
         if (std::sscanf(
-                cleaned.c_str(),
+                cleaned,
                 "%8x-%4x-%4x-%2x%2x-%2x%2x%2x%2x%2x%2x",
                 &data1,
                 &data2,
@@ -177,7 +190,8 @@ bool id3d11_device_child_set_private_data(
         bridge.setLastHresult(E_INVALIDARG);
         return false;
     }
-    if (data.data() == nullptr && data.length() != 0)
+    if ((data.data() == nullptr && data.length() != 0) ||
+        data.length() > std::numeric_limits<UINT>::max())
     {
         bridge.setLastHresult(E_INVALIDARG);
         return false;
@@ -234,10 +248,20 @@ std::int32_t id3d11_device_child_get_private_data(
     bridge.setLastHresult(result);
     if (SUCCEEDED(result))
     {
+        if (size > static_cast<UINT>(std::numeric_limits<std::int32_t>::max()))
+        {
+            bridge.setLastHresult(E_BOUNDS);
+            return static_cast<std::int32_t>(E_BOUNDS);
+        }
         return static_cast<std::int32_t>(size);
     }
     if (result == DXGI_ERROR_MORE_DATA)
     {
+        if (size > static_cast<UINT>(std::numeric_limits<std::int32_t>::max()))
+        {
+            bridge.setLastHresult(E_BOUNDS);
+            return static_cast<std::int32_t>(E_BOUNDS);
+        }
         return static_cast<std::int32_t>(size);
     }
     return static_cast<std::int32_t>(result);

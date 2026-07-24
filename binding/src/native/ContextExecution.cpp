@@ -2,6 +2,7 @@
 
 #include "BridgeState.hpp"
 #include "DeviceContextHelpers.hpp"
+#include "FormatLayout.hpp"
 #include "NativeHelpers.hpp"
 
 #include <algorithm>
@@ -28,6 +29,7 @@ namespace
         DXGI_SAMPLE_DESC sampleDesc{1, 0};
         UINT bindFlags = 0;
         UINT miscFlags = 0;
+        D3D11_USAGE usage = D3D11_USAGE_DEFAULT;
     };
 
     [[nodiscard]] bool fail(const HRESULT hresult) noexcept
@@ -70,6 +72,7 @@ namespace
             output.arraySize = 1;
             output.bindFlags = desc.BindFlags;
             output.miscFlags = desc.MiscFlags;
+            output.usage = desc.Usage;
             return true;
         }
         case D3D11_RESOURCE_DIMENSION_TEXTURE1D:
@@ -89,6 +92,7 @@ namespace
             output.format = desc.Format;
             output.bindFlags = desc.BindFlags;
             output.miscFlags = desc.MiscFlags;
+            output.usage = desc.Usage;
             return true;
         }
         case D3D11_RESOURCE_DIMENSION_TEXTURE2D:
@@ -109,6 +113,7 @@ namespace
             output.sampleDesc = desc.SampleDesc;
             output.bindFlags = desc.BindFlags;
             output.miscFlags = desc.MiscFlags;
+            output.usage = desc.Usage;
             return true;
         }
         case D3D11_RESOURCE_DIMENSION_TEXTURE3D:
@@ -128,6 +133,7 @@ namespace
             output.format = desc.Format;
             output.bindFlags = desc.BindFlags;
             output.miscFlags = desc.MiscFlags;
+            output.usage = desc.Usage;
             return true;
         }
         default:
@@ -469,6 +475,37 @@ bool id3d11_device_context_copy_subresource_region(
         nativeBoxPointer = &nativeBox;
     }
 
+    const bool multisampled = sourceInfo.sampleDesc.Count > 1 ||
+        destinationInfo.sampleDesc.Count > 1;
+    if ((sourceInfo.bindFlags & D3D11_BIND_DEPTH_STENCIL) != 0 ||
+        (destinationInfo.bindFlags & D3D11_BIND_DEPTH_STENCIL) != 0 ||
+        sourceInfo.sampleDesc.Count != destinationInfo.sampleDesc.Count ||
+        sourceInfo.sampleDesc.Quality != destinationInfo.sampleDesc.Quality ||
+        (multisampled && (useSourceBox || destinationX != 0 ||
+            destinationY != 0 || destinationZ != 0)))
+    {
+        return fail(E_INVALIDARG);
+    }
+
+    id3d11::FormatLayout formatLayout{};
+    if (sourceInfo.dimension != D3D11_RESOURCE_DIMENSION_BUFFER &&
+        id3d11::getFormatLayout(sourceInfo.format, formatLayout) &&
+        (formatLayout.blockWidth > 1 || formatLayout.blockHeight > 1))
+    {
+        if (destinationX % formatLayout.blockWidth != 0 ||
+            destinationY % formatLayout.blockHeight != 0 ||
+            (useSourceBox &&
+                (nativeBox.left % formatLayout.blockWidth != 0 ||
+                 nativeBox.top % formatLayout.blockHeight != 0 ||
+                 (nativeBox.right != sourceWidth &&
+                    nativeBox.right % formatLayout.blockWidth != 0) ||
+                 (nativeBox.bottom != sourceHeight &&
+                    nativeBox.bottom % formatLayout.blockHeight != 0))))
+        {
+            return fail(E_INVALIDARG);
+        }
+    }
+
     if (copyWidth > destinationWidth ||
         destinationX > destinationWidth - copyWidth ||
         copyHeight > destinationHeight ||
@@ -753,7 +790,10 @@ bool id3d11_device_context_resolve_subresource(
         sourceInfo.dimension != D3D11_RESOURCE_DIMENSION_TEXTURE2D ||
         destinationInfo.sampleDesc.Count != 1 ||
         sourceInfo.sampleDesc.Count <= 1 ||
+        destinationInfo.usage != D3D11_USAGE_DEFAULT ||
         format == DXGI_FORMAT_UNKNOWN ||
+        destinationInfo.format != static_cast<DXGI_FORMAT>(format) ||
+        sourceInfo.format != static_cast<DXGI_FORMAT>(format) ||
         !subresourceExtent(
             destinationInfo,
             destinationSubresource,

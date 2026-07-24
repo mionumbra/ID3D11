@@ -40,6 +40,14 @@
  */
 
 /**
+ * @function_partial id3d11_swapchain_get_buffer
+ * @param {Real} swapchain
+ * @param {Real} bufferIndex
+ * @returns {Struct.ID3D11CreateHandleResult} 
+ * @function_end 
+ */
+
+/**
  * @function_partial id3d11_handle_query_interface
  * @param {Real} handle
  * @param {Enum.ID3D11HandleKind} interfaceKind

@@ -308,9 +308,15 @@ std::vector<gm_structs::ID3D11Viewport> id3d11_device_context_rs_get_viewports(
     }
 
     std::vector<D3D11_VIEWPORT> viewports(count);
+    const UINT capacity = count;
     if (count != 0)
     {
         context->RSGetViewports(&count, viewports.data());
+    }
+    if (count > capacity)
+    {
+        id3d11::BridgeState::instance().setLastHresult(E_FAIL);
+        return output;
     }
     output.reserve(count);
     for (std::size_t index = 0; index < count; ++index)
@@ -375,9 +381,15 @@ std::vector<gm_structs::ID3D11Rect> id3d11_device_context_rs_get_scissor_rects(
     }
 
     std::vector<D3D11_RECT> rects(count);
+    const UINT capacity = count;
     if (count != 0)
     {
         context->RSGetScissorRects(&count, rects.data());
+    }
+    if (count > capacity)
+    {
+        id3d11::BridgeState::instance().setLastHresult(E_FAIL);
+        return output;
     }
     output.reserve(count);
     for (std::size_t index = 0; index < count; ++index)

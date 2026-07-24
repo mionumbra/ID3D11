@@ -52,5 +52,17 @@ foreach ($structName in $inputStructs)
     $source = $source.Remove($match.Index, $match.Length).Insert($match.Index, $patchedConstructor)
 }
 
-Set-Content -LiteralPath $gmlPath -Value $source -Encoding utf8
+$temporaryPath = "$gmlPath.$([guid]::NewGuid().ToString('N')).tmp"
+try
+{
+    [System.IO.File]::WriteAllText(
+        $temporaryPath,
+        $source,
+        [System.Text.UTF8Encoding]::new($false))
+    [System.IO.File]::Move($temporaryPath, $gmlPath, $true)
+}
+finally
+{
+    Remove-Item -LiteralPath $temporaryPath -Force -ErrorAction SilentlyContinue
+}
 Write-Host "Patched numeric descriptor constructors with zero defaults."

@@ -3,8 +3,17 @@ set(SRC_DIR ${CMAKE_CURRENT_LIST_DIR})
 # =============================================================================
 # GameMaker iOS integration (optional)
 # =============================================================================
-set(EXT_GM_XCODEPROJ_OVERRIDE "/ABS/PATH/TO/GAME.xcodeproj" CACHE STRING "" FORCE)
-set(EXT_GM_APP_TARGET_OVERRIDE "" CACHE STRING "" FORCE)
+# Keep these as optional cache entries. A real user value must survive
+# regeneration and must not be replaced by the template placeholder.
+set(EXT_GM_XCODEPROJ_OVERRIDE "" CACHE STRING "Override GM .xcodeproj (optional)")
+set(EXT_GM_APP_TARGET_OVERRIDE "" CACHE STRING "Override GM app target (optional)")
+
+# extgen's root template defaults to the repository parent. Redirect only that
+# untouched default while preserving an explicit caller-provided output path.
+if(EXT_OUTPUT_DIR STREQUAL "../")
+  set(EXT_OUTPUT_DIR "../extensions/ID3D11" CACHE STRING
+      "Where to copy the final built binary" FORCE)
+endif()
 
 # =============================================================================
 # Public headers for Apple XCFramework packaging

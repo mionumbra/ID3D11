@@ -5,18 +5,30 @@
 status = "init";
 ok = false;
 deferred_ok = false;
+ready = false;
 detail = "";
 
 vs = 0;
 ps = 0;
 input_layout = 0;
 vertex_buffer = 0;
+constant_buffer = 0;
 rt_texture = 0;
 rtv = 0;
 staging_texture = 0;
+backbuffer_texture = 0;
+backbuffer_rtv = 0;
+constant_data = undefined;
 bytecode_vs = undefined;
 bytecode_ps = undefined;
 errors = undefined;
+color_r = 1.0;
+color_g = 0.25;
+color_b = 0.0;
+present_ok = false;
+present_enabled = environment_get_variable("ID3D11_PRESENT") == "1";
+backbuffer_width = 0;
+backbuffer_height = 0;
 
 if (!global.__id3d11_bootstrap_ok)
 {
@@ -66,7 +78,8 @@ vs = _vs_result.handle;
 id3d11_device_child_set_debug_name(vs, "id3d11.demo.triangle.vs");
 
 var _ps_source =
-	"float4 main() : SV_Target { return float4(1.0, 0.25, 0.0, 1.0); }";
+	"cbuffer TriangleColor : register(b0) { float4 color; }; " +
+	"float4 main() : SV_Target { return color; }";
 var _ps_compile = id3d11_compile_shader(
 	_ps_source,
 	"id3d11_triangle_ps",
@@ -151,6 +164,34 @@ if (_vb_result.hresult != 0)
 }
 vertex_buffer = _vb_result.handle;
 
+constant_data = buffer_create(16, buffer_fixed, 1);
+buffer_write(constant_data, buffer_f32, color_r);
+buffer_write(constant_data, buffer_f32, color_g);
+buffer_write(constant_data, buffer_f32, color_b);
+buffer_write(constant_data, buffer_f32, 1.0);
+
+var _cb_desc = new ID3D11BufferDesc();
+_cb_desc.byteWidth = 16;
+_cb_desc.usage = ID3D11Usage.Default;
+_cb_desc.bindFlags = ID3D11BindFlag.ConstantBuffer;
+_cb_desc.cpuAccessFlags = 0;
+_cb_desc.miscFlags = 0;
+_cb_desc.structureByteStride = 0;
+var _cb_result = id3d11_device_create_buffer_with_data(
+	_device,
+	_cb_desc,
+	constant_data);
+if (_cb_result.hresult != 0)
+{
+	status = "constant buffer failed";
+	detail = string(_cb_result.hresult);
+	exit;
+}
+constant_buffer = _cb_result.handle;
+id3d11_device_child_set_debug_name(
+	constant_buffer,
+	"id3d11.demo.triangle.color");
+
 var _rt_desc = new ID3D11Texture2DDesc();
 _rt_desc.width = 64;
 _rt_desc.height = 64;
@@ -202,13 +243,41 @@ if (_staging_result.hresult != 0)
 }
 staging_texture = _staging_result.handle;
 
-var _bind_draw = function(_ctx, _vs, _ps, _layout, _vb, _rtv)
+if (present_enabled)
+{
+	var _swapchain = id3d11_get_swapchain_handle();
+	var _backbuffer_result = id3d11_swapchain_get_buffer(_swapchain, 0);
+	id3d11_handle_release(_swapchain);
+	if (_backbuffer_result.hresult != 0)
+	{
+		status = "backbuffer failed";
+		detail = string(_backbuffer_result.hresult);
+		exit;
+	}
+	backbuffer_texture = _backbuffer_result.handle;
+	var _backbuffer_desc = id3d11_texture2d_get_desc(backbuffer_texture);
+	backbuffer_width = _backbuffer_desc.width;
+	backbuffer_height = _backbuffer_desc.height;
+	var _backbuffer_rtv_result = id3d11_device_create_render_target_view_default(
+		_device,
+		backbuffer_texture);
+	if (_backbuffer_rtv_result.hresult != 0)
+	{
+		status = "backbuffer rtv failed";
+		detail = string(_backbuffer_rtv_result.hresult);
+		exit;
+	}
+	backbuffer_rtv = _backbuffer_rtv_result.handle;
+	present_ok = backbuffer_width > 0 && backbuffer_height > 0;
+}
+
+bind_draw = function(_ctx, _vs, _ps, _layout, _vb, _cb, _rtv, _width, _height, _clear)
 {
 	var _viewport = new ID3D11Viewport();
 	_viewport.topLeftX = 0;
 	_viewport.topLeftY = 0;
-	_viewport.width = 64;
-	_viewport.height = 64;
+	_viewport.width = _width;
+	_viewport.height = _height;
 	_viewport.minDepth = 0;
 	_viewport.maxDepth = 1;
 
@@ -245,7 +314,11 @@ var _bind_draw = function(_ctx, _vs, _ps, _layout, _vb, _rtv)
 	{
 		return "ps_set_shader";
 	}
-	if (!id3d11_device_context_clear_render_target_view(_ctx, _rtv, 0.05, 0.05, 0.1, 1))
+	if (!id3d11_device_context_ps_set_constant_buffers(_ctx, 0, [_cb]))
+	{
+		return "ps_set_constant_buffers";
+	}
+	if (_clear && !id3d11_device_context_clear_render_target_view(_ctx, _rtv, 0.05, 0.05, 0.1, 1))
 	{
 		return "clear_rtv";
 	}
@@ -256,92 +329,197 @@ var _bind_draw = function(_ctx, _vs, _ps, _layout, _vb, _rtv)
 	return "";
 };
 
-// ---- immediate path ----
-var _prev_om = id3d11_device_context_om_get_render_targets(_context, 1);
-var _prev_vs = id3d11_device_context_vs_get_shader(_context);
-var _prev_ps = id3d11_device_context_ps_get_shader(_context);
-var _prev_layout = id3d11_device_context_ia_get_input_layout(_context);
-var _prev_topology = id3d11_device_context_ia_get_primitive_topology(_context);
-var _prev_vbs = id3d11_device_context_ia_get_vertex_buffers(_context, 0, 1);
-var _prev_viewports = id3d11_device_context_rs_get_viewports(_context);
+render_immediate = function()
+{
+	var _ctx = global.__id3d11_context;
+	var _prev_om = id3d11_device_context_om_get_render_targets(_ctx, 8);
+	var _prev_vs = id3d11_device_context_vs_get_shader(_ctx);
+	var _prev_ps = id3d11_device_context_ps_get_shader(_ctx);
+	var _prev_ps_cbs = id3d11_device_context_ps_get_constant_buffers(_ctx, 0, 1);
+	var _prev_layout = id3d11_device_context_ia_get_input_layout(_ctx);
+	var _prev_topology = id3d11_device_context_ia_get_primitive_topology(_ctx);
+	var _prev_vbs = id3d11_device_context_ia_get_vertex_buffers(_ctx, 0, 1);
+	var _prev_viewports = id3d11_device_context_rs_get_viewports(_ctx);
 
-var _draw_err = _bind_draw(_context, vs, ps, input_layout, vertex_buffer, rtv);
-if (_draw_err != "")
-{
-	status = "immediate draw failed";
-	detail = _draw_err;
-}
-else
-{
-	id3d11_device_context_copy_resource(_context, staging_texture, rt_texture);
-	var _readback = buffer_create(64 * 64 * 4, buffer_fixed, 1);
-	var _map_ok = id3d11_device_context_map_read_to_buffer(
-		_context,
-		staging_texture,
-		0,
-		ID3D11Map.Read,
-		0,
-		_readback);
-	if (!_map_ok)
+	var _draw_err = bind_draw(
+		_ctx,
+		vs,
+		ps,
+		input_layout,
+		vertex_buffer,
+		constant_buffer,
+		rtv,
+		64,
+		64,
+		true);
+	if (_draw_err != "")
 	{
-		status = "readback failed";
-		detail = string(id3d11_get_last_hresult());
+		status = "immediate draw failed";
+		detail = _draw_err;
 	}
 	else
 	{
-		// Center pixel (32,32), row pitch may be 256 for 64*4
-		var _center = buffer_peek(_readback, ((32 * 64) + 32) * 4, buffer_u32);
-		// R8G8B8A8 little-endian: 0xFF0040FF expected-ish for (1,0.25,0,1) -> R=255 G=64 B=0 A=255
-		var _r = _center & 0xff;
-		var _g = (_center >> 8) & 0xff;
-		var _b = (_center >> 16) & 0xff;
-		ok = (_r > 200 && _g > 20 && _g < 120 && _b < 40);
-		status = ok ? "immediate ok" : "pixel mismatch";
-		detail = $"rgba=({_r},{_g},{_b}) raw={_center}";
+		id3d11_device_context_copy_resource(_ctx, staging_texture, rt_texture);
+		var _readback = buffer_create(64 * 64 * 4, buffer_fixed, 1);
+		var _map_ok = id3d11_device_context_map_read_to_buffer(
+			_ctx,
+			staging_texture,
+			0,
+			ID3D11Map.Read,
+			0,
+			_readback);
+		if (!_map_ok)
+		{
+			status = "readback failed";
+			detail = string(id3d11_get_last_hresult());
+		}
+		else
+		{
+			var _center = buffer_peek(
+				_readback,
+				((32 * 64) + 32) * 4,
+				buffer_u32);
+			var _r = _center & 0xff;
+			var _g = (_center >> 8) & 0xff;
+			var _b = (_center >> 16) & 0xff;
+			var _expected_r = round(color_r * 255);
+			var _expected_g = round(color_g * 255);
+			var _expected_b = round(color_b * 255);
+			ok =
+				abs(_r - _expected_r) <= 2 &&
+				abs(_g - _expected_g) <= 2 &&
+				abs(_b - _expected_b) <= 2;
+			status = ok ? "animated cbuffer ok" : "pixel mismatch";
+			detail =
+				$"rgba=({_r},{_g},{_b}) expected=({_expected_r},{_expected_g},{_expected_b})";
+		}
+		buffer_delete(_readback);
 	}
-	buffer_delete(_readback);
-}
 
-// Restore Runner bindings (defensive even if draw failed mid-way).
-// Do NOT release handles returned by Get* — they are interned views of Runner-owned objects.
-id3d11_device_context_om_set_render_targets(
-	_context,
-	_prev_om.renderTargetViews,
-	_prev_om.depthStencilView);
-var _prev_vs_ci = is_array(_prev_vs.classInstances) ? _prev_vs.classInstances : [];
-var _prev_ps_ci = is_array(_prev_ps.classInstances) ? _prev_ps.classInstances : [];
-id3d11_device_context_vs_set_shader(_context, _prev_vs.shader, _prev_vs_ci);
-id3d11_device_context_ps_set_shader(_context, _prev_ps.shader, _prev_ps_ci);
-id3d11_device_context_ia_set_input_layout(_context, _prev_layout);
-id3d11_device_context_ia_set_primitive_topology(_context, _prev_topology);
-id3d11_device_context_ia_set_vertex_buffers(_context, 0, _prev_vbs);
-id3d11_device_context_rs_set_viewports(_context, _prev_viewports);
+	var _restore_ok = id3d11_device_context_om_set_render_targets(
+		_ctx,
+		_prev_om.renderTargetViews,
+		_prev_om.depthStencilView);
+	var _prev_vs_ci = is_array(_prev_vs.classInstances) ? _prev_vs.classInstances : [];
+	var _prev_ps_ci = is_array(_prev_ps.classInstances) ? _prev_ps.classInstances : [];
+	_restore_ok = id3d11_device_context_vs_set_shader(_ctx, _prev_vs.shader, _prev_vs_ci) && _restore_ok;
+	_restore_ok = id3d11_device_context_ps_set_shader(_ctx, _prev_ps.shader, _prev_ps_ci) && _restore_ok;
+	_restore_ok = id3d11_device_context_ps_set_constant_buffers(_ctx, 0, _prev_ps_cbs) && _restore_ok;
+	_restore_ok = id3d11_device_context_ia_set_input_layout(_ctx, _prev_layout) && _restore_ok;
+	_restore_ok = id3d11_device_context_ia_set_primitive_topology(_ctx, _prev_topology) && _restore_ok;
+	_restore_ok = id3d11_device_context_ia_set_vertex_buffers(_ctx, 0, _prev_vbs) && _restore_ok;
+	_restore_ok = id3d11_device_context_rs_set_viewports(_ctx, _prev_viewports) && _restore_ok;
+	if (!_restore_ok)
+	{
+		ok = false;
+		status = "Runner state restore failed";
+		detail = string(id3d11_get_last_hresult());
+	}
+	array_foreach(_prev_om.renderTargetViews, function(_handle) { if (_handle != 0) id3d11_handle_release(_handle); });
+	if (_prev_om.depthStencilView != 0) id3d11_handle_release(_prev_om.depthStencilView);
+	if (_prev_vs.shader != 0) id3d11_handle_release(_prev_vs.shader);
+	array_foreach(_prev_vs_ci, function(_handle) { if (_handle != 0) id3d11_handle_release(_handle); });
+	if (_prev_ps.shader != 0) id3d11_handle_release(_prev_ps.shader);
+	array_foreach(_prev_ps_ci, function(_handle) { if (_handle != 0) id3d11_handle_release(_handle); });
+	array_foreach(_prev_ps_cbs, function(_handle) { if (_handle != 0) id3d11_handle_release(_handle); });
+	if (_prev_layout != 0) id3d11_handle_release(_prev_layout);
+	array_foreach(_prev_vbs, function(_binding) { if (_binding.buffer != 0) id3d11_handle_release(_binding.buffer); });
+};
+
+render_present = function()
+{
+	if (!present_ok)
+	{
+		return;
+	}
+
+	var _ctx = global.__id3d11_context;
+	var _prev_om = id3d11_device_context_om_get_render_targets(_ctx, 8);
+	var _prev_vs = id3d11_device_context_vs_get_shader(_ctx);
+	var _prev_ps = id3d11_device_context_ps_get_shader(_ctx);
+	var _prev_ps_cbs = id3d11_device_context_ps_get_constant_buffers(_ctx, 0, 1);
+	var _prev_layout = id3d11_device_context_ia_get_input_layout(_ctx);
+	var _prev_topology = id3d11_device_context_ia_get_primitive_topology(_ctx);
+	var _prev_vbs = id3d11_device_context_ia_get_vertex_buffers(_ctx, 0, 1);
+	var _prev_viewports = id3d11_device_context_rs_get_viewports(_ctx);
+
+	var _present_err = bind_draw(
+		_ctx,
+		vs,
+		ps,
+		input_layout,
+		vertex_buffer,
+		constant_buffer,
+		backbuffer_rtv,
+		backbuffer_width,
+		backbuffer_height,
+		false);
+	if (_present_err != "")
+	{
+		present_ok = false;
+		status = "present draw failed";
+		detail = _present_err;
+	}
+
+	var _restore_ok = id3d11_device_context_om_set_render_targets(
+		_ctx,
+		_prev_om.renderTargetViews,
+		_prev_om.depthStencilView);
+	var _prev_vs_ci = is_array(_prev_vs.classInstances) ? _prev_vs.classInstances : [];
+	var _prev_ps_ci = is_array(_prev_ps.classInstances) ? _prev_ps.classInstances : [];
+	_restore_ok = id3d11_device_context_vs_set_shader(_ctx, _prev_vs.shader, _prev_vs_ci) && _restore_ok;
+	_restore_ok = id3d11_device_context_ps_set_shader(_ctx, _prev_ps.shader, _prev_ps_ci) && _restore_ok;
+	_restore_ok = id3d11_device_context_ps_set_constant_buffers(_ctx, 0, _prev_ps_cbs) && _restore_ok;
+	_restore_ok = id3d11_device_context_ia_set_input_layout(_ctx, _prev_layout) && _restore_ok;
+	_restore_ok = id3d11_device_context_ia_set_primitive_topology(_ctx, _prev_topology) && _restore_ok;
+	_restore_ok = id3d11_device_context_ia_set_vertex_buffers(_ctx, 0, _prev_vbs) && _restore_ok;
+	_restore_ok = id3d11_device_context_rs_set_viewports(_ctx, _prev_viewports) && _restore_ok;
+	if (!_restore_ok)
+	{
+		present_ok = false;
+		ok = false;
+		status = "Runner state restore failed";
+		detail = string(id3d11_get_last_hresult());
+	}
+	array_foreach(_prev_om.renderTargetViews, function(_handle) { if (_handle != 0) id3d11_handle_release(_handle); });
+	if (_prev_om.depthStencilView != 0) id3d11_handle_release(_prev_om.depthStencilView);
+	if (_prev_vs.shader != 0) id3d11_handle_release(_prev_vs.shader);
+	array_foreach(_prev_vs_ci, function(_handle) { if (_handle != 0) id3d11_handle_release(_handle); });
+	if (_prev_ps.shader != 0) id3d11_handle_release(_prev_ps.shader);
+	array_foreach(_prev_ps_ci, function(_handle) { if (_handle != 0) id3d11_handle_release(_handle); });
+	array_foreach(_prev_ps_cbs, function(_handle) { if (_handle != 0) id3d11_handle_release(_handle); });
+	if (_prev_layout != 0) id3d11_handle_release(_prev_layout);
+	array_foreach(_prev_vbs, function(_binding) { if (_binding.buffer != 0) id3d11_handle_release(_binding.buffer); });
+};
+
+// ---- immediate path ----
+ready = true;
+render_immediate();
 
 // ---- deferred path (optional second proof) ----
 var _deferred = id3d11_device_create_deferred_context(_device, 0);
 if (_deferred.hresult == 0)
 {
-	var _def_err = _bind_draw(
+	var _def_err = bind_draw(
 		_deferred.handle,
 		vs,
 		ps,
 		input_layout,
 		vertex_buffer,
-		rtv);
+		constant_buffer,
+		rtv,
+		64,
+		64,
+		true);
 	if (_def_err == "")
 	{
 		var _clist = id3d11_device_context_finish_command_list(_deferred.handle, false);
 		if (_clist.hresult == 0)
 		{
-			var _prev_om2 = id3d11_device_context_om_get_render_targets(_context, 1);
 			var _exec = id3d11_device_context_execute_command_list(
 				_context,
 				_clist.handle,
 				true);
-			id3d11_device_context_om_set_render_targets(
-				_context,
-				_prev_om2.renderTargetViews,
-				_prev_om2.depthStencilView);
 			id3d11_handle_release(_clist.handle);
 			deferred_ok = _exec;
 		}
@@ -350,7 +528,7 @@ if (_deferred.hresult == 0)
 }
 
 show_debug_message(
-	$"[ID3D11] triangle demo status={status} ok={ok} deferred_ok={deferred_ok} {detail}");
+	$"[ID3D11] triangle demo status={status} ok={ok} deferred_ok={deferred_ok} present_ok={present_ok} {detail}");
 
 // Leave device alive for multi-room browsing. CleanUp releases demo resources.
 // Device/context rebuild remains user-owned (re-bootstrap + recreate).

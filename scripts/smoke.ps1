@@ -63,15 +63,14 @@ if (![string]::IsNullOrWhiteSpace($logDirectory) -and !(Test-Path -LiteralPath $
 
 $stdoutPath = "$LogPath.stdout"
 $stderrPath = "$LogPath.stderr"
-$markerPath = Join-Path (Split-Path -Parent $projectPath) "ID3D11_SMOKE_AUTO_EXIT" # ID3D11_SMOKE_AUTO_EXIT marker
 $process = $null
 $smokePassed = $false
 try
 {
-    Set-Content -LiteralPath $markerPath -Value "1" -Encoding ascii
     $startInfo = [System.Diagnostics.ProcessStartInfo]::new()
     $startInfo.FileName = (Get-Command pwsh -ErrorAction Stop).Source
     $startInfo.UseShellExecute = $false
+    $startInfo.Environment["ID3D11_SMOKE"] = "1"
     $startInfo.Environment["ID3D11_SMOKE_AUTO_EXIT"] = "1"
     $startInfo.CreateNoWindow = $true
     $startInfo.RedirectStandardOutput = $true
@@ -156,10 +155,6 @@ catch
 }
 finally
 {
-    if (Test-Path -LiteralPath $markerPath)
-    {
-        Remove-Item -LiteralPath $markerPath -Force -ErrorAction SilentlyContinue
-    }
     if ($process)
     {
         $process.Dispose()

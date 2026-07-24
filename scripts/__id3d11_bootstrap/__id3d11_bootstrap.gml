@@ -37,7 +37,11 @@ if (os_type == os_windows && os_browser == browser_not_a_browser)
 		global.__id3d11_swapchain = id3d11_get_swapchain_handle();
 		global.__id3d11_feature_level = id3d11_device_get_feature_level(global.__id3d11_device);
 
+		if (environment_get_variable("ID3D11_SMOKE") == "1")
+		{
 		var _immediate_context = id3d11_device_get_immediate_context(global.__id3d11_device);
+		var _immediate_context_kind = id3d11_handle_get_kind(_immediate_context);
+		var _immediate_context_release_ok = id3d11_handle_release(_immediate_context);
 		var _format_support = id3d11_device_check_format_support(global.__id3d11_device, 28);
 		var _multisample = id3d11_device_check_multisample_quality_levels(
 			global.__id3d11_device,
@@ -75,6 +79,7 @@ if (os_type == os_windows && os_browser == browser_not_a_browser)
 		var _buffer_roundtrip = id3d11_buffer_get_desc(_buffer_result.handle);
 		var _buffer_dimension = id3d11_resource_get_dimension(_buffer_result.handle);
 		var _buffer_device = id3d11_device_child_get_device(_buffer_result.handle);
+		var _buffer_device_release_ok = id3d11_handle_release(_buffer_device);
 		var _debug_name_set = id3d11_device_child_set_debug_name(
 			_buffer_result.handle,
 			"id3d11.smoke.buffer");
@@ -163,6 +168,7 @@ if (os_type == os_windows && os_browser == browser_not_a_browser)
 		var _texture2d_roundtrip = id3d11_texture2d_get_desc(_texture2d_result.handle);
 		var _texture2d_dimension = id3d11_resource_get_dimension(_texture2d_result.handle);
 		var _texture2d_device = id3d11_device_child_get_device(_texture2d_result.handle);
+		var _texture2d_device_release_ok = id3d11_handle_release(_texture2d_device);
 		var _texture2d_priority = id3d11_resource_get_eviction_priority(_texture2d_result.handle);
 		var _texture2d_priority_ok = id3d11_resource_set_eviction_priority(
 			_texture2d_result.handle,
@@ -182,6 +188,7 @@ if (os_type == os_windows && os_browser == browser_not_a_browser)
 			_texture2d_result.handle);
 		var _srv_roundtrip = id3d11_shader_resource_view_get_desc(_srv_result.handle);
 		var _srv_resource = id3d11_view_get_resource(_srv_result.handle);
+		var _srv_resource_release_ok = id3d11_handle_release(_srv_resource);
 		var _srv_kind_ok =
 			id3d11_handle_get_kind(_srv_result.handle) == ID3D11HandleKind.ShaderResourceView;
 
@@ -198,6 +205,7 @@ if (os_type == os_windows && os_browser == browser_not_a_browser)
 			_texture2d_result.handle);
 		var _rtv_roundtrip = id3d11_render_target_view_get_desc(_rtv_result.handle);
 		var _rtv_resource = id3d11_view_get_resource(_rtv_result.handle);
+		var _rtv_resource_release_ok = id3d11_handle_release(_rtv_resource);
 		var _rtv_kind_ok =
 			id3d11_handle_get_kind(_rtv_result.handle) == ID3D11HandleKind.RenderTargetView;
 
@@ -214,6 +222,7 @@ if (os_type == os_windows && os_browser == browser_not_a_browser)
 			_texture2d_result.handle);
 		var _uav_roundtrip = id3d11_unordered_access_view_get_desc(_uav_result.handle);
 		var _uav_resource = id3d11_view_get_resource(_uav_result.handle);
+		var _uav_resource_release_ok = id3d11_handle_release(_uav_resource);
 		var _uav_kind_ok =
 			id3d11_handle_get_kind(_uav_result.handle) == ID3D11HandleKind.UnorderedAccessView;
 
@@ -246,6 +255,7 @@ if (os_type == os_windows && os_browser == browser_not_a_browser)
 			_depth_texture_result.handle);
 		var _dsv_roundtrip = id3d11_depth_stencil_view_get_desc(_dsv_result.handle);
 		var _dsv_resource = id3d11_view_get_resource(_dsv_result.handle);
+		var _dsv_resource_release_ok = id3d11_handle_release(_dsv_resource);
 		var _dsv_kind_ok =
 			id3d11_handle_get_kind(_dsv_result.handle) == ID3D11HandleKind.DepthStencilView;
 
@@ -257,21 +267,13 @@ if (os_type == os_windows && os_browser == browser_not_a_browser)
 			_texture2d_data);
 
 		var _srv_release_ok = id3d11_handle_release(_srv_result.handle);
-		var _srv_default_release_ok = _srv_default_result.handle == _srv_result.handle
-			? _srv_release_ok
-			: id3d11_handle_release(_srv_default_result.handle);
+		var _srv_default_release_ok = id3d11_handle_release(_srv_default_result.handle);
 		var _rtv_release_ok = id3d11_handle_release(_rtv_result.handle);
-		var _rtv_default_release_ok = _rtv_default_result.handle == _rtv_result.handle
-			? _rtv_release_ok
-			: id3d11_handle_release(_rtv_default_result.handle);
+		var _rtv_default_release_ok = id3d11_handle_release(_rtv_default_result.handle);
 		var _uav_release_ok = id3d11_handle_release(_uav_result.handle);
-		var _uav_default_release_ok = _uav_default_result.handle == _uav_result.handle
-			? _uav_release_ok
-			: id3d11_handle_release(_uav_default_result.handle);
+		var _uav_default_release_ok = id3d11_handle_release(_uav_default_result.handle);
 		var _dsv_release_ok = id3d11_handle_release(_dsv_result.handle);
-		var _dsv_default_release_ok = _dsv_default_result.handle == _dsv_result.handle
-			? _dsv_release_ok
-			: id3d11_handle_release(_dsv_default_result.handle);
+		var _dsv_default_release_ok = id3d11_handle_release(_dsv_default_result.handle);
 		var _depth_texture_release_ok = id3d11_handle_release(_depth_texture_result.handle);
 		var _texture2d_release_ok = id3d11_handle_release(_texture2d_result.handle);
 		var _texture2d_stale_rejected = !id3d11_handle_is_valid(_texture2d_result.handle);
@@ -462,6 +464,7 @@ if (os_type == os_windows && os_browser == browser_not_a_browser)
 			id3d11_handle_get_kind(_input_layout_result.handle) == ID3D11HandleKind.InputLayout &&
 			id3d11_handle_get_kind(_class_linkage_result.handle) == ID3D11HandleKind.ClassLinkage;
 		var _shader_parent_device = id3d11_device_child_get_device(_vs_result.handle);
+		var _shader_parent_device_release_ok = id3d11_handle_release(_shader_parent_device);
 		var _test_shader_binding = function(_set_shader, _get_shader, _shader)
 		{
 			var _previous = _get_shader(global.__id3d11_context);
@@ -481,33 +484,24 @@ if (os_type == os_windows && os_browser == browser_not_a_browser)
 
 			var _previous_shader_release_ok =
 				_previous.shader == 0 ||
-				_previous.shader == _shader ||
 				id3d11_handle_release(_previous.shader);
+			var _bound_shader_release_ok =
+				_bound.shader == 0 || id3d11_handle_release(_bound.shader);
 			var _previous_instances_release_ok = true;
-			var _released_instances = [];
 			for (var _instance_index = 0;
 				_instance_index < array_length(_previous.classInstances);
 				++_instance_index)
 			{
 				var _instance = _previous.classInstances[_instance_index];
-				var _already_released = false;
-				for (var _released_index = 0;
-					_released_index < array_length(_released_instances);
-					++_released_index)
-				{
-					_already_released = _already_released ||
-						_released_instances[_released_index] == _instance;
-				}
 				if (_instance == 0)
 				{
 					_previous_instances_release_ok = false;
 				}
-				else if (!_already_released)
+				else
 				{
 					_previous_instances_release_ok =
 						id3d11_handle_release(_instance) &&
 						_previous_instances_release_ok;
-					array_push(_released_instances, _instance);
 				}
 			}
 
@@ -520,6 +514,7 @@ if (os_type == os_windows && os_browser == browser_not_a_browser)
 				array_length(_null_binding.classInstances) == 0 &&
 				_restored &&
 				_previous_shader_release_ok &&
+				_bound_shader_release_ok &&
 				_previous_instances_release_ok;
 		};
 		var _vs_shader_binding_ok = _test_shader_binding(
@@ -572,14 +567,19 @@ if (os_type == os_windows && os_browser == browser_not_a_browser)
 			_shader_binding_null_instance_rejected &&
 			_shader_binding_too_many_instances_rejected;
 
-		var _dynamic_ps_source =
+		// NVIDIA 582.66 crashes asynchronously while creating this valid dynamic-linkage PS.
+		// Keep the coverage available for controlled driver testing, but never run it by default.
+		var _class_linkage_methods_ok = true;
+		if (environment_get_variable("ID3D11_DYNAMIC_LINKAGE_SMOKE") == "1")
+		{
+			var _dynamic_ps_source =
 			"interface IColor { float4 GetColor(); }; "
 			+ "class ColorClass : IColor { float4 color; "
 			+ "float4 GetColor() { return color; } }; "
 			+ "cbuffer DynamicData : register(b0) { ColorClass storedColor; }; "
 			+ "IColor activeColor; "
 			+ "float4 main() : SV_Target { return activeColor.GetColor(); }";
-		var _dynamic_ps_compile = id3d11_compile_shader(
+			var _dynamic_ps_compile = id3d11_compile_shader(
 			_dynamic_ps_source,
 			"id3d11_smoke_dynamic_ps",
 			"main",
@@ -588,61 +588,61 @@ if (os_type == os_windows && os_browser == browser_not_a_browser)
 			0,
 			_shader_bytecode,
 			_shader_errors);
-		var _dynamic_ps_result = id3d11_device_create_pixel_shader(
+			var _dynamic_ps_result = id3d11_device_create_pixel_shader(
 			global.__id3d11_device,
 			_shader_bytecode,
 			_dynamic_ps_compile.bytecodeSize,
 			_class_linkage_result.handle);
-		var _got_class_instance_result = id3d11_class_linkage_get_class_instance(
+			var _got_class_instance_result = id3d11_class_linkage_get_class_instance(
 			_class_linkage_result.handle,
 			"storedColor",
 			0);
-		var _created_class_instance_result = id3d11_class_linkage_create_class_instance(
+			var _created_class_instance_result = id3d11_class_linkage_create_class_instance(
 			_class_linkage_result.handle,
 			"ColorClass",
 			0,
 			0,
 			0,
 			0);
-		var _got_class_instance_kind = id3d11_handle_get_kind(
+			var _got_class_instance_kind = id3d11_handle_get_kind(
 			_got_class_instance_result.handle);
-		var _created_class_instance_kind = id3d11_handle_get_kind(
+			var _created_class_instance_kind = id3d11_handle_get_kind(
 			_created_class_instance_result.handle);
-		var _got_class_instance_desc = id3d11_class_instance_get_desc(
+			var _got_class_instance_desc = id3d11_class_instance_get_desc(
 			_got_class_instance_result.handle);
-		var _created_class_instance_desc = id3d11_class_instance_get_desc(
+			var _created_class_instance_desc = id3d11_class_instance_get_desc(
 			_created_class_instance_result.handle);
-		var _got_class_instance_name = id3d11_class_instance_get_instance_name(
+			var _got_class_instance_name = id3d11_class_instance_get_instance_name(
 			_got_class_instance_result.handle);
-		var _got_class_type_name = id3d11_class_instance_get_type_name(
+			var _got_class_type_name = id3d11_class_instance_get_type_name(
 			_got_class_instance_result.handle);
-		var _created_class_instance_name = id3d11_class_instance_get_instance_name(
+			var _created_class_instance_name = id3d11_class_instance_get_instance_name(
 			_created_class_instance_result.handle);
-		var _created_class_type_name = id3d11_class_instance_get_type_name(
+			var _created_class_type_name = id3d11_class_instance_get_type_name(
 			_created_class_instance_result.handle);
-		var _got_class_linkage = id3d11_class_instance_get_class_linkage(
+			var _got_class_linkage = id3d11_class_instance_get_class_linkage(
 			_got_class_instance_result.handle);
-		var _created_class_linkage = id3d11_class_instance_get_class_linkage(
-			_created_class_instance_result.handle);
-		var _invalid_gotten_class_instance = id3d11_class_linkage_get_class_instance(
+			var _created_class_linkage = id3d11_class_instance_get_class_linkage(
+				_created_class_instance_result.handle);
+			var _got_class_linkage_release_ok = id3d11_handle_release(_got_class_linkage);
+			var _created_class_linkage_release_ok = id3d11_handle_release(_created_class_linkage);
+			var _invalid_gotten_class_instance = id3d11_class_linkage_get_class_instance(
 			_class_linkage_result.handle,
 			"",
 			0);
-		var _invalid_created_class_instance = id3d11_class_linkage_create_class_instance(
+			var _invalid_created_class_instance = id3d11_class_linkage_create_class_instance(
 			_class_linkage_result.handle,
 			"",
 			0,
 			0,
 			0,
 			0);
-		var _dynamic_ps_release_ok = id3d11_handle_release(_dynamic_ps_result.handle);
-		var _got_class_instance_release_ok = id3d11_handle_release(
+			var _dynamic_ps_release_ok = id3d11_handle_release(_dynamic_ps_result.handle);
+			var _got_class_instance_release_ok = id3d11_handle_release(
 			_got_class_instance_result.handle);
-		var _created_class_instance_release_ok =
-			_created_class_instance_result.handle == _got_class_instance_result.handle
-			? _got_class_instance_release_ok
-			: id3d11_handle_release(_created_class_instance_result.handle);
-		var _class_linkage_methods_ok =
+		var _created_class_instance_release_ok = id3d11_handle_release(
+			_created_class_instance_result.handle);
+			_class_linkage_methods_ok =
 			_dynamic_ps_compile.hresult == 0 &&
 			_dynamic_ps_compile.bytecodeSize > 0 &&
 			_dynamic_ps_result.hresult == 0 &&
@@ -658,6 +658,8 @@ if (os_type == os_windows && os_browser == browser_not_a_browser)
 			_created_class_type_name == "ColorClass" &&
 			_got_class_linkage == _class_linkage_result.handle &&
 			_created_class_linkage == _class_linkage_result.handle &&
+			_got_class_linkage_release_ok &&
+			_created_class_linkage_release_ok &&
 			_invalid_gotten_class_instance.hresult != 0 &&
 			_invalid_gotten_class_instance.handle == 0 &&
 			_invalid_created_class_instance.hresult != 0 &&
@@ -665,6 +667,7 @@ if (os_type == os_windows && os_browser == browser_not_a_browser)
 			_dynamic_ps_release_ok &&
 			_got_class_instance_release_ok &&
 			_created_class_instance_release_ok;
+		}
 		var _vs_release_ok = id3d11_handle_release(_vs_result.handle);
 		var _hs_release_ok = id3d11_handle_release(_hs_result.handle);
 		var _ds_release_ok = id3d11_handle_release(_ds_result.handle);
@@ -696,6 +699,7 @@ if (os_type == os_windows && os_browser == browser_not_a_browser)
 			_invalid_bytecode_result.hresult != 0 && _invalid_bytecode_result.handle == 0 &&
 			_shader_kinds_ok &&
 			_shader_parent_device == global.__id3d11_device &&
+			_shader_parent_device_release_ok &&
 			_shader_bindings_ok &&
 			_class_linkage_methods_ok &&
 			_shader_releases_ok;
@@ -860,20 +864,24 @@ if (os_type == os_windows && os_browser == browser_not_a_browser)
 			_previous_depth_stencil.stencilRef);
 		var _previous_input_layout_release_ok =
 			_previous_input_layout == 0 ||
-			_previous_input_layout == _input_layout_result.handle ||
 			id3d11_handle_release(_previous_input_layout);
 		var _previous_rasterizer_release_ok =
 			_previous_rasterizer == 0 ||
-			_previous_rasterizer == _rasterizer_result.handle ||
 			id3d11_handle_release(_previous_rasterizer);
 		var _previous_blend_release_ok =
 			_previous_blend.state == 0 ||
-			_previous_blend.state == _blend_result.handle ||
 			id3d11_handle_release(_previous_blend.state);
 		var _previous_depth_stencil_release_ok =
 			_previous_depth_stencil.state == 0 ||
-			_previous_depth_stencil.state == _depth_stencil_result.handle ||
 			id3d11_handle_release(_previous_depth_stencil.state);
+		var _bound_input_layout_release_ok =
+			_bound_input_layout == 0 || id3d11_handle_release(_bound_input_layout);
+		var _bound_rasterizer_release_ok =
+			_bound_rasterizer == 0 || id3d11_handle_release(_bound_rasterizer);
+		var _bound_blend_release_ok =
+			_bound_blend.state == 0 || id3d11_handle_release(_bound_blend.state);
+		var _bound_depth_stencil_release_ok =
+			_bound_depth_stencil.state == 0 || id3d11_handle_release(_bound_depth_stencil.state);
 		var _fixed_pipeline_smoke_ok =
 			_pipeline_input_layout_set &&
 			_pipeline_topology_set &&
@@ -901,7 +909,11 @@ if (os_type == os_windows && os_browser == browser_not_a_browser)
 			_previous_input_layout_release_ok &&
 			_previous_rasterizer_release_ok &&
 			_previous_blend_release_ok &&
-			_previous_depth_stencil_release_ok;
+			_previous_depth_stencil_release_ok &&
+			_bound_input_layout_release_ok &&
+			_bound_rasterizer_release_ok &&
+			_bound_blend_release_ok &&
+			_bound_depth_stencil_release_ok;
 
 		var _pipeline_vertex_buffer_desc = new ID3D11BufferDesc();
 		_pipeline_vertex_buffer_desc.byteWidth = 16;
@@ -1013,15 +1025,15 @@ if (os_type == os_windows && os_browser == browser_not_a_browser)
 		var _previous_vertex_buffer_handle = _previous_vertex_buffers[0].buffer;
 		var _previous_vertex_buffer_release_ok =
 			_previous_vertex_buffer_handle == 0 ||
-			_previous_vertex_buffer_handle == _pipeline_vertex_buffer_result.handle ||
-			_previous_vertex_buffer_handle == _pipeline_index_buffer_result.handle ||
 			id3d11_handle_release(_previous_vertex_buffer_handle);
 		var _previous_index_buffer_release_ok =
 			_previous_index_buffer.buffer == 0 ||
-			_previous_index_buffer.buffer == _previous_vertex_buffer_handle ||
-			_previous_index_buffer.buffer == _pipeline_vertex_buffer_result.handle ||
-			_previous_index_buffer.buffer == _pipeline_index_buffer_result.handle ||
 			id3d11_handle_release(_previous_index_buffer.buffer);
+		var _bound_vertex_buffer_release_ok =
+			_bound_vertex_buffers[0].buffer == 0 ||
+			id3d11_handle_release(_bound_vertex_buffers[0].buffer);
+		var _bound_index_buffer_release_ok =
+			_bound_index_buffer.buffer == 0 || id3d11_handle_release(_bound_index_buffer.buffer);
 		var _pipeline_vertex_buffer_release_ok = id3d11_handle_release(
 			_pipeline_vertex_buffer_result.handle);
 		var _pipeline_index_buffer_release_ok = id3d11_handle_release(
@@ -1056,6 +1068,8 @@ if (os_type == os_windows && os_browser == browser_not_a_browser)
 			_pipeline_scissor_rects_restored &&
 			_previous_vertex_buffer_release_ok &&
 			_previous_index_buffer_release_ok &&
+			_bound_vertex_buffer_release_ok &&
+			_bound_index_buffer_release_ok &&
 			_pipeline_vertex_buffer_release_ok &&
 			_pipeline_index_buffer_release_ok;
 
@@ -1114,12 +1128,16 @@ if (os_type == os_windows && os_browser == browser_not_a_browser)
 			: 0;
 		var _previous_om_rtv_release_ok =
 			_previous_om_rtv == 0 ||
-			_previous_om_rtv == _om_rtv_result.handle ||
 			id3d11_handle_release(_previous_om_rtv);
 		var _previous_om_dsv_release_ok =
 			_previous_om_targets.depthStencilView == 0 ||
-			_previous_om_targets.depthStencilView == _om_dsv_result.handle ||
 			id3d11_handle_release(_previous_om_targets.depthStencilView);
+		var _bound_om_rtv_release_ok =
+			_bound_om_targets.renderTargetViews[0] == 0 ||
+			id3d11_handle_release(_bound_om_targets.renderTargetViews[0]);
+		var _bound_om_dsv_release_ok =
+			_bound_om_targets.depthStencilView == 0 ||
+			id3d11_handle_release(_bound_om_targets.depthStencilView);
 		var _om_rtv_release_ok = id3d11_handle_release(_om_rtv_result.handle);
 		var _om_dsv_release_ok = id3d11_handle_release(_om_dsv_result.handle);
 		var _om_texture_release_ok = id3d11_handle_release(_om_texture_result.handle);
@@ -1162,8 +1180,9 @@ if (os_type == os_windows && os_browser == browser_not_a_browser)
 		var _previous_so_release_ok =
 			array_length(_previous_so_targets) == 0 ||
 			_previous_so_targets[0] == 0 ||
-			_previous_so_targets[0] == _so_buffer_result.handle ||
 			id3d11_handle_release(_previous_so_targets[0]);
+		var _bound_so_release_ok =
+			_bound_so_targets[0] == 0 || id3d11_handle_release(_bound_so_targets[0]);
 		var _so_buffer_release_ok = id3d11_handle_release(_so_buffer_result.handle);
 
 		var _cs_uav_texture_desc = new ID3D11Texture2DDesc();
@@ -1216,8 +1235,9 @@ if (os_type == os_windows && os_browser == browser_not_a_browser)
 		var _previous_cs_uav_release_ok =
 			array_length(_previous_cs_uavs) == 0 ||
 			_previous_cs_uavs[0] == 0 ||
-			_previous_cs_uavs[0] == _cs_uav_result.handle ||
 			id3d11_handle_release(_previous_cs_uavs[0]);
+		var _bound_cs_uav_release_ok =
+			_bound_cs_uavs[0] == 0 || id3d11_handle_release(_bound_cs_uavs[0]);
 		var _cs_uav_release_ok = id3d11_handle_release(_cs_uav_result.handle);
 		var _cs_uav_texture_release_ok = id3d11_handle_release(
 			_cs_uav_texture_result.handle);
@@ -1336,16 +1356,23 @@ if (os_type == os_windows && os_browser == browser_not_a_browser)
 			: 0;
 		var _previous_om_combo_rtv_release_ok =
 			_previous_om_combo_rtv == 0 ||
-			_previous_om_combo_rtv == _om_combo_rtv_result.handle ||
 			id3d11_handle_release(_previous_om_combo_rtv);
 		var _previous_om_combo_dsv_release_ok =
 			_previous_om_combo.depthStencilView == 0 ||
-			_previous_om_combo.depthStencilView == _om_combo_dsv_result.handle ||
 			id3d11_handle_release(_previous_om_combo.depthStencilView);
 		var _previous_om_combo_uav_release_ok =
 			_previous_om_combo_uav == 0 ||
-			_previous_om_combo_uav == _om_combo_uav_result.handle ||
 			id3d11_handle_release(_previous_om_combo_uav);
+		var _bound_om_combo_rtv_release_ok = id3d11_handle_release(
+			_bound_om_combo.renderTargetViews[0]);
+		var _bound_om_combo_dsv_release_ok = id3d11_handle_release(
+			_bound_om_combo.depthStencilView);
+		var _bound_om_combo_uav_release_ok = id3d11_handle_release(
+			_bound_om_combo.unorderedAccessViews[0]);
+		var _keep_om_combo_rtv_release_ok = id3d11_handle_release(
+			_om_combo_after_keep_rt.renderTargetViews[0]);
+		var _keep_om_combo_dsv_release_ok = id3d11_handle_release(
+			_om_combo_after_keep_rt.depthStencilView);
 		var _om_combo_rtv_release_ok = id3d11_handle_release(_om_combo_rtv_result.handle);
 		var _om_combo_dsv_release_ok = id3d11_handle_release(_om_combo_dsv_result.handle);
 		var _om_combo_uav_release_ok = id3d11_handle_release(_om_combo_uav_result.handle);
@@ -1500,16 +1527,19 @@ if (os_type == os_windows && os_browser == browser_not_a_browser)
 			var _previous_sampler = _previous_samplers[0];
 			var _previous_constant_buffer_release_ok =
 				_previous_constant_buffer == 0 ||
-				_previous_constant_buffer == _constant_buffer ||
 				id3d11_handle_release(_previous_constant_buffer);
 			var _previous_shader_resource_release_ok =
 				_previous_shader_resource == 0 ||
-				_previous_shader_resource == _shader_resource ||
 				id3d11_handle_release(_previous_shader_resource);
 			var _previous_sampler_release_ok =
 				_previous_sampler == 0 ||
-				_previous_sampler == _sampler ||
 				id3d11_handle_release(_previous_sampler);
+			var _bound_constant_buffer_release_ok =
+				_bound_constant_buffers[0] == 0 || id3d11_handle_release(_bound_constant_buffers[0]);
+			var _bound_shader_resource_release_ok =
+				_bound_shader_resources[0] == 0 || id3d11_handle_release(_bound_shader_resources[0]);
+			var _bound_sampler_release_ok =
+				_bound_samplers[0] == 0 || id3d11_handle_release(_bound_samplers[0]);
 
 			return
 				_constant_buffers_set &&
@@ -1526,7 +1556,10 @@ if (os_type == os_windows && os_browser == browser_not_a_browser)
 				_samplers_restored &&
 				_previous_constant_buffer_release_ok &&
 				_previous_shader_resource_release_ok &&
-				_previous_sampler_release_ok;
+				_previous_sampler_release_ok &&
+				_bound_constant_buffer_release_ok &&
+				_bound_shader_resource_release_ok &&
+				_bound_sampler_release_ok;
 		};
 
 		var _vs_stage_bindings_ok = _test_stage_bindings(
@@ -1625,6 +1658,7 @@ if (os_type == os_windows && os_browser == browser_not_a_browser)
 			id3d11_handle_get_kind(_blend_result.handle) == ID3D11HandleKind.BlendState &&
 			id3d11_handle_get_kind(_depth_stencil_result.handle) == ID3D11HandleKind.DepthStencilState;
 		var _state_parent_device = id3d11_device_child_get_device(_sampler_result.handle);
+		var _state_parent_device_release_ok = id3d11_handle_release(_state_parent_device);
 		var _sampler_handle = _sampler_result.handle;
 		var _input_layout_release_ok = id3d11_handle_release(_input_layout_result.handle);
 		var _state_releases_ok =
@@ -1661,6 +1695,7 @@ if (os_type == os_windows && os_browser == browser_not_a_browser)
 			_depth_stencil_state_ok &&
 			_state_kinds_ok &&
 			_state_parent_device == global.__id3d11_device &&
+			_state_parent_device_release_ok &&
 			_state_releases_ok &&
 			_state_stale_rejected;
 
@@ -2321,6 +2356,9 @@ if (os_type == os_windows && os_browser == browser_not_a_browser)
 			true);
 		var _bound_predication = id3d11_device_context_get_predication(
 			global.__id3d11_context);
+		var _bound_predicate_release_ok =
+			_bound_predication.predicate == 0 ||
+			id3d11_handle_release(_bound_predication.predicate);
 		var _pipeline_invalid_predicate_rejected = !id3d11_device_context_set_predication(
 			global.__id3d11_context,
 			_query_result.handle,
@@ -2331,42 +2369,28 @@ if (os_type == os_windows && os_browser == browser_not_a_browser)
 			_previous_predication.predicateValue != 0);
 		var _previous_predicate_release_ok =
 			_previous_predication.predicate == 0 ||
-			_previous_predication.predicate == _predicate_result.handle ||
 			id3d11_handle_release(_previous_predication.predicate);
-		var _clear_state_saved_om = id3d11_device_context_om_get_render_targets(
-			global.__id3d11_context,
-			1);
-		var _clear_state_saved_topology = id3d11_device_context_ia_get_primitive_topology(
-			global.__id3d11_context);
-		var _clear_state_saved_viewports = id3d11_device_context_rs_get_viewports(
-			global.__id3d11_context);
-		var _clear_state_ok = id3d11_device_context_clear_state(global.__id3d11_context);
+		var _clear_state_context = id3d11_device_create_deferred_context(
+			global.__id3d11_device,
+			0);
+		var _clear_state_topology_set = id3d11_device_context_ia_set_primitive_topology(
+			_clear_state_context.handle,
+			ID3D11PrimitiveTopology.TriangleList);
+		var _clear_state_viewport = new ID3D11Viewport();
+		_clear_state_viewport.width = 1;
+		_clear_state_viewport.height = 1;
+		_clear_state_viewport.maxDepth = 1;
+		var _clear_state_viewports_set = id3d11_device_context_rs_set_viewports(
+			_clear_state_context.handle,
+			[_clear_state_viewport]);
+		var _clear_state_ok = id3d11_device_context_clear_state(_clear_state_context.handle);
 		var _cleared_topology = id3d11_device_context_ia_get_primitive_topology(
-			global.__id3d11_context);
+			_clear_state_context.handle);
 		var _cleared_viewports = id3d11_device_context_rs_get_viewports(
-			global.__id3d11_context);
+			_clear_state_context.handle);
 		var _cleared_om = id3d11_device_context_om_get_render_targets(
-			global.__id3d11_context,
+			_clear_state_context.handle,
 			1);
-		var _clear_state_restored_om = id3d11_device_context_om_set_render_targets(
-			global.__id3d11_context,
-			_clear_state_saved_om.renderTargetViews,
-			_clear_state_saved_om.depthStencilView);
-		var _clear_state_restored_topology = id3d11_device_context_ia_set_primitive_topology(
-			global.__id3d11_context,
-			_clear_state_saved_topology);
-		var _clear_state_restored_viewports = id3d11_device_context_rs_set_viewports(
-			global.__id3d11_context,
-			_clear_state_saved_viewports);
-		var _clear_state_saved_rtv = array_length(_clear_state_saved_om.renderTargetViews) > 0
-			? _clear_state_saved_om.renderTargetViews[0]
-			: 0;
-		var _clear_state_saved_rtv_release_ok =
-			_clear_state_saved_rtv == 0 ||
-			id3d11_handle_release(_clear_state_saved_rtv);
-		var _clear_state_saved_dsv_release_ok =
-			_clear_state_saved_om.depthStencilView == 0 ||
-			id3d11_handle_release(_clear_state_saved_om.depthStencilView);
 		var _clear_state_cleared_rtv = array_length(_cleared_om.renderTargetViews) > 0
 			? _cleared_om.renderTargetViews[0]
 			: 0;
@@ -2376,20 +2400,21 @@ if (os_type == os_windows && os_browser == browser_not_a_browser)
 		var _clear_state_cleared_dsv_release_ok =
 			_cleared_om.depthStencilView == 0 ||
 			id3d11_handle_release(_cleared_om.depthStencilView);
+		var _clear_state_context_release_ok = id3d11_handle_release(
+			_clear_state_context.handle);
 		var _clear_state_smoke_ok =
+			_clear_state_context.hresult == 0 &&
+			_clear_state_topology_set &&
+			_clear_state_viewports_set &&
 			_clear_state_ok &&
 			_cleared_topology == 0 &&
 			array_length(_cleared_viewports) == 0 &&
 			(array_length(_cleared_om.renderTargetViews) == 0 ||
 				_cleared_om.renderTargetViews[0] == 0) &&
 			_cleared_om.depthStencilView == 0 &&
-			_clear_state_restored_om &&
-			_clear_state_restored_topology &&
-			_clear_state_restored_viewports &&
-			_clear_state_saved_rtv_release_ok &&
-			_clear_state_saved_dsv_release_ok &&
 			_clear_state_cleared_rtv_release_ok &&
-			_clear_state_cleared_dsv_release_ok;
+			_clear_state_cleared_dsv_release_ok &&
+			_clear_state_context_release_ok;
 
 		var _immediate_type = id3d11_device_context_get_type(global.__id3d11_context);
 		var _immediate_flags = id3d11_device_context_get_context_flags(
@@ -2493,6 +2518,7 @@ if (os_type == os_windows && os_browser == browser_not_a_browser)
 			(!_counter_supported ||
 				id3d11_handle_get_kind(_counter_result.handle) == ID3D11HandleKind.Counter);
 		var _async_parent_device = id3d11_device_child_get_device(_query_result.handle);
+		var _async_parent_device_release_ok = id3d11_handle_release(_async_parent_device);
 		var _query_handle = _query_result.handle;
 		var _query_release_ok = id3d11_handle_release(_query_result.handle);
 		var _predicate_release_ok = id3d11_handle_release(_predicate_result.handle);
@@ -2512,6 +2538,7 @@ if (os_type == os_windows && os_browser == browser_not_a_browser)
 			_counter_ok &&
 			_async_kinds_ok &&
 			_async_parent_device == global.__id3d11_device &&
+			_async_parent_device_release_ok &&
 			_query_release_ok &&
 			_predicate_release_ok &&
 			_counter_release_ok &&
@@ -2530,7 +2557,8 @@ if (os_type == os_windows && os_browser == browser_not_a_browser)
 			id3d11_handle_get_kind(global.__id3d11_device) == ID3D11HandleKind.Device &&
 			id3d11_handle_get_kind(global.__id3d11_context) == ID3D11HandleKind.DeviceContext &&
 			id3d11_handle_get_kind(global.__id3d11_swapchain) == ID3D11HandleKind.SwapChain &&
-			id3d11_handle_get_kind(_immediate_context) == ID3D11HandleKind.DeviceContext &&
+			_immediate_context_kind == ID3D11HandleKind.DeviceContext &&
+			_immediate_context_release_ok &&
 			global.__id3d11_feature_level >= ID3D11FeatureLevel.Level11_0 &&
 			id3d11_device_get_removed_reason(global.__id3d11_device) == 0 &&
 			_exception_result == 0 &&
@@ -2547,6 +2575,7 @@ if (os_type == os_windows && os_browser == browser_not_a_browser)
 			_buffer_roundtrip.bindFlags == 4 &&
 			_buffer_dimension == ID3D11ResourceDimension.Buffer &&
 			_buffer_device == global.__id3d11_device &&
+			_buffer_device_release_ok &&
 			_debug_name_smoke_ok &&
 			_buffer_release_ok &&
 			_buffer_stale_rejected &&
@@ -2562,6 +2591,7 @@ if (os_type == os_windows && os_browser == browser_not_a_browser)
 			_texture2d_roundtrip.sampleCount == 1 &&
 			_texture2d_dimension == ID3D11ResourceDimension.Texture2D &&
 			_texture2d_device == global.__id3d11_device &&
+			_texture2d_device_release_ok &&
 			_texture2d_priority_ok &&
 			_texture2d_bounds_result.hresult != 0 &&
 			_texture2d_bounds_result.handle == 0 &&
@@ -2571,6 +2601,7 @@ if (os_type == os_windows && os_browser == browser_not_a_browser)
 			_srv_roundtrip.viewDimension == ID3D11ShaderResourceViewDimension.Texture2D &&
 			_srv_roundtrip.mipLevels == 1 &&
 			_srv_resource == _texture2d_result.handle &&
+			_srv_resource_release_ok &&
 			_srv_kind_ok &&
 			_srv_release_ok &&
 			_srv_default_release_ok &&
@@ -2579,6 +2610,7 @@ if (os_type == os_windows && os_browser == browser_not_a_browser)
 			_rtv_roundtrip.format == 28 &&
 			_rtv_roundtrip.viewDimension == ID3D11RenderTargetViewDimension.Texture2D &&
 			_rtv_resource == _texture2d_result.handle &&
+			_rtv_resource_release_ok &&
 			_rtv_kind_ok &&
 			_rtv_release_ok &&
 			_rtv_default_release_ok &&
@@ -2587,6 +2619,7 @@ if (os_type == os_windows && os_browser == browser_not_a_browser)
 			_uav_roundtrip.format == 28 &&
 			_uav_roundtrip.viewDimension == ID3D11UnorderedAccessViewDimension.Texture2D &&
 			_uav_resource == _texture2d_result.handle &&
+			_uav_resource_release_ok &&
 			_uav_kind_ok &&
 			_uav_release_ok &&
 			_uav_default_release_ok &&
@@ -2596,6 +2629,7 @@ if (os_type == os_windows && os_browser == browser_not_a_browser)
 			_dsv_roundtrip.format == 45 &&
 			_dsv_roundtrip.viewDimension == ID3D11DepthStencilViewDimension.Texture2D &&
 			_dsv_resource == _depth_texture_result.handle &&
+			_dsv_resource_release_ok &&
 			_dsv_kind_ok &&
 			_dsv_release_ok &&
 			_dsv_default_release_ok &&
@@ -2609,6 +2643,7 @@ if (os_type == os_windows && os_browser == browser_not_a_browser)
 			_texture3d_dimension == ID3D11ResourceDimension.Texture3D &&
 			_texture3d_release_ok &&
 			_texture3d_stale_rejected;
+		}
 	}
 }
 
@@ -2618,8 +2653,7 @@ show_debug_message(
 // Headless smoke only: do not tear down when running demos/rooms.
 // Marker file is reliable if env does not reach Runner through gm-cli.
 var _smoke_auto_exit =
-	environment_get_variable("ID3D11_SMOKE_AUTO_EXIT") == "1" ||
-	file_exists("ID3D11_SMOKE_AUTO_EXIT");
+	environment_get_variable("ID3D11_SMOKE_AUTO_EXIT") == "1";
 if (_smoke_auto_exit)
 {
 	if (global.__id3d11_bootstrap_ok)

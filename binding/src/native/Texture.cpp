@@ -2,8 +2,10 @@
 
 #include "BridgeState.hpp"
 #include "HandleRegistry.hpp"
+#include "FormatLayout.hpp"
 #include "NativeHelpers.hpp"
 
+#include <algorithm>
 #include <cstddef>
 #include <cstdint>
 #include <limits>
@@ -49,6 +51,13 @@ namespace
         return mipLevels;
     }
 
+    [[nodiscard]] bool validMipLevels(
+        const std::uint32_t largestDimension,
+        const std::uint32_t mipLevels) noexcept
+    {
+        return mipLevels != 0 && mipLevels <= resolveMipLevels(largestDimension, 0);
+    }
+
     [[nodiscard]] bool checkedMultiply(
         const std::uint32_t left,
         const std::uint32_t right,
@@ -67,6 +76,11 @@ namespace
 
     [[nodiscard]] bool prepareInitialData(
         const std::size_t expectedCount,
+        const std::uint32_t mipLevels,
+        const std::uint32_t width,
+        const std::uint32_t height,
+        const std::uint32_t depth,
+        const DXGI_FORMAT format,
         const std::vector<Subresource>* descriptions,
         const gm::wire::GMBuffer* data,
         std::vector<D3D11_SUBRESOURCE_DATA>& nativeData) noexcept
@@ -84,22 +98,91 @@ namespace
 
         const std::uint64_t bufferLength = data->length();
         const auto* bytes = static_cast<const std::byte*>(data->data());
-        nativeData.reserve(expectedCount);
-        for (const Subresource& description : *descriptions)
+        id3d11::FormatLayout formatLayout;
+        if (mipLevels == 0 || !id3d11::getFormatLayout(format, formatLayout))
         {
+            return false;
+        }
+        try
+        {
+            nativeData.reserve(expectedCount);
+        }
+        catch (...)
+        {
+            return false;
+        }
+        for (std::size_t index = 0; index < descriptions->size(); ++index)
+        {
+            const Subresource& description = (*descriptions)[index];
+            const std::uint32_t mip = static_cast<std::uint32_t>(index % mipLevels);
+            if (mip >= 32)
+            {
+                nativeData.clear();
+                return false;
+            }
+            const std::uint64_t mipWidth = std::max(1U, width >> mip);
+            const std::uint64_t mipHeight = std::max(1U, height >> mip);
+            const std::uint64_t mipDepth = std::max(1U, depth >> mip);
+            const std::uint64_t blocksWide =
+                (mipWidth + formatLayout.blockWidth - 1U) / formatLayout.blockWidth;
+            const std::uint64_t rows =
+                (mipHeight + formatLayout.blockHeight - 1U) / formatLayout.blockHeight;
+            const std::uint64_t rowBytes = blocksWide * formatLayout.bytesPerBlock;
+            if (description.rowPitch < rowBytes)
+            {
+                nativeData.clear();
+                return false;
+            }
+            std::uint64_t precedingRows = 0;
+            if (description.rowPitch != 0 &&
+                rows - 1U > std::numeric_limits<std::uint64_t>::max() / description.rowPitch)
+            {
+                nativeData.clear();
+                return false;
+            }
+            precedingRows = description.rowPitch * (rows - 1U);
+            if (precedingRows > std::numeric_limits<std::uint64_t>::max() - rowBytes)
+            {
+                nativeData.clear();
+                return false;
+            }
+            std::uint64_t required = precedingRows + rowBytes;
+            if (mipDepth > 1U)
+            {
+                const std::uint64_t minimumSlice = description.rowPitch * rows;
+                if (description.slicePitch < minimumSlice ||
+                    description.slicePitch >
+                        (std::numeric_limits<std::uint64_t>::max() - required) /
+                            (mipDepth - 1U))
+                {
+                    nativeData.clear();
+                    return false;
+                }
+                required += description.slicePitch * (mipDepth - 1U);
+            }
             if (description.dataSize == 0 || description.offset > bufferLength ||
+                description.dataSize < required ||
                 description.dataSize > bufferLength - description.offset ||
+                required > bufferLength - description.offset ||
                 description.offset > std::numeric_limits<std::size_t>::max())
             {
                 nativeData.clear();
                 return false;
             }
 
-            nativeData.push_back({
-                .pSysMem = bytes + static_cast<std::size_t>(description.offset),
-                .SysMemPitch = description.rowPitch,
-                .SysMemSlicePitch = description.slicePitch,
-            });
+            try
+            {
+                nativeData.push_back({
+                    .pSysMem = bytes + static_cast<std::size_t>(description.offset),
+                    .SysMemPitch = description.rowPitch,
+                    .SysMemSlicePitch = description.slicePitch,
+                });
+            }
+            catch (...)
+            {
+                nativeData.clear();
+                return false;
+            }
         }
         return true;
     }
@@ -192,14 +275,16 @@ namespace
 
         const std::uint32_t mipLevels = resolveMipLevels(desc.width, desc.mipLevels);
         std::size_t expectedCount = 0;
-        if (mipLevels == 0 || desc.arraySize == 0 ||
+        if (!validMipLevels(desc.width, mipLevels) || desc.arraySize == 0 ||
             !checkedMultiply(mipLevels, desc.arraySize, expectedCount))
         {
             return failedResult(E_INVALIDARG);
         }
 
         std::vector<D3D11_SUBRESOURCE_DATA> nativeData;
-        if (!prepareInitialData(expectedCount, subresources, data, nativeData))
+        if (!prepareInitialData(
+            expectedCount, mipLevels, desc.width, 1, 1,
+            static_cast<DXGI_FORMAT>(desc.format), subresources, data, nativeData))
         {
             return failedResult(E_INVALIDARG);
         }
@@ -228,14 +313,16 @@ namespace
         const std::uint32_t largestDimension = desc.width > desc.height ? desc.width : desc.height;
         const std::uint32_t mipLevels = resolveMipLevels(largestDimension, desc.mipLevels);
         std::size_t expectedCount = 0;
-        if (mipLevels == 0 || desc.arraySize == 0 ||
+        if (!validMipLevels(largestDimension, mipLevels) || desc.arraySize == 0 ||
             !checkedMultiply(mipLevels, desc.arraySize, expectedCount))
         {
             return failedResult(E_INVALIDARG);
         }
 
         std::vector<D3D11_SUBRESOURCE_DATA> nativeData;
-        if (!prepareInitialData(expectedCount, subresources, data, nativeData))
+        if (!prepareInitialData(
+            expectedCount, mipLevels, desc.width, desc.height, 1,
+            static_cast<DXGI_FORMAT>(desc.format), subresources, data, nativeData))
         {
             return failedResult(E_INVALIDARG);
         }
@@ -267,13 +354,16 @@ namespace
             largestDimension = desc.depth;
         }
         const std::size_t expectedCount = resolveMipLevels(largestDimension, desc.mipLevels);
-        if (expectedCount == 0)
+        if (!validMipLevels(largestDimension, static_cast<std::uint32_t>(expectedCount)))
         {
             return failedResult(E_INVALIDARG);
         }
 
         std::vector<D3D11_SUBRESOURCE_DATA> nativeData;
-        if (!prepareInitialData(expectedCount, subresources, data, nativeData))
+        if (!prepareInitialData(
+            expectedCount, static_cast<std::uint32_t>(expectedCount),
+            desc.width, desc.height, desc.depth,
+            static_cast<DXGI_FORMAT>(desc.format), subresources, data, nativeData))
         {
             return failedResult(E_INVALIDARG);
         }

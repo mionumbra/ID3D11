@@ -1,16 +1,7 @@
 {
-  "FolderOrderSettings":[
-    {"name":"ComputeShader","order":4,"path":"folders/Examples/ComputeShader.yy",},
-    {"name":"GeometryShader","order":2,"path":"folders/Examples/GeometryShader.yy",},
-    {"name":"InstancedRendering","order":1,"path":"folders/Examples/InstancedRendering.yy",},
-  ],
+  "FolderOrderSettings":[],
   "ResourceOrderSettings":[
-    {"name":"OMain","order":5,"path":"objects/OMain/OMain.yy",},
-    {"name":"RmComputeShader","order":1,"path":"rooms/RmComputeShader/RmComputeShader.yy",},
-    {"name":"RmGeometryShader","order":1,"path":"rooms/RmGeometryShader/RmGeometryShader.yy",},
     {"name":"RmInit","order":6,"path":"rooms/RmInit/RmInit.yy",},
-    {"name":"RmInstancedRendering","order":1,"path":"rooms/RmInstancedRendering/RmInstancedRendering.yy",},
-    {"name":"RmVTF","order":1,"path":"rooms/RmVTF/RmVTF.yy",},
     {"name":"__d3d_enums","order":7,"path":"scripts/__d3d_enums/__d3d_enums.yy",},
     {"name":"__d3d11_enums","order":6,"path":"scripts/__d3d11_enums/__d3d11_enums.yy",},
     {"name":"__d3d11_generated","order":1,"path":"scripts/__d3d11_generated/__d3d11_generated.yy",},
@@ -24,8 +15,5 @@
     {"name":"__id3d11_runtime","order":2,"path":"scripts/__id3d11_runtime/__id3d11_runtime.yy",},
     {"name":"assert","order":3,"path":"scripts/assert/assert.yy",},
     {"name":"yamc","order":1,"path":"scripts/yamc/yamc.yy",},
-    {"name":"ShVTF","order":2,"path":"shaders/ShVTF/ShVTF.yy",},
-    {"name":"SprRubberDuck","order":2,"path":"sprites/SprRubberDuck/SprRubberDuck.yy",},
-    {"name":"SprVTF","order":3,"path":"sprites/SprVTF/SprVTF.yy",},
   ],
 }

@@ -27,33 +27,47 @@ namespace id3d11
         const std::scoped_lock lock(mutex_);
         for (std::uint32_t index = 0; index < slots_.size(); ++index)
         {
-            const Slot& slot = slots_[index];
+            Slot& slot = slots_[index];
             if (slot.occupied && slot.kind == kind && slot.object.Get() == identity.Get())
             {
+                if (slot.references == std::numeric_limits<std::uint32_t>::max())
+                {
+                    return 0;
+                }
+                ++slot.references;
                 return encode(index, slot.generation);
             }
         }
 
         std::uint32_t index = 0;
-        if (!freeSlots_.empty())
+        for (; index < slots_.size(); ++index)
         {
-            index = freeSlots_.back();
-            freeSlots_.pop_back();
+            if (!slots_[index].occupied)
+            {
+                break;
+            }
         }
-        else
+        if (index == slots_.size())
         {
             if (slots_.size() >= std::numeric_limits<std::uint32_t>::max())
             {
                 return 0;
             }
 
-            index = static_cast<std::uint32_t>(slots_.size());
-            slots_.emplace_back();
+            try
+            {
+                slots_.emplace_back();
+            }
+            catch (...)
+            {
+                return 0;
+            }
         }
 
         Slot& slot = slots_[index];
         slot.object = std::move(identity);
         slot.kind = kind;
+        slot.references = 1;
         slot.occupied = true;
         return encode(index, slot.generation);
     }
@@ -94,31 +108,34 @@ namespace id3d11
             return false;
         }
 
+        if (slot->references > 1)
+        {
+            --slot->references;
+            return true;
+        }
+
         std::uint32_t index = 0;
         std::uint32_t generation = 0;
         static_cast<void>(decode(handle, index, generation));
         slot->object.Reset();
         slot->kind = Kind::Invalid;
+        slot->references = 0;
         slot->occupied = false;
         advanceGeneration(*slot);
-        freeSlots_.push_back(index);
         return true;
     }
 
     void HandleRegistry::clear() noexcept
     {
         const std::scoped_lock lock(mutex_);
-        freeSlots_.clear();
-        freeSlots_.reserve(slots_.size());
-
         for (std::uint32_t index = 0; index < slots_.size(); ++index)
         {
             Slot& slot = slots_[index];
             slot.object.Reset();
             slot.kind = Kind::Invalid;
+            slot.references = 0;
             slot.occupied = false;
             advanceGeneration(slot);
-            freeSlots_.push_back(index);
         }
     }
 

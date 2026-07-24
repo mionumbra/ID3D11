@@ -64,11 +64,20 @@ int main(const int argc, char** argv)
 {
     std::setvbuf(stdout, nullptr, _IONBF, 0);
 
-    const bool useWarp = argc > 1 && std::strcmp(argv[1], "--warp") == 0;
+    bool useWarp = false;
+    bool bindShader = true;
+    for (int index = 1; index < argc; ++index)
+    {
+        useWarp |= std::strcmp(argv[index], "--warp") == 0;
+        bindShader &= std::strcmp(argv[index], "--no-bind") != 0;
+    }
     const D3D_DRIVER_TYPE driverType = useWarp
         ? D3D_DRIVER_TYPE_WARP
         : D3D_DRIVER_TYPE_HARDWARE;
-    std::printf("driver=%s\n", useWarp ? "WARP" : "hardware");
+    std::printf(
+        "driver=%s bind=%s\n",
+        useWarp ? "WARP" : "hardware",
+        bindShader ? "yes" : "no");
 
     ComPtr<ID3D11Device> device;
     ComPtr<ID3D11DeviceContext> context;
@@ -163,14 +172,21 @@ int main(const int argc, char** argv)
         desc.ConstantBuffer,
         static_cast<unsigned>(desc.Created));
 
-    ID3D11ClassInstance* instances[] = {instance.Get()};
-    context->PSSetShader(shader.Get(), instances, 1);
-    context->Flush();
-    std::puts("PSSetShader(dynamic) returned; waiting for asynchronous driver work");
-    printMessages(infoQueue.Get());
-    Sleep(3000);
-
-    context->PSSetShader(nullptr, nullptr, 0);
+    if (bindShader)
+    {
+        ID3D11ClassInstance* instances[] = {instance.Get()};
+        context->PSSetShader(shader.Get(), instances, 1);
+        context->Flush();
+        std::puts("PSSetShader(dynamic) returned; waiting for asynchronous driver work");
+        printMessages(infoQueue.Get());
+        Sleep(3000);
+        context->PSSetShader(nullptr, nullptr, 0);
+    }
+    else
+    {
+        std::puts("dynamic shader left unbound; waiting for asynchronous driver work");
+        Sleep(3000);
+    }
     context->ClearState();
     context->Flush();
     std::puts("dynamic shader cleared; releasing objects");

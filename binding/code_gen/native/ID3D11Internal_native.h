@@ -2079,6 +2079,7 @@ std::int32_t id3d11_get_last_hresult();
 std::uint64_t id3d11_get_device_handle();
 std::uint64_t id3d11_get_context_handle();
 std::uint64_t id3d11_get_swapchain_handle();
+gm_structs::ID3D11CreateHandleResult id3d11_swapchain_get_buffer(std::uint64_t swapchain, std::uint32_t bufferIndex);
 std::uint64_t id3d11_handle_query_interface(std::uint64_t handle, gm_enums::ID3D11HandleKind interfaceKind);
 bool id3d11_handle_is_valid(std::uint64_t handle);
 gm_enums::ID3D11HandleKind id3d11_handle_get_kind(std::uint64_t handle);

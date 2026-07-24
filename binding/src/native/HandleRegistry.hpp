@@ -33,6 +33,7 @@ namespace id3d11
             Microsoft::WRL::ComPtr<IUnknown> object;
             Kind kind = Kind::Invalid;
             std::uint32_t generation = 1;
+            std::uint32_t references = 0;
             bool occupied = false;
         };
 
@@ -49,6 +50,5 @@ namespace id3d11
 
         mutable std::mutex mutex_;
         std::vector<Slot> slots_;
-        std::vector<std::uint32_t> freeSlots_;
     };
 }

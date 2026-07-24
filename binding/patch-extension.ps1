@@ -27,6 +27,18 @@ $bootstrap = [ordered]@{
 
 $generatedFunctions = @($dllFile.functions | Where-Object { $_.name -ne '__id3d11_bootstrap_raw' })
 $dllFile.functions = @($generatedFunctions + [pscustomobject]$bootstrap)
-$extension | ConvertTo-Json -Depth 100 | Set-Content -LiteralPath $extensionPath -Encoding utf8
+$temporaryPath = "$extensionPath.$([guid]::NewGuid().ToString('N')).tmp"
+try
+{
+    [System.IO.File]::WriteAllText(
+        $temporaryPath,
+        ($extension | ConvertTo-Json -Depth 100),
+        [System.Text.UTF8Encoding]::new($false))
+    [System.IO.File]::Move($temporaryPath, $extensionPath, $true)
+}
+finally
+{
+    Remove-Item -LiteralPath $temporaryPath -Force -ErrorAction SilentlyContinue
+}
 
 Write-Host "Patched native D3D11 bootstrap metadata into ID3D11.yy."

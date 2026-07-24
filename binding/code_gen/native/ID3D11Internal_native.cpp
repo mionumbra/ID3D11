@@ -75,6 +75,24 @@ GMEXPORT double __EXT_NATIVE__id3d11_get_swapchain_handle(char* __ret_buffer, do
     return 0;
 }
 
+GMEXPORT double __EXT_NATIVE__id3d11_swapchain_get_buffer(char* __arg_buffer, double __arg_buffer_length, char* __ret_buffer, double __ret_buffer_length)
+{
+    gm::byteio::BufferReader __br{__arg_buffer, static_cast<size_t>(__arg_buffer_length)};
+
+    // field: swapchain, type: UInt64
+    std::uint64_t swapchain = gm::wire::codec::readValue<std::uint64_t>(__br);
+
+    // field: bufferIndex, type: UInt32
+    std::uint32_t bufferIndex = gm::wire::codec::readValue<std::uint32_t>(__br);
+
+    auto&& __result = id3d11_swapchain_get_buffer(swapchain, bufferIndex);
+    gm::byteio::BufferWriter __bw{__ret_buffer, static_cast<size_t>(__ret_buffer_length)};
+
+    // return: __result, type: struct ID3D11CreateHandleResult
+    gm::wire::codec::writeValue(__bw, __result);
+    return 0;
+}
+
 GMEXPORT double __EXT_NATIVE__id3d11_handle_query_interface(char* __arg_buffer, double __arg_buffer_length, char* __ret_buffer, double __ret_buffer_length)
 {
     gm::byteio::BufferReader __br{__arg_buffer, static_cast<size_t>(__arg_buffer_length)};

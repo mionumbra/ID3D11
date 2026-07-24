@@ -299,6 +299,8 @@ bool id3d11_device_context_update_subresource(
     const D3D11_BOX* nativeBoxPointer = nullptr;
     CopyLayout copyLayout{};
     std::uint64_t requiredBytes = 0;
+    std::uint64_t validationRowPitch = sourceRowPitch;
+    std::uint64_t validationDepthPitch = sourceDepthPitch;
     if (resourceLayout.usage != D3D11_USAGE_DEFAULT || resourceLayout.sampleCount != 1 ||
         sourceData.data() == nullptr || sourceOffset > sourceData.length() ||
         sourceLength > sourceData.length() - sourceOffset ||
@@ -308,8 +310,32 @@ bool id3d11_device_context_update_subresource(
             destinationBox,
             nativeBox,
             nativeBoxPointer,
-            copyLayout) ||
-        !checkedRequiredBytes(copyLayout, sourceRowPitch, sourceDepthPitch, requiredBytes) ||
+            copyLayout))
+    {
+        return fail(E_INVALIDARG);
+    }
+    if (resourceLayout.dimension == D3D11_RESOURCE_DIMENSION_BUFFER)
+    {
+        validationRowPitch = copyLayout.rowBytes;
+    }
+    if (resourceLayout.dimension != D3D11_RESOURCE_DIMENSION_TEXTURE3D)
+    {
+        if (!id3d11::checkedMultiply(
+            validationRowPitch, copyLayout.rowCount, validationDepthPitch))
+        {
+            return fail(E_INVALIDARG);
+        }
+    }
+    if (nativeBoxPointer != nullptr &&
+        (nativeBox.left != 0 || nativeBox.top != 0 || nativeBox.front != 0) &&
+        context->GetType() == D3D11_DEVICE_CONTEXT_DEFERRED)
+    {
+        // Some D3D11 drivers offset pSrcData again for deferred boxed updates.
+        // Reject the ambiguous form rather than risk reading past the GML buffer.
+        return fail(E_NOTIMPL);
+    }
+    if (!checkedRequiredBytes(
+            copyLayout, validationRowPitch, validationDepthPitch, requiredBytes) ||
         requiredBytes > sourceLength)
     {
         return fail(E_INVALIDARG);
